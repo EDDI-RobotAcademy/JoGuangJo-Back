@@ -29,5 +29,8 @@ public class QuestionBoardServicempl implements QuestionBoardService {
 
         questionBoardRepository.save(questionBoard);
     }
-
+    @Override
+    public List<QuestionBoard> list() {
+        return questionBoardRepository.findAll(Sort.by(Sort.Direction.DESC, "QuestionBoardId"));
+    }
 }

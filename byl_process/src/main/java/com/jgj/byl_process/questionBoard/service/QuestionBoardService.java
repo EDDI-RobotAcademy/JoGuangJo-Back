@@ -10,4 +10,5 @@ import java.util.List;
 public interface QuestionBoardService {
     public void register(QuestionBoardRequest questionBoardRequest);
 
+    List<QuestionBoard> list();
 }

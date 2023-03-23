@@ -25,4 +25,11 @@ public class QuestionBoardController {
 
         QuestionBoardService.register(QuestionBoardRequest);
     }
+    @GetMapping("/list")
+    public List<QuestionBoard> productList () {
+        log.info("QuestionList() 동작");
+
+        return QuestionBoardService.list();
+    }
+
 }

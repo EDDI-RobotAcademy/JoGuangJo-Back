@@ -32,4 +32,11 @@ public class QuestionBoardController {
         return QuestionBoardService.list();
     }
 
+    @GetMapping("/{questionBoardId}")
+    public QuestionBoard questionBoardRead(@PathVariable("questionBoardId") Long questionBoardId) {
+            System.out.println("read() 동작 : " + questionBoardId);
+            return QuestionBoardService.read(questionBoardId);
+
+    }
+
 }

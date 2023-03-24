@@ -8,14 +8,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
-public class QuestionBoardServicempl implements QuestionBoardService {
+public class QuestionBoardServiceImpl implements QuestionBoardService {
 
     final private QuestionBoardRepository questionBoardRepository;
 
-    public QuestionBoardServicempl(QuestionBoardRepository questionBoardRepository) {
+    public QuestionBoardServiceImpl(QuestionBoardRepository questionBoardRepository) {
         this.questionBoardRepository = questionBoardRepository;
     }
 
@@ -32,5 +33,18 @@ public class QuestionBoardServicempl implements QuestionBoardService {
     @Override
     public List<QuestionBoard> list() {
         return questionBoardRepository.findAll(Sort.by(Sort.Direction.DESC, "QuestionBoardId"));
+    }
+
+    @Override
+    public QuestionBoard read(Long questionBoardId) {
+        Optional<QuestionBoard> maybeQuestionBoard = questionBoardRepository.findById(questionBoardId);
+
+        if(maybeQuestionBoard.isEmpty()){
+            log.info("찾을 수가 없습니다.");
+            return null;
+        }
+        System.out.println("maybeQuestionBoard read() : " + maybeQuestionBoard);
+
+        return maybeQuestionBoard.get();
     }
 }

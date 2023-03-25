@@ -69,4 +69,10 @@ public class QuestionBoardServiceImpl implements QuestionBoardService {
     @Override
     public void remove(Long questionBoardId) { questionBoardRepository.deleteById(questionBoardId);}
 
+    @Override
+    public Long getLastEntityId() {
+        QuestionBoard questionBoard = questionBoardRepository.findFirstByOrderByQuestionBoardIdDesc();
+        return questionBoard.getQuestionBoardId();
+    }
+
 }

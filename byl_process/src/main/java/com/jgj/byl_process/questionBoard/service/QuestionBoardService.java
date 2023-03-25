@@ -14,4 +14,7 @@ public interface QuestionBoardService {
 
     QuestionBoard modify(Long questionBoardId, QuestionBoardRequest questionBoardRequest);
 
+    void remove(Long questionBoardId);
+
+    Long getLastEntityId();
 }

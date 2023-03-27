@@ -11,4 +11,10 @@ public interface QuestionBoardService {
     List<QuestionBoard> list();
 
     QuestionBoard read(Long questionBoardId);
+
+    QuestionBoard modify(Long questionBoardId, QuestionBoardRequest questionBoardRequest);
+
+    void remove(Long questionBoardId);
+
+    Long getLastEntityId();
 }

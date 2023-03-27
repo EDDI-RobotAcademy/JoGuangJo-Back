@@ -5,4 +5,5 @@ import org.aspectj.weaver.patterns.TypePatternQuestions;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface QuestionBoardRepository extends JpaRepository<QuestionBoard, Long> {
+    QuestionBoard findFirstByOrderByQuestionBoardIdDesc();
 }

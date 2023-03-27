@@ -47,4 +47,32 @@ public class QuestionBoardServiceImpl implements QuestionBoardService {
 
         return maybeQuestionBoard.get();
     }
+
+    @Override
+    public QuestionBoard modify(Long questionBoardId, QuestionBoardRequest questionBoardRequest) {
+        Optional<QuestionBoard> maybeQuestionBoard = questionBoardRepository.findById(questionBoardId);
+
+        if (maybeQuestionBoard.isEmpty()) {
+            System.out.println("QuestionBoard 정보를 찾을 수 없습니다. : " + questionBoardId);
+            return null;
+        }
+
+        QuestionBoard questionBoard = maybeQuestionBoard.get();
+        questionBoard.setTitle(questionBoardRequest.getTitle());
+        questionBoard.setContent(questionBoardRequest.getContent());
+
+        questionBoardRepository.save(questionBoard);
+
+        return questionBoard;
+    }
+
+    @Override
+    public void remove(Long questionBoardId) { questionBoardRepository.deleteById(questionBoardId);}
+
+    @Override
+    public Long getLastEntityId() {
+        QuestionBoard questionBoard = questionBoardRepository.findFirstByOrderByQuestionBoardIdDesc();
+        return questionBoard.getQuestionBoardId();
+    }
+
 }

@@ -1,9 +1,9 @@
 package com.jgj.byl_process.domain.boards.qna.controller;
 
 
-import com.jgj.byl_process.domain.boards.qna.controller.request.qnaBoardRequest;
-import com.jgj.byl_process.domain.boards.qna.entity.qnaBoard;
-import com.jgj.byl_process.domain.boards.qna.service.qnaBoardService;
+import com.jgj.byl_process.domain.boards.qna.controller.request.QnaBoardRequest;
+import com.jgj.byl_process.domain.boards.qna.entity.QnaBoard;
+import com.jgj.byl_process.domain.boards.qna.service.QnaBoardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,35 +13,35 @@ import java.util.List;
 @RestController
 @RequestMapping("/qnaBoard")
 @CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
-public class qnaBoardController {
-    final private qnaBoardService qnaBoardService;
+public class QnaBoardController {
+    final private QnaBoardService qnaBoardService;
 
-    public qnaBoardController(qnaBoardService qnaBoardService) {
+    public QnaBoardController(QnaBoardService qnaBoardService) {
         this.qnaBoardService = qnaBoardService;
     }
     @PostMapping("/register")
-    public void productRegister (@RequestBody qnaBoardRequest qnaBoardRequest) {
+    public void productRegister (@RequestBody QnaBoardRequest qnaBoardRequest) {
         log.info("QuestionBoardRegister() 동작");
 
         qnaBoardService.register(qnaBoardRequest);
     }
     @GetMapping("/list")
-    public List<qnaBoard> productList () {
+    public List<QnaBoard> productList () {
         log.info("QuestionList() 동작");
 
         return qnaBoardService.list();
     }
 
     @GetMapping("/{qnaBoardId}")
-    public qnaBoard questionBoardRead(@PathVariable("qnaBoardId") Long qnaBoardId) {
+    public QnaBoard questionBoardRead(@PathVariable("qnaBoardId") Long qnaBoardId) {
             System.out.println("read() 동작 : " + qnaBoardId);
             return qnaBoardService.read(qnaBoardId);
 
     }
 
     @PutMapping("/{qnaBoardId}")
-    public qnaBoard questionBoardModify(@PathVariable("qnaBoardId") Long qnaBoardId,
-                                        @RequestBody qnaBoardRequest qnaBoardRequest) {
+    public QnaBoard questionBoardModify(@PathVariable("qnaBoardId") Long qnaBoardId,
+                                        @RequestBody QnaBoardRequest qnaBoardRequest) {
         log.info("\n" + "questionBoardModify() 동작 : " + qnaBoardRequest + "id" + qnaBoardId);
 
         return qnaBoardService.modify(qnaBoardId, qnaBoardRequest);

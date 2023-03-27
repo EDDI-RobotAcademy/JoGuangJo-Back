@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class qnaBoardRequest {
+public class QnaBoardRequest {
 
    final private String title;
     final private String writer;

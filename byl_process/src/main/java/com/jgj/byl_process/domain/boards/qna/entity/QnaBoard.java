@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 @Entity
-public class qnaBoard {
+public class QnaBoard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

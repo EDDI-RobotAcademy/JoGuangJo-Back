@@ -1,4 +1,4 @@
-package com.jgj.byl_process.questionBoard.entity;
+package com.jgj.byl_process.domain.boards.qna.entity;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -9,11 +9,11 @@ import java.util.Date;
 
 @Data
 @Entity
-public class QuestionBoard {
+public class QnaBoard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long questionBoardId;
+    private Long qnaBoardId;
     @Column(length = 128, nullable = false)
     private String title;
     @Column(length = 32, nullable = false)

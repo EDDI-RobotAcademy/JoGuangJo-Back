@@ -67,4 +67,12 @@ public class MemberController {
 
         redisService.deleteByKey(token);
     }
+
+    @PostMapping("/resign")
+    public void resign(@RequestBody String token) {
+        token = token.substring(0, token.length() - 1);
+        log.info("resign(): " + token);
+
+        memberService.resign(token);
+    }
 }

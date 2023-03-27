@@ -21,10 +21,10 @@ public class Member {
     @Column(nullable = false)
     private String email;
 
-    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private MemberProfile memberProfile;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Authentication> authentications = new HashSet<>();
 
     public Member(String email, MemberProfile memberProfile) {

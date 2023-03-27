@@ -104,4 +104,15 @@ public class MemberServiceImpl implements MemberService {
 
         return true;
     }
+
+    public void resign(String token) {
+        Long memid = redisService.getValueByKey(token);
+        Optional<Member> maybeMember = memberRepository.findById(memid);
+        if (maybeMember.isPresent()) {
+            Member member = maybeMember.get();
+            memberRepository.delete(member);
+        } else {
+            System.out.println("없는디?");
+        }
+    }
 }

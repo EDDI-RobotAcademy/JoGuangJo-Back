@@ -1,10 +1,8 @@
 package com.jgj.byl_process;
 
-import com.jgj.byl_process.domain.board.controller.request.BoardRequest;
-import com.jgj.byl_process.questionBoard.controller.request.QuestionBoardRequest;
-import com.jgj.byl_process.questionBoard.entity.QuestionBoard;
-import com.jgj.byl_process.questionBoard.service.QuestionBoardService;
-import org.aspectj.weaver.patterns.TypePatternQuestions;
+import com.jgj.byl_process.domain.boards.qna.controller.request.qnaBoardRequest;
+import com.jgj.byl_process.domain.boards.qna.entity.qnaBoard;
+import com.jgj.byl_process.domain.boards.qna.service.qnaBoardService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,59 +11,59 @@ import org.springframework.boot.test.context.SpringBootTest;
 class BylProcessApplicationTests {
 
 	@Autowired
-	private QuestionBoardService questionBoardService;
+	private qnaBoardService qnaBoardService;
 
 	@Test
 	public void 게시글_등록_테스트() {
-		QuestionBoardRequest questionBoardRequest =
-				new QuestionBoardRequest("test의 test", "박태현", "테스트 내용임");
+		qnaBoardRequest qnaBoardRequest =
+				new qnaBoardRequest("test의 test", "박태현", "테스트 내용임");
 
-		questionBoardService.register(questionBoardRequest);
+		qnaBoardService.register(qnaBoardRequest);
 	}
 
 	@Test
 	public void 게시글_리스트_테스트() {
-		QuestionBoard questionBoard = questionBoardService.read(3L);
+		qnaBoard qnaBoard = qnaBoardService.read(3L);
 	}
 
 	@Test
 	public void 게시글_읽기_테스트() {
-		QuestionBoard questionBoard = questionBoardService.read(3L);
-		System.out.println(questionBoard);
+		qnaBoard qnaBoard = qnaBoardService.read(3L);
+		System.out.println(qnaBoard);
 	}
 
 	@Test
 	public void 게시물_수정_테스트() {
-		QuestionBoard questionBoard = questionBoardService.modify(3L, new QuestionBoardRequest(
+		qnaBoard qnaBoard = qnaBoardService.modify(3L, new qnaBoardRequest(
 				"변경됩니까", "북유럽", "내용 변경해보자"));
 
-		System.out.println(questionBoard);
+		System.out.println(qnaBoard);
 	}
 
 	@Test
 	public void 게시물_삭제_테스트() {
-		questionBoardService.remove(3L);
-		questionBoardService.read(3L);
+		qnaBoardService.remove(3L);
+		qnaBoardService.read(3L);
 	}
 
 	@Test
 	public void 게시판_구동_전체_테스트() {
-		QuestionBoardRequest questionBoardRequest =
-				new QuestionBoardRequest("등록되냐?", "박태현", "등록 되나요?");
+		qnaBoardRequest QnaBoardRequest =
+				new qnaBoardRequest("등록되냐?", "박태현", "등록 되나요?");
 
-		questionBoardService.register(questionBoardRequest);
-		Long lastQuestionBoardId = questionBoardService.getLastEntityId();
+		qnaBoardService.register(QnaBoardRequest);
+		Long lastQnaBoardId = qnaBoardService.getLastEntityId();
 
-		System.out.println("초기 등록" + questionBoardService.read(lastQuestionBoardId));
+		System.out.println("초기 등록" + qnaBoardService.read(lastQnaBoardId));
 
-		questionBoardService.modify(lastQuestionBoardId, new QuestionBoardRequest(
+		qnaBoardService.modify(lastQnaBoardId, new qnaBoardRequest(
 				"변경 됩니까?", "박태현", "변경 됐어요"
 		));
 
-		System.out.println("수정 후 : " + questionBoardService.read(lastQuestionBoardId));
+		System.out.println("수정 후 : " + qnaBoardService.read(lastQnaBoardId));
 
-		questionBoardService.remove(lastQuestionBoardId);
+		qnaBoardService.remove(lastQnaBoardId);
 
-		System.out.println("삭제 후 : " + questionBoardService.read(lastQuestionBoardId));
+		System.out.println("삭제 후 : " + qnaBoardService.read(lastQnaBoardId));
 	}
 }

@@ -12,6 +12,7 @@ import java.util.Date;
 public class QnaBoard {
 
     @Id
+    @Column(name = "qna_board_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long qnaBoardId;
     @Column(length = 128, nullable = false)

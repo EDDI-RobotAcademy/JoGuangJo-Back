@@ -27,7 +27,7 @@ public class ProductController {
             @RequestPart(value = "productInfo") RequestProductInfo productRequest) {
         log.info("productRegister()");
 
-      //productService.register(imageFileList, productRequest);
+      productService.register(imageFileList, productRequest);
     }
 
     @GetMapping("/list")

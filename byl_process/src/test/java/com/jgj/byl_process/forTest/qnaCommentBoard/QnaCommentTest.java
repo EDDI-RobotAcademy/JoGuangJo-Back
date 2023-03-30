@@ -15,7 +15,7 @@ public class QnaCommentTest {
     @Test
     public void 게시판_댓글_등록_테스트() {
         QnaCommentRequest qnaCommentRequest =
-                new QnaCommentRequest("4번 게시물 두번째 댓글도 등록 되니?", 4L);
+                new QnaCommentRequest("4번 게시물 두번째 댓글도 등록 되니?", 4L, "작성자임");
 
         qnaCommentService.qnaCommentRegister(qnaCommentRequest);
     }

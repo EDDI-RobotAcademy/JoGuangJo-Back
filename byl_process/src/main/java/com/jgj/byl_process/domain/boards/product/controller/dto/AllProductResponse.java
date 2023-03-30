@@ -1,6 +1,6 @@
-package com.jgj.byl_process.product.controller.dto;
+package com.jgj.byl_process.domain.boards.product.controller.dto;
 
-import com.jgj.byl_process.product.entity.ImageResource;
+import com.jgj.byl_process.domain.boards.product.entity.ImageResource;
 import lombok.Getter;
 
 import java.util.Date;

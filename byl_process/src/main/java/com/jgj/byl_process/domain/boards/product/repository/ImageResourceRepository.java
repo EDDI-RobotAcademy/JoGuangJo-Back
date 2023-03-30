@@ -1,6 +1,6 @@
-package com.jgj.byl_process.product.repository;
+package com.jgj.byl_process.domain.boards.product.repository;
 
-import com.jgj.byl_process.product.entity.ImageResource;
+import com.jgj.byl_process.domain.boards.product.entity.ImageResource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

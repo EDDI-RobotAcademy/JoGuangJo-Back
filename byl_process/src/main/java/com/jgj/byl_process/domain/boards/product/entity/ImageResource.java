@@ -1,4 +1,4 @@
-package com.jgj.byl_process.product.entity;
+package com.jgj.byl_process.domain.boards.product.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;

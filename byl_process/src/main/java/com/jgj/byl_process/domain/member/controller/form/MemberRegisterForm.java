@@ -19,7 +19,9 @@ public class MemberRegisterForm {
     private String addressDetail;
     private String zipcode;
 
+    private String nickName;
+
     public MemberRegisterRequest toMemberRegisterRequest () {
-        return new MemberRegisterRequest(email, password, city, street, addressDetail, zipcode);
+        return new MemberRegisterRequest(email, password, nickName, city, street, addressDetail, zipcode);
     }
 }

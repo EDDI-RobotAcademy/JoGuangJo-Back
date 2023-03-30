@@ -36,6 +36,17 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public Boolean memberNicknameValidation(String nickName) {
+        Optional<Member> maybeMemberNickname = memberRepository.findByNickName(nickName);
+
+        if (maybeMemberNickname.isPresent()) {
+            return false;
+        }
+        return true;
+    }
+
+
+    @Override
     public Boolean signUp(MemberRegisterRequest memberRegisterRequest) {
         final Member member = memberRegisterRequest.toMember();
         memberRepository.save(member);
@@ -52,7 +63,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public String signIn(MemberLoginRequest memberLoginRequest) {
+    public MemberLoginResponse signIn(MemberLoginRequest memberLoginRequest) {
         Optional<Member> maybeMember =
                 memberRepository.findByEmail(memberLoginRequest.getEmail());
 
@@ -76,7 +87,10 @@ public class MemberServiceImpl implements MemberService {
             redisService.deleteByKey(userToken.toString());
             redisService.setKeyAndValue(userToken.toString(), member.getId());
 
-            return userToken.toString();
+            MemberLoginResponse memberLoginResponse;
+            memberLoginResponse = new MemberLoginResponse(userToken.toString(), member.getId(), member.getNickName());
+//
+            return memberLoginResponse;
         }
 
         throw new RuntimeException("가입된 사용자가 아닙니다!");

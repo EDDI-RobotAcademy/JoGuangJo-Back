@@ -21,17 +21,23 @@ public class Member {
     @Column(nullable = false)
     private String email;
 
+    @Getter
+    @Column(nullable = false)
+    private String nickName;
+
     @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private MemberProfile memberProfile;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Authentication> authentications = new HashSet<>();
 
-    public Member(String email, MemberProfile memberProfile) {
+    public Member(String email, String nickName,MemberProfile memberProfile) {
         this.email = email;
+        this.nickName = nickName;
         this.memberProfile = memberProfile;
         memberProfile.setMember(this);
     }
+
 
     public boolean isRightPassword(String plainToCheck) {
         final Optional<Authentication> maybeBasicAuth = findBasicAuthentication();

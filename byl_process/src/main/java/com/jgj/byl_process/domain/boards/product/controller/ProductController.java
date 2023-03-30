@@ -1,8 +1,8 @@
-package com.jgj.byl_process.product.controller;
+package com.jgj.byl_process.domain.boards.product.controller;
 
-import com.jgj.byl_process.product.controller.dto.*;
-import com.jgj.byl_process.product.entity.Product;
-import com.jgj.byl_process.product.service.ProductService;
+import com.jgj.byl_process.domain.boards.product.controller.dto.*;
+import com.jgj.byl_process.domain.boards.product.entity.Product;
+import com.jgj.byl_process.domain.boards.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;

@@ -34,6 +34,7 @@ public class QnaCommentServiceImpl implements QnaCommentService{
 
         QnaComment qnaComment = new QnaComment();
         qnaComment.setQnaBoard(maybeQnaBoard.get());
+        qnaComment.setWriter(commentRequest.getWriter());
         qnaComment.setComment(commentRequest.getComment());
 
         qnaCommentRepository.save(qnaComment);

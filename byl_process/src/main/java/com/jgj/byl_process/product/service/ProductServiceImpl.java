@@ -29,6 +29,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public void register(List<MultipartFile> imageFileList, RequestProductInfo productRequest) {
+
         log.info("글자 출력: " + productRequest);
 
         List<ImageResource> imageResourceList = new ArrayList<>();
@@ -42,27 +43,29 @@ public class ProductServiceImpl implements ProductService {
         product.setContent(productRequest.getContent());
         product.setPrice(productRequest.getPrice());
 
-        try {
-            for (MultipartFile multipartFile : imageFileList) {
-                log.info("requestFileUploadWithText() - filename: " + multipartFile.getOriginalFilename());
+        if (imageFileList != null && !imageFileList.isEmpty()) {
+            try {
+                for (MultipartFile multipartFile : imageFileList) {
+                    log.info("requestFileUploadWithText() - filename: " + multipartFile.getOriginalFilename());
 
-                String fullPath = fixedStringPath + multipartFile.getOriginalFilename();
+                    String fullPath = fixedStringPath + multipartFile.getOriginalFilename();
 
-                FileOutputStream writer = new FileOutputStream(
-                        fixedStringPath + multipartFile.getOriginalFilename()
-                );
+                    FileOutputStream writer = new FileOutputStream(
+                            fixedStringPath + multipartFile.getOriginalFilename()
+                    );
 
-                writer.write(multipartFile.getBytes());
-                writer.close();
+                    writer.write(multipartFile.getBytes());
+                    writer.close();
 
-                ImageResource imageResource = new ImageResource(multipartFile.getOriginalFilename());
-                imageResourceList.add(imageResource);
-                product.setImageResource(imageResource);
+                    ImageResource imageResource = new ImageResource(multipartFile.getOriginalFilename());
+                    imageResourceList.add(imageResource);
+                    product.setImageResource(imageResource);
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
         productRepository.save(product);

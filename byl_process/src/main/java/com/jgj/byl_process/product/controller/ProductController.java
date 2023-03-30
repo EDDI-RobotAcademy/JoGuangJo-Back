@@ -23,11 +23,11 @@ public class ProductController {
     @PostMapping(value = "/register",
             consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE })
     public void productRegister(
-            @RequestPart(value = "imageFileList") List<MultipartFile> imageFileList,
+            @RequestPart(value = "imageFileList", required = false) List<MultipartFile> imageFileList,
             @RequestPart(value = "productInfo") RequestProductInfo productRequest) {
         log.info("productRegister()");
 
-        productService.register(imageFileList, productRequest);
+      productService.register(imageFileList, productRequest);
     }
 
     @GetMapping("/list")
@@ -76,4 +76,3 @@ public class ProductController {
         return productService.all();
     }
 }
-

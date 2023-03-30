@@ -4,6 +4,7 @@ import com.jgj.byl_process.domain.member.controller.form.EmailMatchForm;
 import com.jgj.byl_process.domain.member.controller.form.EmailPasswordForm;
 import com.jgj.byl_process.domain.member.controller.form.MemberLoginForm;
 import com.jgj.byl_process.domain.member.controller.form.MemberRegisterForm;
+import com.jgj.byl_process.domain.member.service.MemberLoginResponse;
 import com.jgj.byl_process.domain.member.service.MemberService;
 import com.jgj.byl_process.domain.security.service.RedisService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,13 @@ public class MemberController {
         return memberService.emailValidation(email);
     }
 
+    @PostMapping("/check-nickName/{nickName}")
+    public Boolean memberNickNameValidation(@PathVariable("nickName") String nickName) {
+        log.info("memberNicknameDuplicateCheck()" + nickName);
+
+        return memberService.memberNicknameValidation(nickName);
+    }
+
     @PostMapping("/sign-up")
     public Boolean signUp(@RequestBody MemberRegisterForm form) {
         log.info("signUp(): " + form);
@@ -37,7 +45,7 @@ public class MemberController {
     }
 
     @PostMapping("/sign-in")
-    public String signIn(@RequestBody MemberLoginForm form) {
+    public MemberLoginResponse signIn(@RequestBody MemberLoginForm form) {
         log.info("signIn(): " + form);
 
         return memberService.signIn(form.toMemberLoginRequest());

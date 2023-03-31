@@ -3,7 +3,9 @@ package com.jgj.byl_process.domain.member.repository;
 import com.jgj.byl_process.domain.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
@@ -14,4 +16,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query("select m from Member m join fetch m.authentications where m.nickName = :nickName")
     Optional<Member> findByNickName(String nickName);
+
+    @Query("SELECT m FROM Member m JOIN FETCH m.memberProfile JOIN FETCH m.authentications WHERE m.id = :memberId")
+    List<Member> findAllInfoByMembberId(@Param("memberId") Long memberId);
 }

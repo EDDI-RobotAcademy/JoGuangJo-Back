@@ -1,11 +1,13 @@
 package com.jgj.byl_process.domain.member.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberProfile {

@@ -1,15 +1,13 @@
-package com.jgj.byl_process.product.service;
+package com.jgj.byl_process.domain.boards.product.service;
 
-import com.jgj.byl_process.product.controller.dto.*;
-import com.jgj.byl_process.product.entity.Product;
+import com.jgj.byl_process.domain.boards.product.controller.dto.*;
+import com.jgj.byl_process.domain.boards.product.entity.Product;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface ProductService {
-    //void register(ProductRequest productRequest);
-    void register(List<MultipartFile> imageFileList,
-                  RequestProductInfo productRequest);
+    void register(List<MultipartFile> imageFileList, RequestProductInfo productRequest);
 
     List<ProductListResponse> list();
 

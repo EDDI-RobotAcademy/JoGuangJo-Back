@@ -30,6 +30,7 @@ public class QnaCommentController {
     public void qnaCommentRegister(@RequestBody QnaCommentRequest qnaCommentRequest) {
         log.info("qnaCommentRegister() 해당 게시물 아이디 : " + qnaCommentRequest.getQnaBoardId());
         log.info(qnaCommentRequest.getComment());
+        log.info(qnaCommentRequest.getWriter());
 
         qnaCommentService.qnaCommentRegister(qnaCommentRequest);
     }

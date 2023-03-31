@@ -1,4 +1,4 @@
-package com.jgj.byl_process.product.controller.dto;
+package com.jgj.byl_process.domain.boards.product.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

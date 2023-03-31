@@ -1,10 +1,10 @@
-package com.jgj.byl_process.product.service;
+package com.jgj.byl_process.domain.boards.product.service;
 
-import com.jgj.byl_process.product.controller.dto.*;
-import com.jgj.byl_process.product.entity.ImageResource;
-import com.jgj.byl_process.product.entity.Product;
-import com.jgj.byl_process.product.repository.ImageResourceRepository;
-import com.jgj.byl_process.product.repository.ProductRepository;
+import com.jgj.byl_process.domain.boards.product.controller.dto.*;
+import com.jgj.byl_process.domain.boards.product.entity.ImageResource;
+import com.jgj.byl_process.domain.boards.product.entity.Product;
+import com.jgj.byl_process.domain.boards.product.repository.ImageResourceRepository;
+import com.jgj.byl_process.domain.boards.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

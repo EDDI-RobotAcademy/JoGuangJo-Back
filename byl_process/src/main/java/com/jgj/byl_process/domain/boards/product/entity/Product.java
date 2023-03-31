@@ -1,7 +1,6 @@
-package com.jgj.byl_process.product.entity;
+package com.jgj.byl_process.domain.boards.product.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

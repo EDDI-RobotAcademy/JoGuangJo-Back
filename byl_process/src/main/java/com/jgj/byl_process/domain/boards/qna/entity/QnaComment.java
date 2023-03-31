@@ -20,4 +20,7 @@ public class QnaComment {
     @JoinColumn(name = "qna_board_id")
     private QnaBoard qnaBoard;
 
+    @Column(length = 32, nullable = false)
+    private String writer;
+
 }

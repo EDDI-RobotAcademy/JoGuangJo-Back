@@ -6,7 +6,7 @@ import com.jgj.byl_process.domain.boards.qna.entity.QnaBoard;
 import java.util.List;
 
 public interface QnaBoardService {
-    public void register(QnaBoardRequest qnaBoardRequest);
+    void register(QnaBoardRequest qnaBoardRequest);
 
     List<QnaBoard> list();
 

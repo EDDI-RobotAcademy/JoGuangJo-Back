@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/mypage")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
 public class MyPageController {
 
     final private MyPageService myPageService;

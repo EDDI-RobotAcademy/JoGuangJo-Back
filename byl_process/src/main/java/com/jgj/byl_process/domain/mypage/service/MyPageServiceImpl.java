@@ -2,12 +2,15 @@ package com.jgj.byl_process.domain.mypage.service;
 
 import com.jgj.byl_process.domain.member.entity.Member;
 import com.jgj.byl_process.domain.member.repository.MemberRepository;
+import com.jgj.byl_process.domain.mypage.MemberToMyPageResponseConverter;
+import com.jgj.byl_process.domain.mypage.service.response.MyPageResponse;
 import com.jgj.byl_process.domain.security.service.RedisService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -15,32 +18,28 @@ public class MyPageServiceImpl implements MyPageService {
 
     final RedisService redisService;
     final MemberRepository memberRepository;
+    @Autowired
+    private MemberToMyPageResponseConverter memberToMyPageResponseConverter;
 
     @Override
-    public String list(String token) {
-        System.out.println("Service 실행함!!");
+    public List<MyPageResponse> list(String token) {
+        Long memberId = redisService.getValueByKey(token);
+        System.out.println("memberId : "+memberId);
 
-        System.out.println("token : " + token);
-//        Long memberId = redisService.getValueByKey(token);
-        Long memberId = 2L;
-        System.out.println("memberId : " + memberId);
+        List<Member> members = memberRepository.findAllByMemberId(memberId);
 
-        List<Member> maybeMember = memberRepository.findAllInfoByMembberId(memberId);
-        System.out.println("memberRepository 실행함!!");
+        List<MyPageResponse> resultList = members.stream()
+                .map(this::getMyPageResponse)
+                .collect(Collectors.toList());
 
-        String response = "";
-        if (!maybeMember.isEmpty()) {
-            response = "Member go!!";
-        } else {
-            response = "No member?";
+        for (MyPageResponse response : resultList) {
+            System.out.println(response.toString());
         }
 
-        List<Member> members = new ArrayList<>();
+        return resultList;
+    }
 
-        for (Member member : members) {
-            System.out.println(member);
-        }
-
-        return response;
+    public MyPageResponse getMyPageResponse(Member member) {
+        return memberToMyPageResponseConverter.convert(member);
     }
 }

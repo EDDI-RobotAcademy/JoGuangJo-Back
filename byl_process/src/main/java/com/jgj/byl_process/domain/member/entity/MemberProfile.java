@@ -35,4 +35,6 @@ public class MemberProfile {
     public void setMember(Member member) {
         this.member = member;
     }
+
+
 }

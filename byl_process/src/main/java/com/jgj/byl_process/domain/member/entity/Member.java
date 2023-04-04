@@ -56,4 +56,21 @@ public class Member {
                 .filter(authentication -> authentication instanceof BasicAuthentication)
                 .findFirst();
     }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", nickName='" + nickName + '\'' +
+                '}';
+    }
+
+    public MemberProfile getMemberProfile() {
+        return this.memberProfile;
+    }
+
+    public Set<Authentication> getAuthentications() {
+        return this.authentications;
+    }
 }

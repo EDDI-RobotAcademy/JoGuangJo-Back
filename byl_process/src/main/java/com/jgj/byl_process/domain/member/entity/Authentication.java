@@ -1,11 +1,13 @@
 package com.jgj.byl_process.domain.member.entity;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
 @ToString(exclude = "member")
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

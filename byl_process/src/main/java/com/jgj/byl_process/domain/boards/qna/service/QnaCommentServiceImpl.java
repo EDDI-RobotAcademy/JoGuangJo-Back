@@ -7,6 +7,7 @@ import com.jgj.byl_process.domain.boards.qna.repository.QnaBoardRepository;
 import com.jgj.byl_process.domain.boards.qna.repository.QnaCommentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,9 +25,7 @@ public class QnaCommentServiceImpl implements QnaCommentService{
 
     @Override
     public List<QnaComment> qnaCommentList(Long qnaBoardId) {
-        QnaBoard qnaBoard = qnaBoardRepository.findById(qnaBoardId)
-                .orElseThrow(() -> new RuntimeException("Null 인데?"));
-        return qnaCommentRepository.findCommentByQnaBoardId(qnaBoardId);
+        return qnaCommentRepository.findAll(qnaBoardId);
     }
     @Override
     public void qnaCommentRegister(QnaCommentRequest commentRequest) {

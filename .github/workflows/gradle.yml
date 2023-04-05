@@ -42,14 +42,14 @@ jobs:
       
     - name: Build Project with Gradle
       run: ./gradlew clean build
-        
+      
     - name: Test with Gradle
       #uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       #with:
         #arguments: build
       run: ./gradlew test
       
-      - name: Slack Notification
+    - name: Slack Notification
       uses: 8398a7/action-slack@v3
       with:
         status: ${{ job.status }}

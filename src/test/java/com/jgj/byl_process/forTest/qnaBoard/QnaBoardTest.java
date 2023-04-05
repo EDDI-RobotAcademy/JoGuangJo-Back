@@ -39,7 +39,7 @@ public class QnaBoardTest {
 //
 //        System.out.println(qnaBoard);
 //    }
-
+//
 //    @Test
 //    public void 게시물_삭제_테스트() {
 //        qnaBoardService.remove(3L);

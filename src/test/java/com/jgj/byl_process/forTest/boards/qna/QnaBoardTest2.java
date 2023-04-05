@@ -14,14 +14,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class QnaBoardTest2 {
 
-//    @Mock
-    @Autowired
+    @Mock
+//    @Autowired
     private QnaBoardService mockQnaBoardService;
 
-//    @BeforeEach
-//    public void setUp() throws Exception {
-//        MockitoAnnotations.initMocks(this);
-//    }
+    @BeforeEach
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     public void 게시물_등록_테스트() {

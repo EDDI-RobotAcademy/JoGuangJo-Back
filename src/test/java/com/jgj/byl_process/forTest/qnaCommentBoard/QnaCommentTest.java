@@ -9,8 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class QnaCommentTest {
 
-    @Autowired
-    private QnaCommentService qnaCommentService;
+//    @Autowired
+//    private QnaCommentService qnaCommentService;
 
 //    @Test
 //    public void 게시판_댓글_등록_테스트() {

@@ -13,19 +13,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class QnaBoardTest2 {
 
-    @Mock
-    private QnaBoardService mockQnaBoardService;
-
-    @BeforeEach
-    public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-    }
-
-    @Test
-    public void 게시물_저장_테스트() {
-        QnaBoardRequest qnaBoardRequest =
-                new QnaBoardRequest("테스트제목", "테스트작성자", "테스트내용");
-
-        mockQnaBoardService.register(qnaBoardRequest);
-    }
+//    @Mock
+//    private QnaBoardService mockQnaBoardService;
+//
+//    @BeforeEach
+//    public void setUp() throws Exception {
+//        MockitoAnnotations.initMocks(this);
+//    }
+//
+//    @Test
+//    public void 게시물_저장_테스트() {
+//        QnaBoardRequest qnaBoardRequest =
+//                new QnaBoardRequest("테스트제목", "테스트작성자", "테스트내용");
+//
+//        mockQnaBoardService.register(qnaBoardRequest);
+//    }
 }

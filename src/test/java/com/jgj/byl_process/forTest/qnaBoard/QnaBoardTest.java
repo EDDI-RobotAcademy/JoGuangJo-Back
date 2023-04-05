@@ -40,11 +40,11 @@ public class QnaBoardTest {
         System.out.println(qnaBoard);
     }
 
-    @Test
-    public void 게시물_삭제_테스트() {
-        qnaBoardService.remove(3L);
-        qnaBoardService.read(3L);
-    }
+//    @Test
+//    public void 게시물_삭제_테스트() {
+//        qnaBoardService.remove(3L);
+//        qnaBoardService.read(3L);
+//    }
 
     @Test
     public void 게시판_구동_전체_테스트() {

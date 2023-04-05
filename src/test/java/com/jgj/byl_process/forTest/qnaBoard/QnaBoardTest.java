@@ -10,16 +10,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class QnaBoardTest {
 
-//    @Autowired
-//    private QnaBoardService qnaBoardService;
-//
-//    @Test
-//    public void 게시글_등록_테스트() {
-//        QnaBoardRequest qnaBoardRequest =
-//                new QnaBoardRequest("test의 test", "박태현", "테스트 내용임");
-//
-//        qnaBoardService.register(qnaBoardRequest);
-//    }
+    @Autowired
+    private QnaBoardService qnaBoardService;
+
+    @Test
+    public void 게시글_등록_테스트() {
+        QnaBoardRequest qnaBoardRequest =
+                new QnaBoardRequest("test의 test", "박태현", "테스트 내용임");
+
+        qnaBoardService.register(qnaBoardRequest);
+    }
 //
 //    @Test
 //    public void 게시글_리스트_테스트() {

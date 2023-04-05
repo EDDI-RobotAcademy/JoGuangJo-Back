@@ -1,4 +1,4 @@
-package com.jgj.byl_process.forTest.qnaCommentBoard;
+package com.jgj.byl_process;
 
 import com.jgj.byl_process.domain.boards.qna.controller.request.QnaCommentRequest;
 import com.jgj.byl_process.domain.boards.qna.service.QnaCommentService;

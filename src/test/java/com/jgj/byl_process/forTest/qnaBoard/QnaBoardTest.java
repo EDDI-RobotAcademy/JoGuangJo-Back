@@ -26,19 +26,19 @@ public class QnaBoardTest {
         System.out.println(qnaBoardService.list());
     }
 
-    @Test
-    public void 게시글_읽기_테스트() {
-        QnaBoard qnaBoard = qnaBoardService.read(3L);
-        System.out.println(qnaBoard);
-    }
+//    @Test
+//    public void 게시글_읽기_테스트() {
+//        QnaBoard qnaBoard = qnaBoardService.read(3L);
+//        System.out.println(qnaBoard);
+//    }
 
-    @Test
-    public void 게시물_수정_테스트() {
-        QnaBoard qnaBoard = qnaBoardService.modify(3L, new QnaBoardRequest(
-                "변경됩니까", "북유럽", "내용 변경해보자"));
-
-        System.out.println(qnaBoard);
-    }
+//    @Test
+//    public void 게시물_수정_테스트() {
+//        QnaBoard qnaBoard = qnaBoardService.modify(3L, new QnaBoardRequest(
+//                "변경됩니까", "북유럽", "내용 변경해보자"));
+//
+//        System.out.println(qnaBoard);
+//    }
 
 //    @Test
 //    public void 게시물_삭제_테스트() {

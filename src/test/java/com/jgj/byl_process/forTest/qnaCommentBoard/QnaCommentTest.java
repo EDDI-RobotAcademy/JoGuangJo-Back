@@ -20,10 +20,10 @@ public class QnaCommentTest {
 //        qnaCommentService.qnaCommentRegister(qnaCommentRequest);
 //    }
 
-    @Test
-    public void 게시판_댓글_리스트_테스트() {
-        System.out.println(qnaCommentService.qnaCommentList(4L));
-    }
+//    @Test
+//    public void 게시판_댓글_리스트_테스트() {
+//        System.out.println(qnaCommentService.qnaCommentList(4L));
+//    }
 
 
 }

@@ -12,4 +12,6 @@ public interface QnaCommentService {
 
     QnaComment modify(Long qnaCommentId, QnaCommentRequest qnaCommentRequest);
 
+    void remove(Long qnaCommentId);
+
 }

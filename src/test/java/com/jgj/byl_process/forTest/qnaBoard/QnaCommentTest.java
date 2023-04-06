@@ -1,7 +1,7 @@
 package com.jgj.byl_process.forTest.qnaBoard;
 
-import com.jgj.byl_process.domain.boards.qna.controller.request.QnaBoardRequest;
-import com.jgj.byl_process.domain.boards.qna.controller.request.QnaCommentRequest;
+import com.jgj.byl_process.domain.boards.qna.controller.dto.request.QnaBoardRequest;
+import com.jgj.byl_process.domain.boards.qna.controller.dto.request.QnaCommentRequest;
 import com.jgj.byl_process.domain.boards.qna.entity.QnaComment;
 import com.jgj.byl_process.domain.boards.qna.service.QnaBoardService;
 import com.jgj.byl_process.domain.boards.qna.service.QnaCommentService;
@@ -12,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @SpringBootTest

@@ -10,4 +10,6 @@ public interface QnaCommentService {
 
     void qnaCommentRegister(QnaCommentRequest qnaCommentRequest);
 
+    QnaComment modify(Long qnaCommentId, QnaCommentRequest qnaCommentRequest);
+
 }

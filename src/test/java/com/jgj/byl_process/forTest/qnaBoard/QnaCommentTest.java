@@ -5,21 +5,32 @@ import com.jgj.byl_process.domain.boards.qna.controller.request.QnaCommentReques
 import com.jgj.byl_process.domain.boards.qna.entity.QnaComment;
 import com.jgj.byl_process.domain.boards.qna.service.QnaBoardService;
 import com.jgj.byl_process.domain.boards.qna.service.QnaCommentService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 
 @SpringBootTest
-@Transactional
+@DisplayName("qna comment 게시판에 대한 테스트 코드 - mock 적용")
 public class QnaCommentTest {
 
     @Autowired
+    @Mock
     private QnaCommentService qnaCommentService;
 
     @Autowired
+    @Mock
     private QnaBoardService qnaBoardService;
+
+        @BeforeEach
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     public void 댓글_등록을_위한_하나의_게시글_등록_테스트() {

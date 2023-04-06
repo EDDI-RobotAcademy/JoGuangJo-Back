@@ -23,4 +23,9 @@ public class QnaComment {
     @Column(length = 32, nullable = false)
     private String writer;
 
+
+    public void update(String comment) {
+        this.comment = comment;
+    }
+
 }

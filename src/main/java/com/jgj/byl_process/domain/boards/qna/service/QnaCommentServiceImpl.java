@@ -38,4 +38,19 @@ public class QnaCommentServiceImpl implements QnaCommentService{
 
         qnaCommentRepository.save(qnaComment);
     }
+
+    @Override
+    public QnaComment modify(Long qnaCommentId, QnaCommentRequest qnaCommentRequest) {
+        QnaComment qnaComment = qnaCommentRepository.findById(qnaCommentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글 존재안함." + qnaCommentId));
+
+        qnaComment.update(qnaCommentRequest.getComment());
+
+        qnaCommentRepository.save(qnaComment);
+        return qnaComment;
+    }
+
+    @Override
+    public void remove(Long qnaCommentId) {
+        qnaCommentRepository.deleteById(qnaCommentId);
+    }
 }

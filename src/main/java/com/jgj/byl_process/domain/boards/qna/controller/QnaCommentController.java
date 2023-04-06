@@ -35,6 +35,20 @@ public class QnaCommentController {
         qnaCommentService.qnaCommentRegister(qnaCommentRequest);
     }
 
+    @PutMapping("/{qnaCommentId}")
+    public void qnaCommentModify(@PathVariable("qnaCommentId") Long qnaCommentId,
+                                 @RequestBody QnaCommentRequest qnaCommentRequest) {
+
+        qnaCommentService.modify(qnaCommentId, qnaCommentRequest);
+    }
+
+    @DeleteMapping("/{qnaCommentId}")
+    public void qnaCommentRemove(@PathVariable("qnaCommentId") Long qnaCommentId) {
+        log.info("qnaCommentRemove() 메소드 동작");
+
+        qnaCommentService.remove(qnaCommentId);
+    }
+
 
 
 }

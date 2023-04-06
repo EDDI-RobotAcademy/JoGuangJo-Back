@@ -1,4 +1,4 @@
-package com.jgj.byl_process.domain.boards.qna.controller.request;
+package com.jgj.byl_process.domain.boards.qna.controller.dto.request;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

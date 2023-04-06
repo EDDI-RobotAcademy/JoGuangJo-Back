@@ -1,6 +1,6 @@
 package com.jgj.byl_process.domain.boards.qna.service;
 
-import com.jgj.byl_process.domain.boards.qna.controller.request.QnaBoardRequest;
+import com.jgj.byl_process.domain.boards.qna.controller.dto.request.QnaBoardRequest;
 import com.jgj.byl_process.domain.boards.qna.entity.QnaBoard;
 import com.jgj.byl_process.domain.boards.qna.repository.QnaBoardRepository;
 import lombok.extern.slf4j.Slf4j;

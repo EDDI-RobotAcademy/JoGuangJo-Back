@@ -1,6 +1,6 @@
 package com.jgj.byl_process.forTest.qnaBoard;
 
-import com.jgj.byl_process.domain.boards.qna.controller.request.QnaBoardRequest;
+import com.jgj.byl_process.domain.boards.qna.controller.dto.request.QnaBoardRequest;
 import com.jgj.byl_process.domain.boards.qna.entity.QnaBoard;
 import com.jgj.byl_process.domain.boards.qna.service.QnaBoardService;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,13 +10,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @DisplayName("qna 게시판에 대한 테스트 코드 - mock 적용")
 public class QnaBoardTest {
 
-    @Autowired
     @Mock
     private QnaBoardService qnaBoardService;
 

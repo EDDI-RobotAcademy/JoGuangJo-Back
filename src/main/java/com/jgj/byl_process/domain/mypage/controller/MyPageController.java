@@ -1,5 +1,6 @@
 package com.jgj.byl_process.domain.mypage.controller;
 
+import com.jgj.byl_process.domain.mypage.controller.form.SaveAddressForm;
 import com.jgj.byl_process.domain.mypage.service.MyPageService;
 import com.jgj.byl_process.domain.mypage.service.response.MyPageResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,12 @@ public class MyPageController {
         token = token.substring(0, token.length() - 1);
 
         return myPageService.list(token);
+    }
+
+    @PostMapping("/saveAddress")
+    public Boolean saveAddress(@RequestBody SaveAddressForm saveAddressForm) {
+        log.info(("saveAddress(): " + saveAddressForm.toString()));
+
+        return myPageService.register(saveAddressForm);
     }
 }

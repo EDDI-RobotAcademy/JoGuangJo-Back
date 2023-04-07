@@ -1,13 +1,12 @@
 package com.jgj.byl_process.domain.boards.qna.service;
 
-import com.jgj.byl_process.domain.boards.qna.controller.request.QnaCommentRequest;
+import com.jgj.byl_process.domain.boards.qna.controller.dto.request.QnaCommentRequest;
 import com.jgj.byl_process.domain.boards.qna.entity.QnaBoard;
 import com.jgj.byl_process.domain.boards.qna.entity.QnaComment;
 import com.jgj.byl_process.domain.boards.qna.repository.QnaBoardRepository;
 import com.jgj.byl_process.domain.boards.qna.repository.QnaCommentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

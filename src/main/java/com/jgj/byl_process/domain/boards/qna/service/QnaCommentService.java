@@ -1,6 +1,6 @@
 package com.jgj.byl_process.domain.boards.qna.service;
 
-import com.jgj.byl_process.domain.boards.qna.controller.request.QnaCommentRequest;
+import com.jgj.byl_process.domain.boards.qna.controller.dto.request.QnaCommentRequest;
 import com.jgj.byl_process.domain.boards.qna.entity.QnaComment;
 
 import java.util.List;

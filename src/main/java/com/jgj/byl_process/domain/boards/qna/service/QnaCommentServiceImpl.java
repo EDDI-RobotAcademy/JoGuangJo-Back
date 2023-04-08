@@ -1,6 +1,7 @@
 package com.jgj.byl_process.domain.boards.qna.service;
 
 import com.jgj.byl_process.domain.boards.qna.controller.dto.request.QnaCommentRequest;
+import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaCommentListResponse;
 import com.jgj.byl_process.domain.boards.qna.entity.QnaBoard;
 import com.jgj.byl_process.domain.boards.qna.entity.QnaComment;
 import com.jgj.byl_process.domain.boards.qna.repository.QnaBoardRepository;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,8 +25,19 @@ public class QnaCommentServiceImpl implements QnaCommentService{
     QnaBoardRepository qnaBoardRepository;
 
     @Override
-    public List<QnaComment> qnaCommentList(Long qnaBoardId) {
-        return qnaCommentRepository.findAll(qnaBoardId);
+    public List<QnaCommentListResponse> qnaCommentList(Long qnaBoardId) {
+        List<QnaComment> QnaCommentList = qnaCommentRepository.findAll();
+        List<QnaCommentListResponse> QnaCommentResponseList = new ArrayList<>();
+
+        for (QnaComment QnaComment : QnaCommentList) {
+            if (QnaComment.getQnaBoard().getQnaBoardId().equals(qnaBoardId)) {
+                QnaCommentResponseList.add(new QnaCommentListResponse(
+                        QnaComment.getQnaCommentId(), QnaComment.getQnaBoard().getQnaBoardId(),
+                        QnaComment.getComment(), QnaComment.getWriter()
+                ));
+            }
+        }
+            return QnaCommentResponseList;
     }
     @Override
     public void qnaCommentRegister(QnaCommentRequest commentRequest) {

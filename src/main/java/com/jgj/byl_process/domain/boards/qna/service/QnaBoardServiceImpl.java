@@ -36,20 +36,26 @@ public class QnaBoardServiceImpl implements QnaBoardService {
     }
 
     @Override
-    public QnaBoard read(Long qnaBoardId) {
+    public QnaBoardReadResponse read(Long qnaBoardId) {
         Optional<QnaBoard> maybeQnaBoard = qnaBoardRepository.findById(qnaBoardId);
 
-        if(maybeQnaBoard.isEmpty()){
-            log.info("찾을 수가 없습니다.");
+        if (maybeQnaBoard.isEmpty()) {
+            log.info("읽을 수가 없습니다.");
             return null;
         }
-        System.out.println("maybeQuestionBoard read() : " + maybeQnaBoard);
 
-        return maybeQnaBoard.get();
+        QnaBoard qnaBoard = maybeQnaBoard.get();
+
+        QnaBoardReadResponse qnaBoardReadResponse = new QnaBoardReadResponse (
+                qnaBoard.getQnaBoardId(), qnaBoard.getTitle(), qnaBoard.getWriter(),
+                qnaBoard.getContent(), qnaBoard.getRegDate()
+        );
+
+        return qnaBoardReadResponse;
     }
 
     @Override
-    public QnaBoard modify(Long qnaBoardId, QnaBoardRequest qnaBoardRequest) {
+    public QnaBoard modify(Long qnaBoardId, List<MultipartFile> imageFileList, QnaBoardRequest qnaBoardRequest) {
         Optional<QnaBoard> maybeQnaBoard = qnaBoardRepository.findById(qnaBoardId);
 
         if (maybeQnaBoard.isEmpty()) {
@@ -57,12 +63,40 @@ public class QnaBoardServiceImpl implements QnaBoardService {
             return null;
         }
 
+        List<QnaBoardImgResource> qnaBoardImgResourcesList = new ArrayList<>();
+        final String uploadPath = "E:/Project/JoGuangJo-Front/src/assets/qnaUploadImgs";
+
         QnaBoard qnaBoard = maybeQnaBoard.get();
         qnaBoard.setTitle(qnaBoardRequest.getTitle());
         qnaBoard.setContent(qnaBoardRequest.getContent());
 
-        qnaBoardRepository.save(qnaBoard);
+        if (imageFileList != null && !imageFileList.isEmpty()) {
+            try {
+                for (MultipartFile multipartFile : imageFileList) {
+                    String originalFilename = multipartFile.getOriginalFilename();
+                    log.info("requestFileUploadWithText() - filename: " + originalFilename);
 
+                    // 저장될 파일 경로 생성
+                    String filePath = uploadPath + "/" + originalFilename;
+
+                    // 이미지 파일 저장
+                    File targetFile = new File(filePath);
+                    multipartFile.transferTo(targetFile);
+
+                    // 이미지 정보를 저장
+                    QnaBoardImgResource qnaBoardImgResource = new QnaBoardImgResource(originalFilename, filePath, "");
+                    qnaBoardImgResourcesList.add(qnaBoardImgResource);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        qnaBoard.setImages(qnaBoardImgResourcesList);
+        // 생성자 생성
+
+        qnaBoardImgRepository.saveAll(qnaBoardImgResourcesList);
+        qnaBoardRepository.save(qnaBoard);
         return qnaBoard;
     }
 

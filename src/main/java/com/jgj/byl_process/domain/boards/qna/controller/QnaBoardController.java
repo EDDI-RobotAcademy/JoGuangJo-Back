@@ -33,19 +33,22 @@ public class QnaBoardController {
     }
 
     @GetMapping("/{qnaBoardId}")
-    public QnaBoard questionBoardRead(@PathVariable("qnaBoardId") Long qnaBoardId) {
+    public QnaBoardReadResponse questionBoardRead(@PathVariable("qnaBoardId") Long qnaBoardId) {
             System.out.println("read() 동작 : " + qnaBoardId);
             return qnaBoardService.read(qnaBoardId);
 
     }
 
-    @PutMapping("/{qnaBoardId}")
-    public QnaBoard questionBoardModify(@PathVariable("qnaBoardId") Long qnaBoardId,
-                                        @RequestBody QnaBoardRequest qnaBoardRequest) {
-        log.info("\n" + "questionBoardModify() 동작 : " + qnaBoardRequest + "id" + qnaBoardId);
+@PutMapping(value="/{qnaBoardId}",
+        consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE })
+public QnaBoard qnaBoardModify(
+        @PathVariable("qnaBoardId") Long qnaBoardId,
+        @RequestPart(value = "imageFileList", required = false) List<MultipartFile> imageFileList,
+        @RequestPart(value = "qnaInfo") QnaBoardRequest qnaBoardRequest ) {
+    log.info("qnaBoardRegister()");
 
-        return qnaBoardService.modify(qnaBoardId, qnaBoardRequest);
-    }
+    return qnaBoardService.modify(qnaBoardId, imageFileList, qnaBoardRequest);
+}
 
     @DeleteMapping("/{qnaBoardId}")
     public void questionBoardRemove(@PathVariable("qnaBoardId") Long qnaBoardId) {

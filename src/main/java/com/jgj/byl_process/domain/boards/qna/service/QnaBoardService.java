@@ -10,11 +10,13 @@ public interface QnaBoardService {
 
     List<QnaBoard> list();
 
-    QnaBoard read(Long qnaBoardId);
+    QnaBoardReadResponse read(Long qnaBoardId);
 
-    QnaBoard modify(Long qnaBoardId, QnaBoardRequest qnaBoardRequest);
+    QnaBoard modify(Long qnaBoardId, List<MultipartFile> imageFileList, QnaBoardRequest qnaBoardRequest);
 
     void remove(Long qnaBoardId);
 
     Long getLastEntityId();
+
+    List<QnaBoardImgResponse> findQnaBoardImage(Long qnaBoardId);
 }

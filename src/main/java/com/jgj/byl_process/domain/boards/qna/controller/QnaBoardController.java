@@ -2,10 +2,15 @@ package com.jgj.byl_process.domain.boards.qna.controller;
 
 
 import com.jgj.byl_process.domain.boards.qna.controller.dto.request.QnaBoardRequest;
+import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaBoardImgResponse;
+import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaBoardListResponse;
+import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaBoardReadResponse;
 import com.jgj.byl_process.domain.boards.qna.entity.QnaBoard;
 import com.jgj.byl_process.domain.boards.qna.service.QnaBoardService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -19,14 +24,19 @@ public class QnaBoardController {
     public QnaBoardController(QnaBoardService qnaBoardService) {
         this.qnaBoardService = qnaBoardService;
     }
-    @PostMapping("/register")
-    public void productRegister (@RequestBody QnaBoardRequest qnaBoardRequest) {
-        log.info("QuestionBoardRegister() 동작");
 
-        qnaBoardService.register(qnaBoardRequest);
-    }
+@PostMapping(value = "/register",
+        consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE })
+public void qnaBoardRegister(
+        @RequestPart(value = "imageFileList", required = false) List<MultipartFile> imageFileList,
+        @RequestPart(value = "qnaInfo") QnaBoardRequest qnaBoardRequest ) {
+    log.info("qnaBoardRegister()");
+
+    qnaBoardService.register(imageFileList, qnaBoardRequest);
+}
+
     @GetMapping("/list")
-    public List<QnaBoard> productList () {
+    public List<QnaBoardListResponse> qnaBoardList () {
         log.info("QuestionList() 동작");
 
         return qnaBoardService.list();

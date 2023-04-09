@@ -1,6 +1,7 @@
 package com.jgj.byl_process.domain.boards.qna.controller;
 
 import com.jgj.byl_process.domain.boards.qna.controller.dto.request.QnaCommentRequest;
+import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaCommentListResponse;
 import com.jgj.byl_process.domain.boards.qna.entity.QnaComment;
 import com.jgj.byl_process.domain.boards.qna.service.QnaCommentService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ public class QnaCommentController {
     QnaCommentService qnaCommentService;
 
     @GetMapping("/{qnaBoardId}")
-    public List<QnaComment> qnaCommentList(@PathVariable("qnaBoardId") Long qnaBoardId) {
+    public List<QnaCommentListResponse> qnaCommentList(@PathVariable("qnaBoardId") Long qnaBoardId) {
         log.info("qnaCommentList() 동작");
 
         return qnaCommentService.qnaCommentList(qnaBoardId);

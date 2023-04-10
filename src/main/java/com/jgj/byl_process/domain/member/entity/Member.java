@@ -1,10 +1,12 @@
 package com.jgj.byl_process.domain.member.entity;
 
+import com.jgj.byl_process.domain.boards.donate.entity.Donate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -31,12 +33,19 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Authentication> authentications = new HashSet<>();
 
-    public Member(String email, String nickName,MemberProfile memberProfile) {
+    public Member(String email, String nickName, MemberProfile memberProfile) {
         this.email = email;
         this.nickName = nickName;
         this.memberProfile = memberProfile;
         memberProfile.setMember(this);
     }
+
+    /* (박지영) Member 테이블과 Donate 테이블 간의 관계 설정
+    한 member 는 여러번의 donate 를 할 수 있다
+    member 가 탈퇴하면 그 member 의 모든 donate 내역이 사라진다
+     */
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Donate> donates;
 
 
     public boolean isRightPassword(String plainToCheck) {
@@ -73,4 +82,6 @@ public class Member {
     public Set<Authentication> getAuthentications() {
         return this.authentications;
     }
+
+
 }

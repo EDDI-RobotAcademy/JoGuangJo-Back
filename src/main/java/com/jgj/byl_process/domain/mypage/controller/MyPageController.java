@@ -1,5 +1,6 @@
 package com.jgj.byl_process.domain.mypage.controller;
 
+import com.jgj.byl_process.domain.mypage.controller.form.CheckPasswordForm;
 import com.jgj.byl_process.domain.mypage.controller.form.SaveAddressForm;
 import com.jgj.byl_process.domain.mypage.service.MyPageService;
 import com.jgj.byl_process.domain.mypage.service.response.MyPageResponse;
@@ -30,5 +31,14 @@ public class MyPageController {
         log.info(("saveAddress(): " + saveAddressForm.toString()));
 
         return myPageService.register(saveAddressForm);
+    }
+
+    @PostMapping("/passwordCheck")
+    public Boolean passwordCheck(@RequestBody CheckPasswordForm checkPasswordForm) {
+        log.info("passwordCheck(): " + checkPasswordForm.getId());
+        log.info("passwordCheck(): " + checkPasswordForm.getPassword());
+
+
+        return myPageService.passwordCheck(checkPasswordForm);
     }
 }

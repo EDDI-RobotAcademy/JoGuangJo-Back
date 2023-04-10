@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
+
 @Data
 @Entity
 @NoArgsConstructor
@@ -22,5 +24,9 @@ public class QnaBoardImgResource {
     private QnaBoard qnaBoard;
 
     public QnaBoardImgResource(String originalFilename, String s, String base64Encoded) {
+    }
+
+    public void setFilePath(String imageResourcePath) {
+        this.imageResourcePath = imageResourcePath;
     }
 }

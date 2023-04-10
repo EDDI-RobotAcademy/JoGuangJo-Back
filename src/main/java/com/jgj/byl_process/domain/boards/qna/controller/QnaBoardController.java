@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -31,6 +32,10 @@ public class QnaBoardController {
             @RequestPart(value = "imageFileList", required = false) List<MultipartFile> imageFileList,
             @RequestPart(value = "qnaInfo") QnaBoardRequest qnaBoardRequest ) {
         log.info("qnaBoardRegister()");
+
+        if (imageFileList == null) {
+            imageFileList = new ArrayList<>();
+        }
 
         qnaBoardService.register(imageFileList, qnaBoardRequest);
     }

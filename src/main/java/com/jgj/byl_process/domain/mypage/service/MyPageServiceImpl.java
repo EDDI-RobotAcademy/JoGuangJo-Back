@@ -60,7 +60,7 @@ public class MyPageServiceImpl implements MyPageService {
 
             final Address address = Address.of(saveAddressForm.getCity(),
                                                saveAddressForm.getStreet(),
-                                               saveAddressForm.getDetailAddress(),
+                                               saveAddressForm.getAddressDetail(),
                                                saveAddressForm.getZipcode().toString());
             memberProfile.setAddress(address);
             memberProfileRepository.save(memberProfile);

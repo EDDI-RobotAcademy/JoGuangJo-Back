@@ -13,6 +13,6 @@ public class SaveAddressForm {
     Long memberId;
     String city;
     String street;
-    String detailAddress;
+    String addressDetail;
     String zipcode;
 }

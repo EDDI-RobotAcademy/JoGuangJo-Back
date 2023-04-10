@@ -27,6 +27,8 @@ public class QnaBoard {
     @JsonManagedReference
     @OneToMany(mappedBy = "qnaBoard", fetch = FetchType.LAZY)
     private List<QnaBoardImgResource> qnaBoardImgResourcesList = new ArrayList<>();
+    @OneToMany(mappedBy = "qnaBoard", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<QnaComment> qnaComments = new ArrayList<>();
     @CreationTimestamp
     private Date regDate;
     @UpdateTimestamp

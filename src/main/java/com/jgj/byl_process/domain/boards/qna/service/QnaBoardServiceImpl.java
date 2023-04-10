@@ -15,10 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -34,46 +33,49 @@ public class QnaBoardServiceImpl implements QnaBoardService {
     }
 
 @Override
-public void register(List<MultipartFile> imageBase64List, QnaBoardRequest qnaBoardRequest) {
+public void register(List<MultipartFile> imageFileList, QnaBoardRequest qnaBoardRequest) {
     List<QnaBoardImgResource> qnaBoardImgResourcesList = new ArrayList<>();
     final String uploadPath = "E:/Project/JoGuangJo-Front/src/assets/qnaUploadImgs";
+
 
     QnaBoard qnaBoard = new QnaBoard();
     qnaBoard.setTitle(qnaBoardRequest.getTitle());
     qnaBoard.setWriter(qnaBoardRequest.getWriter());
     qnaBoard.setContent(qnaBoardRequest.getContent());
 
-    if (imageBase64List != null && !imageBase64List.isEmpty()) {
+    String content = qnaBoard.getContent();
+
+    content = content.replaceAll("<img[^>]*>", ""); // <img> 태그 제거
+    content = content.replaceAll("<p>", ""); // <p> 태그 시작 부분 제거
+    content = content.replaceAll("</p>", ""); // <p> 태그 종료 부분 제거
+
+    // base64로 디코딩 하지 않고 단순히 <img> <p> 태그 replace 후 저장
+    qnaBoard.setContent(content);
+    
+    for (MultipartFile file : imageFileList) {
+        String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+        String filepath = uploadPath + "/" + filename;
+
+        // 이미지 파일을 디스크에 저장
         try {
-            for (MultipartFile imageBase64 : imageBase64List) {
-                // base64 디코딩
-                byte[] decodedBytes = Base64.getDecoder().decode(imageBase64.getBytes());
-
-                // 파일 경로 생성
-                String fileName = "image_" + System.currentTimeMillis() + ".jpg";
-                String filePath = uploadPath + "/" + fileName;
-
-                // 이미지 파일 저장
-                File targetFile = new File(filePath);
-                FileOutputStream fos = new FileOutputStream(targetFile);
-                fos.write(decodedBytes);
-                fos.close();
-
-                // 이미지 정보를 저장
-                QnaBoardImgResource qnaBoardImgResource = new QnaBoardImgResource(fileName, filePath, "");
-                qnaBoardImgResourcesList.add(qnaBoardImgResource);
-            }
+            file.transferTo(new File(filepath));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+
+        // QnaBoardImgResource 객체 생성
+        QnaBoardImgResource qnaBoardImgResource = new QnaBoardImgResource();
+        qnaBoardImgResource.setQnaBoard(qnaBoard);
+        qnaBoardImgResource.setFilePath(filepath);
+
+        // QnaBoardImgResource 객체를 리스트에 추가
+        qnaBoardImgResourcesList.add(qnaBoardImgResource);
     }
 
     qnaBoard.setImages(qnaBoardImgResourcesList);
-    // 생성자 생성
     qnaBoardRepository.save(qnaBoard);
     qnaBoardImgRepository.saveAll(qnaBoardImgResourcesList);
 }
-
 
     @Override
     public List<QnaBoardImgResponse> findQnaBoardImage(Long qnaBoardId) {
@@ -81,7 +83,6 @@ public void register(List<MultipartFile> imageBase64List, QnaBoardRequest qnaBoa
         List<QnaBoardImgResponse> qnaBoardImgResponses = new ArrayList<>();
 
         for (QnaBoardImgResource qnaBoardImgResource: qnaBoardImgResources) {
-//            System.out.println("imageResource path: " + imageResource.getImageResourcePath());
 
             qnaBoardImgResponses.add(new QnaBoardImgResponse(
                     qnaBoardImgResource.getImageResourcePath()));
@@ -107,6 +108,7 @@ public void register(List<MultipartFile> imageBase64List, QnaBoardRequest qnaBoa
     @Override
     public QnaBoardReadResponse read(Long qnaBoardId) {
         Optional<QnaBoard> maybeQnaBoard = qnaBoardRepository.findById(qnaBoardId);
+        Optional<List<QnaBoardImgResource>> maybeQnaBoardImgList = qnaBoardImgRepository.findByQnaBoard_QnaBoardId(qnaBoardId);
 
         if (maybeQnaBoard.isEmpty()) {
             log.info("읽을 수가 없습니다.");
@@ -114,10 +116,11 @@ public void register(List<MultipartFile> imageBase64List, QnaBoardRequest qnaBoa
         }
 
         QnaBoard qnaBoard = maybeQnaBoard.get();
+        List<QnaBoardImgResource> qnaBoardImgResourcesList = maybeQnaBoardImgList.orElse(new ArrayList<>());
 
-        QnaBoardReadResponse qnaBoardReadResponse = new QnaBoardReadResponse (
+        QnaBoardReadResponse qnaBoardReadResponse = new QnaBoardReadResponse(
                 qnaBoard.getQnaBoardId(), qnaBoard.getTitle(), qnaBoard.getWriter(),
-                qnaBoard.getContent(), qnaBoard.getRegDate()
+                qnaBoard.getContent(), qnaBoardImgResourcesList.isEmpty() ? null : qnaBoardImgResourcesList.get(0).getImageResourcePath(), qnaBoard.getRegDate()
         );
 
         return qnaBoardReadResponse;

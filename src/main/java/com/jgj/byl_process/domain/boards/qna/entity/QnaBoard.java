@@ -25,7 +25,7 @@ public class QnaBoard {
     @Lob
     private String content;
     @JsonManagedReference
-    @OneToMany(mappedBy = "qnaBoard", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "qnaBoard", fetch = FetchType.LAZY)
     private List<QnaBoardImgResource> qnaBoardImgResourcesList = new ArrayList<>();
     @CreationTimestamp
     private Date regDate;
@@ -33,5 +33,6 @@ public class QnaBoard {
     private Date updDate;
 
     public void setImages(List<QnaBoardImgResource> qnaBoardImgResourcesList) {
+        this.qnaBoardImgResourcesList = qnaBoardImgResourcesList;
     }
 }

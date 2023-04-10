@@ -25,15 +25,15 @@ public class QnaBoardController {
         this.qnaBoardService = qnaBoardService;
     }
 
-@PostMapping(value = "/register",
-        consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE })
-public void qnaBoardRegister(
-        @RequestPart(value = "imageFileList", required = false) List<MultipartFile> imageFileList,
-        @RequestPart(value = "qnaInfo") QnaBoardRequest qnaBoardRequest ) {
-    log.info("qnaBoardRegister()");
+    @PostMapping(value = "/register",
+            consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE })
+    public void qnaBoardRegister(
+            @RequestPart(value = "imageFileList", required = false) List<MultipartFile> imageFileList,
+            @RequestPart(value = "qnaInfo") QnaBoardRequest qnaBoardRequest ) {
+        log.info("qnaBoardRegister()");
 
-    qnaBoardService.register(imageFileList, qnaBoardRequest);
-}
+        qnaBoardService.register(imageFileList, qnaBoardRequest);
+    }
 
     @GetMapping("/list")
     public List<QnaBoardListResponse> qnaBoardList () {

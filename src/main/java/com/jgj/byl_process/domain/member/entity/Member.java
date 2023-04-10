@@ -44,7 +44,7 @@ public class Member {
     한 member 는 여러번의 donate 를 할 수 있다
     member 가 탈퇴하면 그 member 의 모든 donate 내역이 사라진다
      */
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Donate> donates;
 
 

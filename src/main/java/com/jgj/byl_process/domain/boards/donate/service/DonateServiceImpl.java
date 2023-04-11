@@ -1,4 +1,4 @@
-package com.jgj.byl_process.domain.boards.donate.service.response;
+package com.jgj.byl_process.domain.boards.donate.service;
 
 import com.jgj.byl_process.domain.boards.donate.controller.dto.request.DonateVisitRegisterRequest;
 import com.jgj.byl_process.domain.boards.donate.entity.Donate;
@@ -24,10 +24,10 @@ public class DonateServiceImpl implements DonateService {
     @Override
     public Boolean donateVisitRegister(DonateVisitRegisterRequest donateVisitRegisterRequest) {
 
-        Optional<Member> maybeMember = memberRepository.findByEmail(donateVisitRegisterRequest.getEmail());
+        Optional<Member> maybeMember = memberRepository.findByMemberId(donateVisitRegisterRequest.getMemberId());
 
-        System.out.println("조회에 쓰인 이메일: " + donateVisitRegisterRequest.getEmail());
-        System.out.println("조회 결과 해당 이메일을 가진 회원 존재 여부: " + maybeMember.isPresent());
+        System.out.println("조회에 쓰인 memberId: " + donateVisitRegisterRequest.getMemberId());
+        System.out.println("조회 결과 해당 memberId를 가진 회원 존재 여부: " + maybeMember.isPresent());
 
         if (maybeMember.isPresent()) {
             Member member = maybeMember.get();

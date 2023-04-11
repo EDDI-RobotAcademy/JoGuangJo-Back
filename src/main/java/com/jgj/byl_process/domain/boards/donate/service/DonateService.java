@@ -1,4 +1,4 @@
-package com.jgj.byl_process.domain.boards.donate.service.response;
+package com.jgj.byl_process.domain.boards.donate.service;
 
 import com.jgj.byl_process.domain.boards.donate.controller.dto.request.DonateVisitRegisterRequest;
 

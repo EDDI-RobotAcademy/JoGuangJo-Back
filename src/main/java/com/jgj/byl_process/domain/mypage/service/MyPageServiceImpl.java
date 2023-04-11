@@ -6,12 +6,14 @@ import com.jgj.byl_process.domain.member.entity.MemberProfile;
 import com.jgj.byl_process.domain.member.repository.MemberProfileRepository;
 import com.jgj.byl_process.domain.member.repository.MemberRepository;
 import com.jgj.byl_process.domain.mypage.MemberToMyPageResponseConverter;
+import com.jgj.byl_process.domain.mypage.controller.form.CheckPasswordForm;
 import com.jgj.byl_process.domain.mypage.controller.form.SaveAddressForm;
 import com.jgj.byl_process.domain.mypage.service.response.MyPageResponse;
 import com.jgj.byl_process.domain.security.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -60,7 +62,7 @@ public class MyPageServiceImpl implements MyPageService {
 
             final Address address = Address.of(saveAddressForm.getCity(),
                                                saveAddressForm.getStreet(),
-                                               saveAddressForm.getDetailAddress(),
+                                               saveAddressForm.getAddressDetail(),
                                                saveAddressForm.getZipcode().toString());
             memberProfile.setAddress(address);
             memberProfileRepository.save(memberProfile);
@@ -69,6 +71,20 @@ public class MyPageServiceImpl implements MyPageService {
         } else {
             return false;
         }
+    }
+
+    @Override
+    @Transactional
+    public Boolean passwordCheck(CheckPasswordForm checkPasswordForm) {
+        Long memberId = checkPasswordForm.getId();
+        Optional<Member> maybeMember = memberRepository.findById(memberId);
+
+        if (maybeMember.isPresent()) {
+            Member member = maybeMember.get();
+            String password = checkPasswordForm.getPassword();
+            return member.isRightPassword(password);
+        }
+        return false;
     }
 
     public MyPageResponse getMyPageResponse(Member member) {

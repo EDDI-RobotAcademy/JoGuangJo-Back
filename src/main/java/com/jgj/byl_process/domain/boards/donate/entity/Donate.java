@@ -46,11 +46,11 @@ public class Donate {
     private String quality;
 
     @Getter
-    @Column(name = "visitDate")
+    @Column(name = "visitDate", length = 64)
     private String visitDate;
 
     @Getter
-    @Column(name = "visitTime")
+    @Column(name = "visitTime", length = 64)
     private String visitTime;
 
     @Getter
@@ -91,7 +91,20 @@ public class Donate {
         this.addressDetail = addressDetail;
     }
 
-    public static void setDonate(Member member) {
+    public Long getMemberId() {
+        return this.member.getId();
+    }
+
+    public Long getDonateVisitId() {
+        return this.donateVisitId;
+    }
+
+    public Date getRegDate() {
+        return this.regDate;
+    }
+
+    public Date getUpdDate() {
+        return this.updDate;
     }
 
 }

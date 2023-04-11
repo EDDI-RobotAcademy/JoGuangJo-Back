@@ -1,15 +1,16 @@
 package com.jgj.byl_process.domain.mypage.service;
 
-import com.jgj.byl_process.domain.member.entity.Address;
-import com.jgj.byl_process.domain.member.entity.Member;
-import com.jgj.byl_process.domain.member.entity.MemberProfile;
+import com.jgj.byl_process.domain.member.entity.*;
+import com.jgj.byl_process.domain.member.repository.AuthenticationRepository;
 import com.jgj.byl_process.domain.member.repository.MemberProfileRepository;
 import com.jgj.byl_process.domain.member.repository.MemberRepository;
 import com.jgj.byl_process.domain.mypage.MemberToMyPageResponseConverter;
 import com.jgj.byl_process.domain.mypage.controller.form.CheckPasswordForm;
+import com.jgj.byl_process.domain.mypage.controller.form.ModifiedPassword;
 import com.jgj.byl_process.domain.mypage.controller.form.SaveAddressForm;
 import com.jgj.byl_process.domain.mypage.service.response.MyPageResponse;
 import com.jgj.byl_process.domain.security.service.RedisService;
+import com.jgj.byl_process.domain.utility.password.PasswordHashConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,8 @@ public class MyPageServiceImpl implements MyPageService {
     final RedisService redisService;
     final MemberRepository memberRepository;
     final MemberProfileRepository memberProfileRepository;
+    final AuthenticationRepository authenticationRepository;
+
     @Autowired
     private MemberToMyPageResponseConverter memberToMyPageResponseConverter;
 
@@ -85,6 +88,29 @@ public class MyPageServiceImpl implements MyPageService {
             return member.isRightPassword(password);
         }
         return false;
+    }
+
+    @Override
+    @Transactional
+    public Boolean registerModifiedPassword(ModifiedPassword modifiedPassword) {
+        Long memberId = modifiedPassword.getId();
+        Optional<Member> maybeMember = memberRepository.findById(memberId);
+        Optional<Authentication> maybeauthentication = authenticationRepository.findById(memberId);
+
+        if(maybeMember.isEmpty() || maybeauthentication.isEmpty()) {
+            return false;
+        } else {
+            final Member member = maybeMember.get();
+            final BasicAuthentication authentication = new BasicAuthentication(
+                    member,
+                    Authentication.BASIC_AUTH,
+                    modifiedPassword.getPassword()
+            );
+            authentication.setId(maybeauthentication.get().getId());
+            authenticationRepository.save(authentication);
+        }
+
+        return true;
     }
 
     public MyPageResponse getMyPageResponse(Member member) {

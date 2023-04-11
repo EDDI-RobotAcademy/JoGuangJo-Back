@@ -1,6 +1,7 @@
 package com.jgj.byl_process.domain.mypage.controller;
 
 import com.jgj.byl_process.domain.mypage.controller.form.CheckPasswordForm;
+import com.jgj.byl_process.domain.mypage.controller.form.ModifiedPassword;
 import com.jgj.byl_process.domain.mypage.controller.form.SaveAddressForm;
 import com.jgj.byl_process.domain.mypage.service.MyPageService;
 import com.jgj.byl_process.domain.mypage.service.response.MyPageResponse;
@@ -40,5 +41,14 @@ public class MyPageController {
 
 
         return myPageService.passwordCheck(checkPasswordForm);
+    }
+
+    @PostMapping("/registerModifiedPassword")
+    public Boolean registerModifiedPassword(@RequestBody ModifiedPassword modifiedPassword) {
+        log.info("passwordCheck(): " + modifiedPassword.getId());
+        log.info("passwordCheck(): " + modifiedPassword.getPassword());
+
+
+        return myPageService.registerModifiedPassword(modifiedPassword);
     }
 }

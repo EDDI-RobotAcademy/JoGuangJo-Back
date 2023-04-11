@@ -2,6 +2,7 @@ package com.jgj.byl_process.domain.boards.donate.controller;
 
 import com.jgj.byl_process.domain.boards.donate.controller.dto.request.DonateVisitRequest;
 import com.jgj.byl_process.domain.boards.donate.controller.dto.response.MyDonateListResponse;
+import com.jgj.byl_process.domain.boards.donate.controller.dto.response.MyDonateReadResponse;
 import com.jgj.byl_process.domain.boards.donate.service.DonateService;
 import com.jgj.byl_process.domain.security.service.RedisService;
 
@@ -32,6 +33,13 @@ public class DonateController {
     public List<MyDonateListResponse> myDonateList(@RequestParam("memberId") Long memberId) {
         log.info("myDonateList() 동작: " + memberId);
         return donateService.list(memberId);
+    }
+
+    // 마이페이지에서 자기 방문수거 기부내역 상세조회하는 메서드
+    @GetMapping("/myDonateRead/{donateVisitId}")
+    public MyDonateReadResponse myDonateRead(@PathVariable("donateVisitId") Long donateVisitId) {
+        log.info("myDonateRead() 동작: " + donateVisitId);
+        return donateService.read(donateVisitId);
     }
 
 }

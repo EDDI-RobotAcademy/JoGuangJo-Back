@@ -1,6 +1,7 @@
 package com.jgj.byl_process.domain.mypage.controller;
 
 import com.jgj.byl_process.domain.mypage.controller.form.CheckPasswordForm;
+import com.jgj.byl_process.domain.mypage.controller.form.MemberTypeRequestDataForm;
 import com.jgj.byl_process.domain.mypage.controller.form.ModifiedPassword;
 import com.jgj.byl_process.domain.mypage.controller.form.SaveAddressForm;
 import com.jgj.byl_process.domain.mypage.service.MyPageService;
@@ -48,7 +49,15 @@ public class MyPageController {
         log.info("passwordCheck(): " + modifiedPassword.getId());
         log.info("passwordCheck(): " + modifiedPassword.getPassword());
 
-
         return myPageService.registerModifiedPassword(modifiedPassword);
+    }
+
+    @PostMapping("/memberTypeRequest")
+    public Boolean memberTypeRequest(@RequestBody MemberTypeRequestDataForm memberTypeRequestDataForm) {
+        log.info("아이디(): " + memberTypeRequestDataForm.getMemberId());
+        log.info("타입(): " + memberTypeRequestDataForm.getMemberType());
+        log.info("메시지(): " + memberTypeRequestDataForm.getMessage());
+
+        return false;
     }
 }

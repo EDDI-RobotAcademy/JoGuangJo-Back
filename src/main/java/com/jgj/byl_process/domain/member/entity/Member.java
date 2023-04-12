@@ -1,6 +1,7 @@
 package com.jgj.byl_process.domain.member.entity;
 
 import com.jgj.byl_process.domain.boards.donate.entity.Donate;
+import com.jgj.byl_process.domain.mypage.entity.MemberTypeRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -47,6 +48,8 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Donate> donates;
 
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private MemberTypeRequest memberTypeRequest;
 
     public boolean isRightPassword(String plainToCheck) {
         final Optional<Authentication> maybeBasicAuth = findBasicAuthentication();

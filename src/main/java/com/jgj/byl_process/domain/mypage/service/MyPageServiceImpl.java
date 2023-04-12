@@ -9,16 +9,17 @@ import com.jgj.byl_process.domain.mypage.controller.form.CheckPasswordForm;
 import com.jgj.byl_process.domain.mypage.controller.form.MemberTypeRequestDataForm;
 import com.jgj.byl_process.domain.mypage.controller.form.ModifiedPassword;
 import com.jgj.byl_process.domain.mypage.controller.form.SaveAddressForm;
-import com.jgj.byl_process.domain.mypage.entity.MemberTypeRequest;
-import com.jgj.byl_process.domain.mypage.repository.MemberTypeRequestRepository;
+import com.jgj.byl_process.domain.mypage.entity.MemberRoll;
+import com.jgj.byl_process.domain.mypage.repository.MemberRollRepository;
+import com.jgj.byl_process.domain.mypage.service.response.MemberRollResponse;
 import com.jgj.byl_process.domain.mypage.service.response.MyPageResponse;
 import com.jgj.byl_process.domain.security.service.RedisService;
-import com.jgj.byl_process.domain.utility.password.PasswordHashConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,7 +32,7 @@ public class MyPageServiceImpl implements MyPageService {
     final MemberRepository memberRepository;
     final MemberProfileRepository memberProfileRepository;
     final AuthenticationRepository authenticationRepository;
-    final MemberTypeRequestRepository memberTypeRequestRepository;
+    final MemberRollRepository memberRollRepository;
 
     @Autowired
     private MemberToMyPageResponseConverter memberToMyPageResponseConverter;
@@ -130,13 +131,32 @@ public class MyPageServiceImpl implements MyPageService {
             final String nickname = member.getNickName();
             final String memberType = memberTypeRequestDataForm.getMemberType();
             final String message = memberTypeRequestDataForm.getMessage();
-            final MemberTypeRequest memberTypeRequest = new MemberTypeRequest(member, nickname, memberType, message);
+            final MemberRoll memberRoll = new MemberRoll(member, nickname, memberType, message);
 
-            memberTypeRequestRepository.save(memberTypeRequest);
+            memberRollRepository.save(memberRoll);
         }
         // 새로운 엔티티를 만들어서 저장
         // 그 엔티티의 역할은 뭐냐
         return true;
+    }
+
+    @Override
+    public List<MemberRollResponse> requestlist() {
+        List<MemberRoll> memberRollList = memberRollRepository.findAll();
+        List<MemberRollResponse> memberRollResponseList = new ArrayList<>();
+
+        for (MemberRoll memberRoll: memberRollList) {
+            memberRollResponseList.add(new MemberRollResponse(
+                    memberRoll.getMemberTypeRequestId(),
+                    memberRoll.getNickname(),
+                    memberRoll.getMemberType(),
+                    memberRoll.getRegDate().toString()
+                    )
+            );
+            System.out.println(memberRoll.getRegDate().toString());
+        }
+
+        return memberRollResponseList;
     }
 
     public MyPageResponse getMyPageResponse(Member member) {

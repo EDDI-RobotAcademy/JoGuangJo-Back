@@ -5,6 +5,7 @@ import com.jgj.byl_process.domain.mypage.controller.form.MemberTypeRequestDataFo
 import com.jgj.byl_process.domain.mypage.controller.form.ModifiedPassword;
 import com.jgj.byl_process.domain.mypage.controller.form.SaveAddressForm;
 import com.jgj.byl_process.domain.mypage.service.MyPageService;
+import com.jgj.byl_process.domain.mypage.service.response.MemberRollResponse;
 import com.jgj.byl_process.domain.mypage.service.response.MyPageResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,5 +61,12 @@ public class MyPageController {
 
         myPageService.registerMemberTypeRequest(memberTypeRequestDataForm);
         return false;
+    }
+
+    @GetMapping("/memberTypeRequestList")
+    public List<MemberRollResponse> memberTypeRequestList() {
+        log.info("memberTypeRequestList() 실행");
+
+        return myPageService.requestlist();
     }
 }

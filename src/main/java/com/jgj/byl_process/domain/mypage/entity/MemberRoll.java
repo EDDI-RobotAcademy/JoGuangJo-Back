@@ -13,7 +13,7 @@ import java.util.Date;
 @Setter
 @Entity
 @NoArgsConstructor
-public class MemberTypeRequest {
+public class MemberRoll {
 
     @Id
     @Column(name = "membertyperequest_id")
@@ -24,19 +24,22 @@ public class MemberTypeRequest {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Getter
     @Column(length = 32, nullable = false)
     private String nickname;
 
+    @Getter
     @Column(nullable = false)
     private String memberType;
 
     @Lob
     private String message;
 
+    @Getter
     @CreationTimestamp
     private Date regDate;
 
-    public MemberTypeRequest(Member member, String nickname, String memberType, String message) {
+    public MemberRoll(Member member, String nickname, String memberType, String message) {
         this.member = member;
         this.nickname = nickname;
         this.memberType = memberType;

@@ -6,8 +6,11 @@ import com.jgj.byl_process.domain.member.repository.MemberProfileRepository;
 import com.jgj.byl_process.domain.member.repository.MemberRepository;
 import com.jgj.byl_process.domain.mypage.MemberToMyPageResponseConverter;
 import com.jgj.byl_process.domain.mypage.controller.form.CheckPasswordForm;
+import com.jgj.byl_process.domain.mypage.controller.form.MemberTypeRequestDataForm;
 import com.jgj.byl_process.domain.mypage.controller.form.ModifiedPassword;
 import com.jgj.byl_process.domain.mypage.controller.form.SaveAddressForm;
+import com.jgj.byl_process.domain.mypage.entity.MemberTypeRequest;
+import com.jgj.byl_process.domain.mypage.repository.MemberTypeRequestRepository;
 import com.jgj.byl_process.domain.mypage.service.response.MyPageResponse;
 import com.jgj.byl_process.domain.security.service.RedisService;
 import com.jgj.byl_process.domain.utility.password.PasswordHashConverter;
@@ -28,6 +31,7 @@ public class MyPageServiceImpl implements MyPageService {
     final MemberRepository memberRepository;
     final MemberProfileRepository memberProfileRepository;
     final AuthenticationRepository authenticationRepository;
+    final MemberTypeRequestRepository memberTypeRequestRepository;
 
     @Autowired
     private MemberToMyPageResponseConverter memberToMyPageResponseConverter;
@@ -110,6 +114,28 @@ public class MyPageServiceImpl implements MyPageService {
             authenticationRepository.save(authentication);
         }
 
+        return true;
+    }
+
+    @Override
+    public Boolean registerMemberTypeRequest(MemberTypeRequestDataForm memberTypeRequestDataForm) {
+        Long memberId = memberTypeRequestDataForm.getMemberId();
+        Optional<Member> maybeMember = memberRepository.findById(memberId);
+        // 유효한 아이디인지 확인
+        if(maybeMember.isEmpty()) {
+            return false;
+        } else {
+        // 유효한 아이디 이므로 엔티티에 저장 실행
+            final Member member = maybeMember.get();
+            final String nickname = member.getNickName();
+            final String memberType = memberTypeRequestDataForm.getMemberType();
+            final String message = memberTypeRequestDataForm.getMessage();
+            final MemberTypeRequest memberTypeRequest = new MemberTypeRequest(member, nickname, memberType, message);
+
+            memberTypeRequestRepository.save(memberTypeRequest);
+        }
+        // 새로운 엔티티를 만들어서 저장
+        // 그 엔티티의 역할은 뭐냐
         return true;
     }
 

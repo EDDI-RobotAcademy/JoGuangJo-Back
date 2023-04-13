@@ -11,6 +11,7 @@ import com.jgj.byl_process.domain.mypage.controller.form.ModifiedPassword;
 import com.jgj.byl_process.domain.mypage.controller.form.SaveAddressForm;
 import com.jgj.byl_process.domain.mypage.entity.MemberRoll;
 import com.jgj.byl_process.domain.mypage.repository.MemberRollRepository;
+import com.jgj.byl_process.domain.mypage.service.response.MemberRollReadResponse;
 import com.jgj.byl_process.domain.mypage.service.response.MemberRollResponse;
 import com.jgj.byl_process.domain.mypage.service.response.MyPageResponse;
 import com.jgj.byl_process.domain.security.service.RedisService;
@@ -159,6 +160,27 @@ public class MyPageServiceImpl implements MyPageService {
         return memberRollResponseList;
     }
 
+    @Override
+    public MemberRollReadResponse readRequest(Long id) {
+        // 들어온 id 가 유효한 id 인지 검색
+        Optional<MemberRoll> maybeMemberRoll = memberRollRepository.findById(id);
+
+        if(maybeMemberRoll.isPresent()) {
+            // 존재할경우 작업 진행
+            // 찾아온 거 가져오기
+            MemberRoll memberRoll = maybeMemberRoll.get();
+            // 가져온거 매핑하기
+            MemberRollReadResponse memberRollReadResponse = new MemberRollReadResponse(
+                    memberRoll.getMemberTypeRequestId(), memberRoll.getMember().getId(),
+                    memberRoll.getNickname(), memberRoll.getMemberType(),
+                    memberRoll.getMessage(), memberRoll.getRegDate().toString()
+            );
+            return memberRollReadResponse;
+        } else {
+            // 존재하지 않을 경우 작업 중단
+            return null;
+        }
+    }
     public MyPageResponse getMyPageResponse(Member member) {
         return memberToMyPageResponseConverter.convert(member);
     }

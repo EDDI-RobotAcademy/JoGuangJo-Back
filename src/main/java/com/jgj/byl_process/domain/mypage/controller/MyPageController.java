@@ -5,6 +5,7 @@ import com.jgj.byl_process.domain.mypage.controller.form.MemberTypeRequestDataFo
 import com.jgj.byl_process.domain.mypage.controller.form.ModifiedPassword;
 import com.jgj.byl_process.domain.mypage.controller.form.SaveAddressForm;
 import com.jgj.byl_process.domain.mypage.service.MyPageService;
+import com.jgj.byl_process.domain.mypage.service.response.MemberRollReadResponse;
 import com.jgj.byl_process.domain.mypage.service.response.MemberRollResponse;
 import com.jgj.byl_process.domain.mypage.service.response.MyPageResponse;
 import lombok.RequiredArgsConstructor;
@@ -69,4 +70,13 @@ public class MyPageController {
 
         return myPageService.requestlist();
     }
+
+    @GetMapping("/memberTypeRequest/{id}")
+    public MemberRollReadResponse getMemberTypeRequestDetails(@PathVariable Long id) {
+        // 해당 id는 memberTypeRequestId
+        log.info("getMemberTypeRequestDetails() 실행 id : " + id);
+
+        return myPageService.readRequest(id);
+    }
+
 }

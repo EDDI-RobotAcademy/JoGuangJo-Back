@@ -5,14 +5,11 @@ import com.jgj.byl_process.domain.member.repository.AuthenticationRepository;
 import com.jgj.byl_process.domain.member.repository.MemberProfileRepository;
 import com.jgj.byl_process.domain.member.repository.MemberRepository;
 import com.jgj.byl_process.domain.mypage.MemberToMyPageResponseConverter;
-import com.jgj.byl_process.domain.mypage.controller.form.CheckPasswordForm;
-import com.jgj.byl_process.domain.mypage.controller.form.MemberTypeRequestDataForm;
-import com.jgj.byl_process.domain.mypage.controller.form.ModifiedPassword;
-import com.jgj.byl_process.domain.mypage.controller.form.SaveAddressForm;
+import com.jgj.byl_process.domain.mypage.controller.form.*;
 import com.jgj.byl_process.domain.mypage.entity.MemberRoll;
 import com.jgj.byl_process.domain.mypage.repository.MemberRollRepository;
+import com.jgj.byl_process.domain.mypage.service.response.MemberRollListResponse;
 import com.jgj.byl_process.domain.mypage.service.response.MemberRollReadResponse;
-import com.jgj.byl_process.domain.mypage.service.response.MemberRollResponse;
 import com.jgj.byl_process.domain.mypage.service.response.MyPageResponse;
 import com.jgj.byl_process.domain.security.service.RedisService;
 import lombok.RequiredArgsConstructor;
@@ -98,8 +95,8 @@ public class MyPageServiceImpl implements MyPageService {
 
     @Override
     @Transactional
-    public Boolean registerModifiedPassword(ModifiedPassword modifiedPassword) {
-        Long memberId = modifiedPassword.getId();
+    public Boolean registerModifiedPassword(ModifiedPasswordForm modifiedPasswordForm) {
+        Long memberId = modifiedPasswordForm.getId();
         Optional<Member> maybeMember = memberRepository.findById(memberId);
         Optional<Authentication> maybeauthentication = authenticationRepository.findById(memberId);
 
@@ -110,9 +107,9 @@ public class MyPageServiceImpl implements MyPageService {
             final BasicAuthentication authentication = new BasicAuthentication(
                     member,
                     Authentication.BASIC_AUTH,
-                    modifiedPassword.getPassword()
+                    modifiedPasswordForm.getPassword()
             );
-            authentication.setId(maybeauthentication.get().getId());
+            authentication.setAuthenticationId(maybeauthentication.get().getAuthenticationId());
             authenticationRepository.save(authentication);
         }
 
@@ -142,13 +139,13 @@ public class MyPageServiceImpl implements MyPageService {
     }
 
     @Override
-    public List<MemberRollResponse> requestlist() {
+    public List<MemberRollListResponse> requestlist() {
         List<MemberRoll> memberRollList = memberRollRepository.findAll();
-        List<MemberRollResponse> memberRollResponseList = new ArrayList<>();
+        List<MemberRollListResponse> memberRollListResponseList = new ArrayList<>();
 
         for (MemberRoll memberRoll: memberRollList) {
-            memberRollResponseList.add(new MemberRollResponse(
-                    memberRoll.getMemberTypeRequestId(),
+            memberRollListResponseList.add(new MemberRollListResponse(
+                    memberRoll.getMemberRollId(),
                     memberRoll.getNickname(),
                     memberRoll.getMemberType(),
                     memberRoll.getRegDate().toString()
@@ -157,7 +154,7 @@ public class MyPageServiceImpl implements MyPageService {
             System.out.println(memberRoll.getRegDate().toString());
         }
 
-        return memberRollResponseList;
+        return memberRollListResponseList;
     }
 
     @Override
@@ -171,7 +168,7 @@ public class MyPageServiceImpl implements MyPageService {
             MemberRoll memberRoll = maybeMemberRoll.get();
             // 가져온거 매핑하기
             MemberRollReadResponse memberRollReadResponse = new MemberRollReadResponse(
-                    memberRoll.getMemberTypeRequestId(), memberRoll.getMember().getId(),
+                    memberRoll.getMemberRollId(), memberRoll.getMember().getMemberId(),
                     memberRoll.getNickname(), memberRoll.getMemberType(),
                     memberRoll.getMessage(), memberRoll.getRegDate().toString()
             );
@@ -179,6 +176,29 @@ public class MyPageServiceImpl implements MyPageService {
         } else {
             // 존재하지 않을 경우 작업 중단
             return null;
+        }
+    }
+
+    @Override
+    public void rollRequestAccept(MemberTypeRequestCheckForm memberTypeRequestCheckForm) {
+        Optional<MemberRoll> isMemberRoll = memberRollRepository.findById(memberTypeRequestCheckForm.getRequestId());
+        Optional<Member> isMember = memberRepository.findById(memberTypeRequestCheckForm.getMemberId());
+        if(isMemberRoll.isPresent()) {
+            Member member = isMember.get();
+            // 하다가 말았는데 이거 개귀찮네
+        } else {
+
+        }
+    }
+
+    @Override
+    public void rollRequestReject (RollRequestRejectForm rollRequestRejectForm) {
+        Optional<MemberRoll> isMemberRoll = memberRollRepository.findById(rollRequestRejectForm.getRequestId());
+
+        if(isMemberRoll.isPresent()) {
+            memberRollRepository.deleteById(rollRequestRejectForm.getRequestId());
+        } else {
+            System.out.println("왜 없지?");
         }
     }
     public MyPageResponse getMyPageResponse(Member member) {

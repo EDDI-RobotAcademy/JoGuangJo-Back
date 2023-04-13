@@ -3,8 +3,10 @@ package com.jgj.byl_process.domain.member.service;
 import com.jgj.byl_process.domain.member.entity.Authentication;
 import com.jgj.byl_process.domain.member.entity.BasicAuthentication;
 import com.jgj.byl_process.domain.member.entity.Member;
+import com.jgj.byl_process.domain.member.entity.Roll;
 import com.jgj.byl_process.domain.member.repository.AuthenticationRepository;
 import com.jgj.byl_process.domain.member.repository.MemberRepository;
+import com.jgj.byl_process.domain.member.repository.RollRepository;
 import com.jgj.byl_process.domain.member.service.request.EmailMatchRequest;
 import com.jgj.byl_process.domain.member.service.request.EmailPasswordRequest;
 import com.jgj.byl_process.domain.member.service.request.MemberLoginRequest;
@@ -22,6 +24,7 @@ public class MemberServiceImpl implements MemberService {
 
     final private MemberRepository memberRepository;
     final private AuthenticationRepository authenticationRepository;
+    final private RollRepository rollRepository;
     final private RedisService redisService;
 
     @Override
@@ -56,8 +59,10 @@ public class MemberServiceImpl implements MemberService {
                 Authentication.BASIC_AUTH,
                 memberRegisterRequest.getPassword()
         );
-
         authenticationRepository.save(authentication);
+
+        final Roll roll = new Roll(member, "General");
+        rollRepository.save(roll);
 
         return true;
     }

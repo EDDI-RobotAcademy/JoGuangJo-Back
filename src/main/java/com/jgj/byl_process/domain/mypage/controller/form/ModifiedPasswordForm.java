@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class ModifiedPassword {
+public class ModifiedPasswordForm {
     Long id;
     String password;
 }

@@ -18,7 +18,7 @@ public class MemberRoll {
     @Id
     @Column(name = "membertyperequest_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberTypeRequestId;
+    private Long memberRollId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

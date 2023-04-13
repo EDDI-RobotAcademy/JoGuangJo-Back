@@ -2,13 +2,11 @@ package com.jgj.byl_process.domain.mypage.service.response;
 
 import lombok.*;
 
-import java.util.Date;
-
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class MemberRollResponse {
+public class MemberRollListResponse {
     final private Long memberTypeRequestId;
     final private String nickname;
     final private String memberType;

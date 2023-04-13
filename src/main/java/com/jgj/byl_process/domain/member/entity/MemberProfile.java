@@ -16,7 +16,7 @@ public class MemberProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long memberProfileId;
 
     @Embedded
     private Address address;

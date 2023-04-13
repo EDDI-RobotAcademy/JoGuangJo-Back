@@ -9,7 +9,8 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class ModifiedPassword {
-    Long id;
-    String password;
+public class MemberTypeRequestCheckForm {
+    Long requestId;
+    Long memberId;
+    String memberType;
 }

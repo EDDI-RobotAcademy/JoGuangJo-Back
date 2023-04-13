@@ -1,12 +1,9 @@
 package com.jgj.byl_process.domain.mypage.controller;
 
-import com.jgj.byl_process.domain.mypage.controller.form.CheckPasswordForm;
-import com.jgj.byl_process.domain.mypage.controller.form.MemberTypeRequestDataForm;
-import com.jgj.byl_process.domain.mypage.controller.form.ModifiedPassword;
-import com.jgj.byl_process.domain.mypage.controller.form.SaveAddressForm;
+import com.jgj.byl_process.domain.mypage.controller.form.*;
 import com.jgj.byl_process.domain.mypage.service.MyPageService;
+import com.jgj.byl_process.domain.mypage.service.response.MemberRollListResponse;
 import com.jgj.byl_process.domain.mypage.service.response.MemberRollReadResponse;
-import com.jgj.byl_process.domain.mypage.service.response.MemberRollResponse;
 import com.jgj.byl_process.domain.mypage.service.response.MyPageResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,11 +44,11 @@ public class MyPageController {
     }
 
     @PostMapping("/registerModifiedPassword")
-    public Boolean registerModifiedPassword(@RequestBody ModifiedPassword modifiedPassword) {
-        log.info("passwordCheck(): " + modifiedPassword.getId());
-        log.info("passwordCheck(): " + modifiedPassword.getPassword());
+    public Boolean registerModifiedPassword(@RequestBody ModifiedPasswordForm modifiedPasswordForm) {
+        log.info("passwordCheck(): " + modifiedPasswordForm.getId());
+        log.info("passwordCheck(): " + modifiedPasswordForm.getPassword());
 
-        return myPageService.registerModifiedPassword(modifiedPassword);
+        return myPageService.registerModifiedPassword(modifiedPasswordForm);
     }
 
     @PostMapping("/memberTypeRequest")
@@ -65,7 +62,7 @@ public class MyPageController {
     }
 
     @GetMapping("/memberTypeRequestList")
-    public List<MemberRollResponse> memberTypeRequestList() {
+    public List<MemberRollListResponse> memberTypeRequestList() {
         log.info("memberTypeRequestList() 실행");
 
         return myPageService.requestlist();
@@ -79,4 +76,19 @@ public class MyPageController {
         return myPageService.readRequest(id);
     }
 
+    @PostMapping("/rollrequestaccept")
+    public void rollRequestAccept (@RequestBody MemberTypeRequestCheckForm memberTypeRequestCheckForm) {
+        log.info("rollRequestAccept()실행");
+        log.info("MemberTypeRequestCheck : " + memberTypeRequestCheckForm);
+
+        myPageService.rollRequestAccept(memberTypeRequestCheckForm);
+    }
+
+    @PostMapping("/rollrequestreject")
+    public void rollRequestReject (@RequestBody RollRequestRejectForm rollRequestRejectForm) {
+        log.info("rollRequestReject()실행");
+        log.info("requestId : " + rollRequestRejectForm.getRequestId());
+
+        myPageService.rollRequestReject(rollRequestRejectForm);
+    }
 }

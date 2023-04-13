@@ -18,7 +18,7 @@ public class Member {
     @Id
     @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long memberId;
 
     @Getter
     @Column(nullable = false)
@@ -39,6 +39,11 @@ public class Member {
         this.nickName = nickName;
         this.memberProfile = memberProfile;
         memberProfile.setMember(this);
+    }
+
+    public Member(String email, String nickName) {
+        this.email = email;
+        this.nickName = nickName;
     }
 
     /* (박지영) Member 테이블과 Donate 테이블 간의 관계 설정
@@ -72,7 +77,7 @@ public class Member {
     @Override
     public String toString() {
         return "Member{" +
-                "id=" + id +
+                "id=" + memberId +
                 ", email='" + email + '\'' +
                 ", nickName='" + nickName + '\'' +
                 '}';

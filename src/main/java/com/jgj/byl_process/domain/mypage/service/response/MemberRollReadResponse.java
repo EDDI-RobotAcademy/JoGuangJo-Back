@@ -11,7 +11,7 @@ import lombok.ToString;
 @RequiredArgsConstructor
 public class MemberRollReadResponse {
     final private Long memberTypeRequestId;
-    final private Long member_id;
+    final private Long memberId;
     final private String nickname;
     final private String memberType;
     final private String message;

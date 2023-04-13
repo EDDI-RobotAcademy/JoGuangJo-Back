@@ -1,10 +1,8 @@
 package com.jgj.byl_process.domain.member.service;
 
-import com.jgj.byl_process.domain.member.entity.Authentication;
-import com.jgj.byl_process.domain.member.entity.BasicAuthentication;
-import com.jgj.byl_process.domain.member.entity.Member;
-import com.jgj.byl_process.domain.member.entity.Roll;
+import com.jgj.byl_process.domain.member.entity.*;
 import com.jgj.byl_process.domain.member.repository.AuthenticationRepository;
+import com.jgj.byl_process.domain.member.repository.MemberProfileRepository;
 import com.jgj.byl_process.domain.member.repository.MemberRepository;
 import com.jgj.byl_process.domain.member.repository.RollRepository;
 import com.jgj.byl_process.domain.member.service.request.EmailMatchRequest;
@@ -24,6 +22,7 @@ public class MemberServiceImpl implements MemberService {
 
     final private MemberRepository memberRepository;
     final private AuthenticationRepository authenticationRepository;
+    final private MemberProfileRepository memberProfileRepository;
     final private RollRepository rollRepository;
     final private RedisService redisService;
 

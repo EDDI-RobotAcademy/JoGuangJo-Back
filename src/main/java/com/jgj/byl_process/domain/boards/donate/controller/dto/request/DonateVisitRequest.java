@@ -9,8 +9,9 @@ import lombok.ToString;
 @Getter
 @ToString
 @RequiredArgsConstructor
-public class DonateVisitRegisterRequest {
+public class DonateVisitRequest {
 
+    final private Long memberId;
     final private String name;
     final private String email;
     final private String phone;

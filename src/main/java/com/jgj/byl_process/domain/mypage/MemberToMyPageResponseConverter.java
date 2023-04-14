@@ -13,7 +13,7 @@ public class MemberToMyPageResponseConverter implements Converter<Member, MyPage
     public MyPageResponse convert(Member member) {
         MyPageResponse myPageResponse = new MyPageResponse();
 
-        myPageResponse.setId(member.getId());
+        myPageResponse.setId(member.getMemberId());
         myPageResponse.setEmail(member.getEmail());
         myPageResponse.setCity(member.getMemberProfile().getAddress().getCity());
         myPageResponse.setStreet(member.getMemberProfile().getAddress().getStreet());

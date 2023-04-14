@@ -9,10 +9,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class SaveAddressForm {
-    Long memberId;
-    String city;
-    String street;
-    String addressDetail;
-    String zipcode;
+public class ModifiedPasswordForm {
+    Long id;
+    String password;
 }

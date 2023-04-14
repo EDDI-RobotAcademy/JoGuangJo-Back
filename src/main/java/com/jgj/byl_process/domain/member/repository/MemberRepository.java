@@ -11,12 +11,20 @@ import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
+
     // FETCH TYPE LAZY에 의해 proxy 참조가 안되서 join fetch로 강제 참조시킴
+
     @Query("select m from Member m join fetch m.authentications where m.email = :email")
     Optional<Member> findByEmail(String email);
 
     @Query("select m from Member m join fetch m.authentications where m.nickName = :nickName")
     Optional<Member> findByNickName(String nickName);
+
+
+    /*(박지영) memberId로 member 테이블을 조회하기 위한 findByMemberId 메서드*/
+    @Query("SELECT m FROM Member m WHERE m.id = :memberId")
+    Optional<Member> findByMemberId(@Param("memberId") Long memberId);
+    
 
     @Query("SELECT m FROM Member m JOIN FETCH m.memberProfile mp JOIN FETCH m.authentications a WHERE m.id = :memberId")
     List<Member> findAllByMemberId(@Param("memberId") Long memberId);

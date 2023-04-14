@@ -85,10 +85,10 @@ public class MemberServiceImpl implements MemberService {
 
             // redis 처리 필요
             redisService.deleteByKey(userToken.toString());
-            redisService.setKeyAndValue(userToken.toString(), member.getId());
+            redisService.setKeyAndValue(userToken.toString(), member.getMemberId());
 
             MemberLoginResponse memberLoginResponse;
-            memberLoginResponse = new MemberLoginResponse(userToken.toString(), member.getId(), member.getNickName());
+            memberLoginResponse = new MemberLoginResponse(userToken.toString(), member.getMemberId(), member.getNickName());
 //
             return memberLoginResponse;
         }

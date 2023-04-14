@@ -15,11 +15,9 @@ import java.util.Date;
 public class Donate {
 
     /* Member 테이블과 Donate 테이블 간의 관계 설정
-    한 member 는 여러번의 donate 를 할 수 있다
-    member 가 탈퇴하면 그 member 의 모든 donate 내역이 사라진다
-     */
+    한 member 는 여러번의 donate 를 할 수 있다. member 가 탈퇴하면 그 member 의 모든 donate 내역이 사라진다. */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "memberId")
     private Member member;
 
     @Id
@@ -48,11 +46,11 @@ public class Donate {
     private String quality;
 
     @Getter
-    @Column(name = "visitDate")
+    @Column(name = "visitDate", length = 64)
     private String visitDate;
 
     @Getter
-    @Column(name = "visitTime")
+    @Column(name = "visitTime", length = 64)
     private String visitTime;
 
     @Getter
@@ -93,11 +91,21 @@ public class Donate {
         this.addressDetail = addressDetail;
     }
 
-    public static void setDonate(Member member) {
+    public Long getMemberId() {
+        return this.member.getId();
     }
 
-    public void setMember(Member member) {
-        this.member = member;
+    public Long getDonateVisitId() {
+        return this.donateVisitId;
     }
+
+    public Date getRegDate() {
+        return this.regDate;
+    }
+
+    public Date getUpdDate() {
+        return this.updDate;
+    }
+
 }
 

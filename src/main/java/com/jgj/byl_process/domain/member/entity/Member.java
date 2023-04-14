@@ -2,6 +2,7 @@ package com.jgj.byl_process.domain.member.entity;
 
 import com.jgj.byl_process.domain.boards.donate.entity.Donate;
 import com.jgj.byl_process.domain.cart.entity.Cart;
+import com.jgj.byl_process.domain.mypage.entity.MemberRoll;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +19,7 @@ public class Member {
     @Id
     @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long memberId;
 
     @Getter
     @Column(nullable = false)
@@ -44,13 +45,20 @@ public class Member {
         memberProfile.setMember(this);
     }
 
+    public Member(String email, String nickName) {
+        this.email = email;
+        this.nickName = nickName;
+    }
+
     /* (박지영) Member 테이블과 Donate 테이블 간의 관계 설정
     한 member 는 여러번의 donate 를 할 수 있다
     member 가 탈퇴하면 그 member 의 모든 donate 내역이 사라진다
      */
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Donate> donates;
 
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private MemberRoll memberRoll;
 
     public boolean isRightPassword(String plainToCheck) {
         final Optional<Authentication> maybeBasicAuth = findBasicAuthentication();
@@ -73,7 +81,7 @@ public class Member {
     @Override
     public String toString() {
         return "Member{" +
-                "id=" + id +
+                "id=" + memberId +
                 ", email='" + email + '\'' +
                 ", nickName='" + nickName + '\'' +
                 '}';

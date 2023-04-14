@@ -11,8 +11,6 @@ public interface MemberService {
     MemberLoginResponse signIn(MemberLoginRequest memberLoginRequest);
     Boolean applyNewPassword(EmailPasswordRequest toEmailPasswordRequest);
     Boolean emailMatch(EmailMatchRequest toEmailMatchRequest);
-
     void resign(String token);
-
     Boolean memberNicknameValidation(String nickName);
 }

@@ -92,7 +92,7 @@ public class Donate {
     }
 
     public Long getMemberId() {
-        return this.member.getId();
+        return this.member.getMemberId();
     }
 
     public Long getDonateVisitId() {

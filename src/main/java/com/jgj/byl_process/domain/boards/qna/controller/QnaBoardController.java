@@ -4,6 +4,7 @@ package com.jgj.byl_process.domain.boards.qna.controller;
 import com.jgj.byl_process.domain.boards.qna.controller.dto.request.QnaBoardRequest;
 import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaBoardImgResponse;
 import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaBoardListResponse;
+import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaBoardModifyResponse;
 import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaBoardReadResponse;
 import com.jgj.byl_process.domain.boards.qna.entity.QnaBoard;
 import com.jgj.byl_process.domain.boards.qna.service.QnaBoardService;
@@ -18,7 +19,6 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/qnaBoard")
-@CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
 public class QnaBoardController {
     final private QnaBoardService qnaBoardService;
 
@@ -35,6 +35,7 @@ public class QnaBoardController {
 
         if (imageFileList == null) {
             imageFileList = new ArrayList<>();
+            log.info("널이냐?");
         }
 
         qnaBoardService.register(imageFileList, qnaBoardRequest);
@@ -56,13 +57,18 @@ public class QnaBoardController {
 
 @PutMapping(value="/{qnaBoardId}",
         consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE })
-public QnaBoard qnaBoardModify(
+public List<QnaBoardModifyResponse> qnaBoardModify(
         @PathVariable("qnaBoardId") Long qnaBoardId,
         @RequestPart(value = "imageFileList", required = false) List<MultipartFile> imageFileList,
         @RequestPart(value = "qnaInfo") QnaBoardRequest qnaBoardRequest ) {
     log.info("qnaBoardRegister()");
 
-    return qnaBoardService.modify(qnaBoardId, imageFileList, qnaBoardRequest);
+    if (imageFileList == null) {
+        imageFileList = new ArrayList<>();
+        log.info("널이냐?");
+    }
+
+    return  qnaBoardService.modify(qnaBoardId, imageFileList, qnaBoardRequest);
 }
 
     @DeleteMapping("/{qnaBoardId}")

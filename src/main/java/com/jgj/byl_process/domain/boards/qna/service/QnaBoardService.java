@@ -3,6 +3,7 @@ package com.jgj.byl_process.domain.boards.qna.service;
 import com.jgj.byl_process.domain.boards.qna.controller.dto.request.QnaBoardRequest;
 import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaBoardImgResponse;
 import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaBoardListResponse;
+import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaBoardModifyResponse;
 import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaBoardReadResponse;
 import com.jgj.byl_process.domain.boards.qna.entity.QnaBoard;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +17,7 @@ public interface QnaBoardService {
 
     QnaBoardReadResponse read(Long qnaBoardId);
 
-    QnaBoard modify(Long qnaBoardId, List<MultipartFile> imageFileList, QnaBoardRequest qnaBoardRequest);
+    List<QnaBoardModifyResponse> modify(Long qnaBoardId, List<MultipartFile> imageFileList, QnaBoardRequest qnaBoardRequest);
 
     void remove(Long qnaBoardId);
 

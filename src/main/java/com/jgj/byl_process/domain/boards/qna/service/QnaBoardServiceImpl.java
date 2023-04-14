@@ -3,6 +3,7 @@ package com.jgj.byl_process.domain.boards.qna.service;
 import com.jgj.byl_process.domain.boards.qna.controller.dto.request.QnaBoardRequest;
 import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaBoardImgResponse;
 import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaBoardListResponse;
+import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaBoardModifyResponse;
 import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaBoardReadResponse;
 import com.jgj.byl_process.domain.boards.qna.entity.QnaBoard;
 import com.jgj.byl_process.domain.boards.qna.entity.QnaBoardImgResource;
@@ -10,13 +11,11 @@ import com.jgj.byl_process.domain.boards.qna.repository.QnaBoardImgRepository;
 import com.jgj.byl_process.domain.boards.qna.repository.QnaBoardRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 @Slf4j
@@ -36,14 +35,14 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 public void register(List<MultipartFile> imageFileList, QnaBoardRequest qnaBoardRequest) {
     List<QnaBoardImgResource> qnaBoardImgResourcesList = new ArrayList<>();
     final String uploadPath = "E:/Project/JoGuangJo-Front/src/assets/qnaUploadImgs";
+    // 상대경로 저장하기.
 
 
     QnaBoard qnaBoard = new QnaBoard();
     qnaBoard.setTitle(qnaBoardRequest.getTitle());
     qnaBoard.setWriter(qnaBoardRequest.getWriter());
-    qnaBoard.setContent(qnaBoardRequest.getContent());
 
-    String content = qnaBoard.getContent();
+    String content = qnaBoardRequest.getContent();
 
     content = content.replaceAll("<img[^>]*>", ""); // <img> 태그 제거
     content = content.replaceAll("<p>", ""); // <p> 태그 시작 부분 제거
@@ -51,7 +50,7 @@ public void register(List<MultipartFile> imageFileList, QnaBoardRequest qnaBoard
 
     // base64로 디코딩 하지 않고 단순히 <img> <p> 태그 replace 후 저장
     qnaBoard.setContent(content);
-    
+
     for (MultipartFile file : imageFileList) {
         String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
         String filepath = uploadPath + "/" + filename;
@@ -127,53 +126,77 @@ public void register(List<MultipartFile> imageFileList, QnaBoardRequest qnaBoard
     }
 
     @Override
-    public QnaBoard modify(Long qnaBoardId, List<MultipartFile> imageFileList, QnaBoardRequest qnaBoardRequest) {
-        Optional<QnaBoard> maybeQnaBoard = qnaBoardRepository.findById(qnaBoardId);
+    public List<QnaBoardModifyResponse> modify(Long qnaBoardId, List<MultipartFile> imageFileList, QnaBoardRequest qnaBoardRequest) {
+        Optional<QnaBoard> optionalQnaBoard = qnaBoardRepository.findById(qnaBoardId);
 
-        if (maybeQnaBoard.isEmpty()) {
+        if (optionalQnaBoard.isEmpty()) {
             System.out.println("QnaBoard 정보를 찾을 수 없습니다. : " + qnaBoardId);
             return null;
         }
 
+        System.out.println(imageFileList.toString() + "이거 널이냐?");
+
+        QnaBoard qnaBoard = optionalQnaBoard.get();
+        qnaBoard.setTitle(qnaBoardRequest.getTitle());
+
+        String content = qnaBoardRequest.getContent();
+
+        content = content.replaceAll("<img[^>]*>", ""); // <img> 태그 제거
+        content = content.replaceAll("<p>", ""); // <p> 태그 시작 부분 제거
+        content = content.replaceAll("</p>", ""); // <p> 태그 종료 부분 제거
+
+        // base64로 디코딩 하지 않고 단순히 <img> <p> 태그 replace 후 저장
+        qnaBoard.setContent(content);
+
+
         List<QnaBoardImgResource> qnaBoardImgResourcesList = new ArrayList<>();
         final String uploadPath = "E:/Project/JoGuangJo-Front/src/assets/qnaUploadImgs";
 
-        QnaBoard qnaBoard = maybeQnaBoard.get();
-        qnaBoard.setTitle(qnaBoardRequest.getTitle());
-        qnaBoard.setContent(qnaBoardRequest.getContent());
+        for (MultipartFile file : imageFileList) {
+            String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            String filepath = uploadPath + "/" + filename;
 
-        if (imageFileList != null && !imageFileList.isEmpty()) {
+            // 이미지 파일을 디스크에 저장
             try {
-                for (MultipartFile multipartFile : imageFileList) {
-                    String originalFilename = multipartFile.getOriginalFilename();
-                    log.info("requestFileUploadWithText() - filename: " + originalFilename);
-
-                    // 저장될 파일 경로 생성
-                    String filePath = uploadPath + "/" + originalFilename;
-
-                    // 이미지 파일 저장
-                    File targetFile = new File(filePath);
-                    multipartFile.transferTo(targetFile);
-
-                    // 이미지 정보를 저장
-                    QnaBoardImgResource qnaBoardImgResource = new QnaBoardImgResource(originalFilename, filePath, "");
-                    qnaBoardImgResourcesList.add(qnaBoardImgResource);
-                }
+                file.transferTo(new File(filepath));
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
+
+            // QnaBoardImgResource 객체 생성
+            QnaBoardImgResource qnaBoardImgResource = new QnaBoardImgResource();
+            qnaBoardImgResource.setQnaBoard(qnaBoard);
+            qnaBoardImgResource.setFilePath(filepath);
+
+            // QnaBoardImgResource 객체를 리스트에 추가
+            qnaBoardImgResourcesList.add(qnaBoardImgResource);
         }
 
         qnaBoard.setImages(qnaBoardImgResourcesList);
-        // 생성자 생성
 
+        // 이미지 정보 저장
         qnaBoardImgRepository.saveAll(qnaBoardImgResourcesList);
+
+        // 수정된 QnaBoard 정보 저장
         qnaBoardRepository.save(qnaBoard);
-        return qnaBoard;
+
+        List<QnaBoardModifyResponse> qnaBoardModifyResponseList = new ArrayList<>();
+        qnaBoardModifyResponseList.add(new QnaBoardModifyResponse(
+                qnaBoard.getQnaBoardId(), qnaBoard.getTitle(),
+                qnaBoard.getWriter(), qnaBoard.getContent(),
+                qnaBoard.getQnaBoardImgResourcesList().toString(), qnaBoard.getRegDate()
+        ));
+
+        return qnaBoardModifyResponseList;
     }
 
     @Override
-    public void remove(Long qnaBoardId) { qnaBoardRepository.deleteById(qnaBoardId);}
+    public void remove(Long qnaBoardId) {
+
+
+        qnaBoardRepository.deleteById(qnaBoardId);
+
+    }
 
     @Override
     public Long getLastEntityId() {

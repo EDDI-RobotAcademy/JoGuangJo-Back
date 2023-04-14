@@ -5,8 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     @Query("select ci from CartItem ci join fetch ci.product p join fetch ci.cart c where c.member.id = :memberId")
-    List<CartItem> findCartItemListByMemberId(Long memberId);
+    List<CartItem> findCartItemListWithMemberId(Long memberId);
+
+    Optional<CartItem> findByCartItemIdAndCart_CartId(Long cartItemId, Long cartId);
 }

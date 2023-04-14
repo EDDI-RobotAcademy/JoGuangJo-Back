@@ -1,6 +1,7 @@
 package com.jgj.byl_process.domain.member.entity;
 
 import com.jgj.byl_process.domain.boards.donate.entity.Donate;
+import com.jgj.byl_process.domain.cart.entity.Cart;
 import com.jgj.byl_process.domain.mypage.entity.MemberRoll;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,9 @@ public class Member {
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Authentication> authentications = new HashSet<>();
+
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
+    private Cart cart;
 
     public Member(String email, String nickName, MemberProfile memberProfile) {
         this.email = email;

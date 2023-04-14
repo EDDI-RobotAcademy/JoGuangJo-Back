@@ -4,12 +4,14 @@ import com.jgj.byl_process.domain.boards.product.entity.Product;
 import com.jgj.byl_process.domain.boards.product.repository.ImageResourceRepository;
 import com.jgj.byl_process.domain.boards.product.repository.ProductRepository;
 //import com.jgj.byl_process.domain.cart.controller.dto.request.CartRegisterRequest;
+import com.jgj.byl_process.domain.cart.controller.dto.request.CartRegisterRequest;
 import com.jgj.byl_process.domain.cart.controller.dto.response.CartItemListResponse;
 import com.jgj.byl_process.domain.cart.entity.Cart;
 import com.jgj.byl_process.domain.cart.entity.CartItem;
 import com.jgj.byl_process.domain.cart.repository.CartItemRepository;
 import com.jgj.byl_process.domain.cart.repository.CartRepository;
 //import com.jgj.byl_process.domain.member.entity.Member;
+import com.jgj.byl_process.domain.member.entity.Member;
 import com.jgj.byl_process.domain.member.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +83,7 @@ public class CartServiceImpl implements CartService {
         Optional<Cart> maybeCart = cartRepository.findById(memberId);
 
         if(maybeCart.isEmpty()) {
-            Optional<Member> maybeMember = memberRepository.findMemberById(memberId);
+            Optional<Member> maybeMember = memberRepository.findMemberByMemberId(memberId);
                 Member member = new Member();
 
                 if (maybeMember.isPresent()) {

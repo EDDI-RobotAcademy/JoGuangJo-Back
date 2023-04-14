@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface DonateRepository extends JpaRepository<Donate, Long> {
 
-    @Query("SELECT d FROM Donate d JOIN FETCH d.member m WHERE m.id = :memberId")
+    @Query("SELECT d FROM Donate d JOIN FETCH d.member m WHERE m.memberId = :memberId")
     List<Donate> findAllByMemberId(@Param("memberId") Long memberId);
 
 }

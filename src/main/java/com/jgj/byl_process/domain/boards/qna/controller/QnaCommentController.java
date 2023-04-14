@@ -13,7 +13,6 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/qnaBoard/qnaComment")
-@CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
 public class QnaCommentController {
 
     @Autowired

@@ -26,7 +26,8 @@ public class QnaCommentServiceImpl implements QnaCommentService{
 
     @Override
     public List<QnaCommentListResponse> qnaCommentList(Long qnaBoardId) {
-        List<QnaComment> QnaCommentList = qnaCommentRepository.findAll();
+        List<QnaComment> QnaCommentList = qnaCommentRepository.findAllCommentByQnaBoardId(qnaBoardId);
+        // 그냥 코멘트 다꺼냄
         List<QnaCommentListResponse> QnaCommentResponseList = new ArrayList<>();
 
         for (QnaComment QnaComment : QnaCommentList) {

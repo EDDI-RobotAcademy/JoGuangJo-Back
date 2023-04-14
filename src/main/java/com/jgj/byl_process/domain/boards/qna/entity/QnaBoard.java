@@ -1,7 +1,11 @@
 package com.jgj.byl_process.domain.boards.qna.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,6 +16,8 @@ import java.util.List;
 
 @Data
 @Entity
+@Getter
+@Setter
 public class QnaBoard {
 
     @Id
@@ -24,9 +30,12 @@ public class QnaBoard {
     private String writer;
     @Lob
     private String content;
+    @ToString.Exclude
     @JsonManagedReference
     @OneToMany(mappedBy = "qnaBoard", fetch = FetchType.LAZY)
     private List<QnaBoardImgResource> qnaBoardImgResourcesList = new ArrayList<>();
+
+    @ToString.Exclude
     @OneToMany(mappedBy = "qnaBoard", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<QnaComment> qnaComments = new ArrayList<>();
     @CreationTimestamp

@@ -11,5 +11,6 @@ public class ProductListResponse {
     final private Long productId;
     final private String productName;
     final private String writer;
-    final private Date regDate;
+    //final private Date regDate;
+    final private Number price;
 }

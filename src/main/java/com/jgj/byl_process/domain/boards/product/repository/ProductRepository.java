@@ -11,4 +11,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("select p from Product p join fetch p.imageResourceList irl where p.productId = :id")
     Optional<Product> findImagePathById(Long id);
 
+    Optional<Product> findByProductId(Long productId);
+
+
 }

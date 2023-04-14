@@ -26,6 +26,19 @@ public class ProductServiceImpl implements ProductService {
     final private ProductRepository productRepository;
     final private ImageResourceRepository imageResourceRepository;
 
+    @Override
+    public void setSoldOut(Long productId) {
+        Optional<Product> maybeProduct = productRepository.findById(productId);
+
+        if (maybeProduct.isPresent()) {
+            Product product = maybeProduct.get();
+            product.setSoldOut(true);
+            productRepository.save(product);
+        } else {
+            log.error("Product not found: " + productId);
+        }
+    }
+
     @Transactional
     @Override
     public void register(List<MultipartFile> imageFileList, RequestProductInfo productRequest) {
@@ -82,10 +95,10 @@ public class ProductServiceImpl implements ProductService {
         List<Product> productList = productRepository.findAll();
         List<ProductListResponse> productResponseList = new ArrayList<>();
 
-        for (Product product: productList) {
+        for (Product product : productList) {
             productResponseList.add(new ProductListResponse(
                     product.getProductId(), product.getProductName(),
-                    product.getWriter(), product.getRegDate()
+                    product.getWriter(),/* product.getRegDate(),*/ product.getPrice()
             ));
         }
 
@@ -140,7 +153,7 @@ public class ProductServiceImpl implements ProductService {
         List<ImageResource> imageResourceList = imageResourceRepository.findImagePathByProductId(productId);
         List<ImageResourceResponse> imageResourceResponseList = new ArrayList<>();
 
-        for (ImageResource imageResource: imageResourceList) {
+        for (ImageResource imageResource : imageResourceList) {
             System.out.println("imageResource path: " + imageResource.getImageResourcePath());
 
             imageResourceResponseList.add(new ImageResourceResponse(
@@ -155,7 +168,7 @@ public class ProductServiceImpl implements ProductService {
         List<Product> productList = productRepository.findAll();
         List<AllProductResponse> allProductList = new ArrayList<>();
 
-        for (Product product: productList) {
+        for (Product product : productList) {
             List<ImageResource> imageResourceList = imageResourceRepository.findImagePathByProductId(product.getProductId());
 
             allProductList.add(new AllProductResponse(

@@ -22,12 +22,12 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
 
     /*(박지영) memberId로 member 테이블을 조회하기 위한 findByMemberId 메서드*/
-    @Query("SELECT m FROM Member m WHERE m.id = :memberId")
+    @Query("SELECT m FROM Member m WHERE m.memberId = :memberId")
     Optional<Member> findByMemberId(@Param("memberId") Long memberId);
     
 
-    @Query("SELECT m FROM Member m JOIN FETCH m.memberProfile mp JOIN FETCH m.authentications a WHERE m.id = :memberId")
+    @Query("SELECT m FROM Member m JOIN FETCH m.memberProfile mp JOIN FETCH m.authentications a WHERE m.memberId = :memberId")
     List<Member> findAllByMemberId(@Param("memberId") Long memberId);
 
-    Optional<Member> findMemberById(Long memberId);
+    Optional<Member> findMemberByMemberId(Long memberId);
 }

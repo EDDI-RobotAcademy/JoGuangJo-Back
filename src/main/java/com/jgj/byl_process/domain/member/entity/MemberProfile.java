@@ -29,6 +29,7 @@ public class MemberProfile {
         this.address = address;
     }
 
+    public MemberProfile(Member member) {this.member = member;}
     public static MemberProfile of (String city, String street, String addressDetail, String zipcode) {
         final Address address = Address.of(city, street, addressDetail, zipcode);
         return new MemberProfile(address);

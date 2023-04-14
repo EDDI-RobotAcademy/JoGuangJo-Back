@@ -24,7 +24,7 @@ public class Cart {
     @JoinColumn(name="member_id")
     private Member member;
 
-    @Column(length = 16)
+    @Column(name = "total_count")
     private Long totalCount;
 
     @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY)

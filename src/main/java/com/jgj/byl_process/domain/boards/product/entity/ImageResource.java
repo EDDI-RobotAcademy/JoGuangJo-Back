@@ -22,6 +22,10 @@ public class ImageResource {
     @JoinColumn(name = "product_id")
     private Product product;
 
+//    @Column(length = 32, nullable = false)
+//    private String thumbnail;
+    // 상품페이지 썸네일 완료되면 사용 예정
+
     public ImageResource(String imageResourcePath) {
         this.imageResourcePath = imageResourcePath;
     }

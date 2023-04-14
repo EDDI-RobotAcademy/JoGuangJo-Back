@@ -1,6 +1,5 @@
 package com.jgj.byl_process.domain.cart.controller;
 
-import com.jgj.byl_process.domain.cart.controller.dto.request.CartListRequest;
 import com.jgj.byl_process.domain.cart.controller.dto.request.CartRegisterRequest;
 import com.jgj.byl_process.domain.cart.controller.dto.response.CartItemListResponse;
 import com.jgj.byl_process.domain.cart.service.CartService;
@@ -20,6 +19,11 @@ public class CartController {
         this.cartService = cartService;
     }
 
+    @PostMapping("/register")
+    public void cartRegister(@RequestBody CartRegisterRequest cartRegisterRequest){
+        log.info("회원 카트에 아이템 추가" + cartRegisterRequest.toString());
+        cartService.register(cartRegisterRequest.toAddRegisterRequest());
+    }
 
     @GetMapping("/list/{memberId}")
     public List<CartItemListResponse> cartItemListResponseList(@PathVariable("memberId") Long memberId){

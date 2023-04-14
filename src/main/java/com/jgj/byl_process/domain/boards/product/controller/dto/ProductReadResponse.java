@@ -12,9 +12,10 @@ import java.util.Date;
 public class ProductReadResponse {
 
     private Long productId;
-    private String title;
+    private String productName;
     private String writer;
     private String content;
     private Integer price;
     private Date regDate;
+
 }

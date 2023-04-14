@@ -21,5 +21,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("SELECT m FROM Member m JOIN FETCH m.memberProfile mp JOIN FETCH m.authentications a WHERE m.id = :memberId")
     List<Member> findAllByMemberId(@Param("memberId") Long memberId);
 
-
+    Optional<Member> findMemberById(Long memberId);
 }

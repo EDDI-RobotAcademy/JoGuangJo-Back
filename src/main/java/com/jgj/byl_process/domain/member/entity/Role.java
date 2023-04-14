@@ -1,17 +1,19 @@
 package com.jgj.byl_process.domain.member.entity;
 
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
-public class Roll {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rollId;
 
+    @Setter
     @Column(nullable = false)
     private String memberType;
 
@@ -19,7 +21,7 @@ public class Roll {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public Roll (Member member, String memberType) {
+    public Role(Member member, String memberType) {
         this.member = member;
         this.memberType = memberType;
     }

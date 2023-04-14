@@ -4,6 +4,7 @@ import com.jgj.byl_process.domain.member.entity.*;
 import com.jgj.byl_process.domain.member.repository.AuthenticationRepository;
 import com.jgj.byl_process.domain.member.repository.MemberProfileRepository;
 import com.jgj.byl_process.domain.member.repository.MemberRepository;
+import com.jgj.byl_process.domain.member.repository.RoleRepository;
 import com.jgj.byl_process.domain.mypage.MemberToMyPageResponseConverter;
 import com.jgj.byl_process.domain.mypage.controller.form.*;
 import com.jgj.byl_process.domain.mypage.entity.MemberRoll;
@@ -31,6 +32,7 @@ public class MyPageServiceImpl implements MyPageService {
     final MemberProfileRepository memberProfileRepository;
     final AuthenticationRepository authenticationRepository;
     final MemberRollRepository memberRollRepository;
+    final RoleRepository rollRepository;
 
     @Autowired
     private MemberToMyPageResponseConverter memberToMyPageResponseConverter;
@@ -182,12 +184,18 @@ public class MyPageServiceImpl implements MyPageService {
     @Override
     public void rollRequestAccept(MemberTypeRequestCheckForm memberTypeRequestCheckForm) {
         Optional<MemberRoll> isMemberRoll = memberRollRepository.findById(memberTypeRequestCheckForm.getRequestId());
-        Optional<Member> isMember = memberRepository.findById(memberTypeRequestCheckForm.getMemberId());
-        if(isMemberRoll.isPresent()) {
-            Member member = isMember.get();
-            // 하다가 말았는데 이거 개귀찮네
-        } else {
+        Optional<Role> isRoll = rollRepository.findByMemberId(memberTypeRequestCheckForm.getMemberId());
 
+        if(isMemberRoll.isPresent() && isRoll.isPresent()) {
+            Role role = isRoll.get();
+
+            String memberType = memberTypeRequestCheckForm.getMemberType();
+            role.setMemberType(memberType);
+
+            rollRepository.save(role);
+            memberRollRepository.deleteById(memberTypeRequestCheckForm.getRequestId());
+        } else {
+            System.out.println("없는디?");
         }
     }
 

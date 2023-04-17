@@ -36,8 +36,11 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ImageResource> imageResourceList = new ArrayList<>();
 
-
     private Integer price;
+
+    // New field for product quantity
+    @Column(nullable = false)
+    private Integer quantity;
 
     @CreationTimestamp
     private Date regDate;

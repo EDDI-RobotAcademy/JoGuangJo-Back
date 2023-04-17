@@ -1,10 +1,10 @@
 package com.jgj.byl_process.domain.boards.donate.controller;
 
-import com.jgj.byl_process.domain.boards.donate.controller.dto.request.DonateVisitRequest;
-import com.jgj.byl_process.domain.boards.donate.controller.dto.response.MyDonateListResponse;
-import com.jgj.byl_process.domain.boards.donate.controller.dto.response.MyDonateReadResponse;
 import com.jgj.byl_process.domain.boards.donate.service.DonateService;
-import com.jgj.byl_process.domain.security.service.RedisService;
+import com.jgj.byl_process.domain.boards.donate.service.request.DonateModifyRequest;
+import com.jgj.byl_process.domain.boards.donate.service.request.DonateRegisterRequest;
+import com.jgj.byl_process.domain.boards.donate.service.response.DonateListResponse;
+import com.jgj.byl_process.domain.boards.donate.service.response.DonateReadResponse;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +19,12 @@ import java.util.List;
 public class DonateController {
 
     final private DonateService donateService;
-    final private RedisService redisService;
 
     //방문수거 페이지에서 방문수거 기부신청하는 메서드
-    @PostMapping("/visit/register")
-    public Boolean donateVisitRegister(@RequestBody DonateVisitRequest donateVisitRequest) {
-        log.info("donateVisitRegister() 동작: " + donateVisitRequest);
-        return donateService.register(donateVisitRequest);
+    @PostMapping("/register")
+    public Boolean donateRegister(@RequestBody DonateRegisterRequest donateRegisterRequest) {
+        log.info("donateRegister() 동작: " + donateRegisterRequest);
+        return donateService.register(donateRegisterRequest);
     }
 
     // 마이페이지에서 자기 방문수거 기부내역 목록조회하는 메서드

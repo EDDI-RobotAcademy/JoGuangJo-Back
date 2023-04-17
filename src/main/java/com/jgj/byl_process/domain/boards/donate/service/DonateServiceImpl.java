@@ -1,13 +1,13 @@
 package com.jgj.byl_process.domain.boards.donate.service;
 
-import com.jgj.byl_process.domain.boards.donate.controller.dto.request.DonateVisitRequest;
-import com.jgj.byl_process.domain.boards.donate.controller.dto.response.MyDonateListResponse;
-import com.jgj.byl_process.domain.boards.donate.controller.dto.response.MyDonateReadResponse;
+import com.jgj.byl_process.domain.boards.donate.service.request.DonateModifyRequest;
+import com.jgj.byl_process.domain.boards.donate.service.request.DonateRegisterRequest;
+import com.jgj.byl_process.domain.boards.donate.service.response.DonateListResponse;
+import com.jgj.byl_process.domain.boards.donate.service.response.DonateReadResponse;
 import com.jgj.byl_process.domain.boards.donate.repository.DonateRepository;
 import com.jgj.byl_process.domain.member.repository.MemberRepository;
 import com.jgj.byl_process.domain.boards.donate.entity.Donate;
 import com.jgj.byl_process.domain.member.entity.Member;
-import com.jgj.byl_process.domain.security.service.RedisService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,27 +23,24 @@ public class DonateServiceImpl implements DonateService {
 
     final private MemberRepository memberRepository;
     final private DonateRepository donateRepository;
-    final private RedisService redisService;
 
 
     // 방문수거 페이지에서 방문수거 기부신청하는 메서드
     @Override
-    public Boolean register(DonateVisitRequest donateVisitRequest) {
+    public Boolean register(DonateRegisterRequest donateRegisterRequest) {
 
-        Optional<Member> maybeMember = memberRepository.findByMemberId(donateVisitRequest.getMemberId());
+        Optional<Member> maybeMember = memberRepository.findById(donateRegisterRequest.getMemberId());
 
-        System.out.println("조회에 쓰인 memberId: " + donateVisitRequest.getMemberId());
-        System.out.println("조회 결과 해당 memberId를 가진 회원 존재 여부: " + maybeMember.isPresent());
-
-        if (maybeMember.isPresent()) {
-            Member member = maybeMember.get();
-            final Donate donate = donateVisitRequest.toDonate(member);
-            Donate savedDonate = donateRepository.save(donate);
-            System.out.println("donate 테이블에 해당 회원의 방문기부 데이터를 저장했습니다: " + savedDonate);
-            return true;
-        } else {
-            System.out.println("donate 테이블에 해당 회원의 방문기부 데이터를 저장하지 못했습니다");
+        if(maybeMember.isEmpty()) {
+            System.out.println(
+                "해당 회원이 존재하지 않습니다. member 테이블 조회에 쓰인 memberId: " + donateRegisterRequest.getMemberId()
+            );
             return false;
+        } else {
+            final Donate donate = donateRegisterRequest.toDonate(maybeMember.get());
+            Donate savedDonate = donateRepository.save(donate);
+            System.out.println("donate 테이블에 해당 회원의 기부 데이터를 저장했습니다: " + savedDonate);
+            return true;
         }
     }
     

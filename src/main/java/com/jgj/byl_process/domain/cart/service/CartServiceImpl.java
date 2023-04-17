@@ -131,4 +131,8 @@ public List<CartItemListResponse> cartList(Long memberId){
 
     return cartItemListResponseList;
 }
+@Override
+public void remove(List<Long> cartItemIds){
+        cartItemRepository.deleteAllById(cartItemIds);
+}
 }

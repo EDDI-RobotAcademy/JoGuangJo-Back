@@ -16,4 +16,5 @@ public interface CartService {
 
     List<CartItemListResponse> cartList(Long memberId);
 
+    void remove(List<Long> cartItemIds);
 }

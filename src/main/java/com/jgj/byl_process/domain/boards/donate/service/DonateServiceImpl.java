@@ -99,15 +99,19 @@ public class DonateServiceImpl implements DonateService {
         }
     }
 
+
+
+
     // 마이페이지에서 자기 방문수거 기부내역 삭제하는 메서드
     @Override
     public Boolean delete(Long donateId) {
+
         Optional<Donate> maybeDonate = donateRepository.findById(donateId);
 
         if (maybeDonate.isEmpty()) {
-            System.out.println(
-                    "해당 donateId의 데이터가 존재하지 않습니다. donate 테이블 조회에 쓰인 donateId: " + donateId);
+            System.out.println("해당 donateId의 데이터가 존재하지 않습니다. donate 테이블 조회에 쓰인 donateId: " + donateId);
             return false;
+
         } else {
             donateRepository.delete(maybeDonate.get());
             return true;

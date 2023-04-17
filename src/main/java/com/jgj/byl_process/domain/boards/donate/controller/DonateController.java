@@ -49,9 +49,10 @@ public class DonateController {
         return donateService.modify(donateModifyRequest);
     }
 
-    // 마이페이지에서 자기 방문수거 기부내역 삭제하는 메서드
+    // 마이페이지에서 자기 기부내역 삭제하는 메서드
     @DeleteMapping("/delete/{donateId}")
-    public Boolean donateDelete(@RequestParam("donateId") Long donateId) {
+    public Boolean donateDelete(@PathVariable("donateId") Long donateId) {
+        log.info("donateDelete() 동작: "+ donateId);
         return donateService.delete(donateId);
     }
 

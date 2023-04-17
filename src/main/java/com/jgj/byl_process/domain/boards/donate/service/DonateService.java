@@ -25,6 +25,8 @@ public interface DonateService {
 
     Boolean modify(DonateModifyRequest donateModifyRequest);
 
+
+    // 마이페이지에서 자기 기부내역 삭제하는 메서드
     Boolean delete(Long donateId);
 
 

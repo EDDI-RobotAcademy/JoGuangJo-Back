@@ -29,4 +29,8 @@ public class ImageResource {
     public ImageResource(String imageResourcePath) {
         this.imageResourcePath = imageResourcePath;
     }
+
+    public void setFilePath(String imageResourcePath) {
+        this.imageResourcePath = imageResourcePath;
+    }
 }

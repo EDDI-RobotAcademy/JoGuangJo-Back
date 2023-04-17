@@ -25,5 +25,7 @@ public interface DonateService {
 
     Boolean modify(DonateModifyRequest donateModifyRequest);
 
+    Boolean delete(Long donateId);
+
 
 }

@@ -35,10 +35,10 @@ public class DonateController {
     }
 
     // 마이페이지에서 자기 방문수거 기부내역 상세조회하는 메서드
-    @GetMapping("/myDonateRead/{donateVisitId}")
-    public MyDonateReadResponse myDonateRead(@PathVariable("donateVisitId") Long donateVisitId) {
-        log.info("myDonateRead() 동작: " + donateVisitId);
-        return donateService.read(donateVisitId);
+    @GetMapping("/read/{donateId}")
+    public DonateReadResponse donateRead(@PathVariable("donateId") Long donateId) {
+        log.info("donateRead() 동작: " + donateId);
+        return donateService.read(donateId);
     }
 
 }

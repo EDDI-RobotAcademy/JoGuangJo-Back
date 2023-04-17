@@ -67,13 +67,19 @@ public class DonateServiceImpl implements DonateService {
 
     // 마이페이지에서 자기 방문수거 기부내역 상세조회하는 메서드
     @Override
-    public MyDonateReadResponse read(Long donateVisitId) {
-        Optional<Donate> maybeDonate = donateRepository.findById(donateVisitId);
-        System.out.println("donate 테이블 조회에 쓰인 donateVisitId : " + donateVisitId);
+    public DonateReadResponse read(Long donateId) {
+        Optional<Donate> maybeDonate = donateRepository.findById(donateId);
+        System.out.println("donate 테이블 조회에 쓰인 donateId : " + donateId);
 
         if (maybeDonate.isEmpty()) {
-            System.out.println("해당 donateVisitId가 donate 테이블에 없습니다.");
+            System.out.println("해당 donateId가 donate 테이블에 없습니다.");
             return null;
+        } else {
+            Donate donate = maybeDonate.get();
+            DonateReadResponse donateReadResponse = DonateReadResponse.fromDonate(donate);
+
+            System.out.println("해당 donateId를 가진 donate 데이터를 프론트로 반환했습니다");
+            return donateReadResponse;
         }
 
         Donate donate = maybeDonate.get();

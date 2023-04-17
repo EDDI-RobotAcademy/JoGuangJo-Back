@@ -47,21 +47,21 @@ public class DonateServiceImpl implements DonateService {
 
     // 마이페이지에서 자기 방문수거 기부내역 목록조회하는 메서드
     @Override
-    public List<MyDonateListResponse> list(Long memberId) {
+    public List<DonateListResponse> list(Long memberId) {
 
-        List<Donate> MyDonateList = donateRepository.findAllByMemberId(memberId);
+        List<Donate> donateList = donateRepository.findAllByMemberId(memberId);
         System.out.println("donate 테이블 조회에 쓰인 memberId : " + memberId);
 
-        List<MyDonateListResponse> ResponseList = new ArrayList<>();
+        List<DonateListResponse> donateListResponse_List = new ArrayList<>();
 
-        for (Donate donate: MyDonateList) {
-            ResponseList.add(new MyDonateListResponse(
-                    donate.getMemberId(), donate.getDonateVisitId(), donate.getRegDate(), donate.getUpdDate()
+        for (Donate donate: donateList) {
+            donateListResponse_List.add(new DonateListResponse(
+                donate.getDonateId(), donate.getRegDate(), donate.getUpdDate()
             ));
         }
-        System.out.println("해당 memberId를 가진 donate 데이터를 프론트로 반환했습니다");
+        System.out.println("해당 memberId를 가진 donate 테이블의 데이터를 프론트로 반환했습니다");
 
-        return ResponseList;
+        return donateListResponse_List;
     }
 
 

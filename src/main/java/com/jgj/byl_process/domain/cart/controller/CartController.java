@@ -38,4 +38,11 @@ public class CartController {
 
         return cartItemListResponseList;
     }
+
+    @DeleteMapping("/delete")
+    public void cartItemRemove(@RequestParam("cartItemIds") List<Long> cartItemIds){
+        log.info("\n" + "cartItemRemove() 동작 : " + cartItemIds);
+
+        cartService.remove(cartItemIds);
+    }
 }

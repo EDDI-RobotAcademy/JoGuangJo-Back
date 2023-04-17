@@ -82,16 +82,21 @@ public class DonateServiceImpl implements DonateService {
             return donateReadResponse;
         }
 
-        Donate donate = maybeDonate.get();
+    // 마이페이지에서 자기 방문수거 기부내역 수정하는 메서드
+    @Override
+    public Boolean modify(DonateModifyRequest donateModifyRequest) {
+        Optional<Member> maybeMember = donateRepository.findMemberByDonateId(donateModifyRequest.getDonateId());
 
-        MyDonateReadResponse ReadResponse = new MyDonateReadResponse(
-                donate.getMemberId(), donate.getDonateVisitId(),
-                donate.getName(), donate.getEmail(), donate.getPhone(),
-                donate.getQuantity(), donate.getQuality(),
-                donate.getVisitDate(), donate.getVisitTime(),
-                donate.getZipcode(), donate.getCity(), donate.getStreet(), donate.getAddressDetail(),
-                donate.getRegDate(), donate.getUpdDate()
-        );
+        if(maybeMember.isEmpty()) {
+            System.out.println("donateId: " + donateModifyRequest.getDonateId() + "에 해당하는 donate 데이터가 존재하지 않습니다.");
+            return false;
+        } else {
+            Donate donate = donateModifyRequest.toDonate(maybeMember.get());
+            System.out.println("donate: " + donate.getName()+ donate.getDonateId());
+            donateRepository.save(donate);
+            return true;
+        }
+    }
 
         System.out.println("해당 donateVisitId를 가진 donate 데이터를 프론트로 반환했습니다");
         return ReadResponse;

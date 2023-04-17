@@ -41,4 +41,12 @@ public class DonateController {
         return donateService.read(donateId);
     }
 
+    // 마이페이지에서 자기 방문수거 기부내역 수정하는 메서드
+    @PutMapping("/modify/{donateId}")
+    public Boolean donateModify(@RequestBody DonateModifyRequest donateModifyRequest) {
+        log.info("deliveryModify(): "+ donateModifyRequest);
+
+        return donateService.modify(donateModifyRequest);
+    }
+
 }

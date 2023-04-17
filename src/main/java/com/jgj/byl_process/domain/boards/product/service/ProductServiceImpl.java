@@ -11,12 +11,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -26,19 +28,6 @@ public class ProductServiceImpl implements ProductService {
     final private ProductRepository productRepository;
     final private ImageResourceRepository imageResourceRepository;
 
-    @Override
-    public void setSoldOut(Long productId) {
-        Optional<Product> maybeProduct = productRepository.findById(productId);
-
-        if (maybeProduct.isPresent()) {
-            Product product = maybeProduct.get();
-            product.setSoldOut(true);
-            productRepository.save(product);
-        } else {
-            log.error("Product not found: " + productId);
-        }
-    }
-
     @Transactional
     @Override
     public void register(List<MultipartFile> imageFileList, RequestProductInfo productRequest) {
@@ -47,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<ImageResource> imageResourceList = new ArrayList<>();
 
-        final String fixedStringPath = "../../KHGPM-Frontend/LeeSanghoon/frontend/src/assets/uploadImgs/";
+        final String fixedStringPath = "/Users/majin-u/Desktop/JoGuangJo/frontend/JoGuangJo-Front/public/product";
 
         Product product = new Product();
 
@@ -56,39 +45,41 @@ public class ProductServiceImpl implements ProductService {
         product.setContent(productRequest.getContent());
         product.setPrice(productRequest.getPrice());
 
+        String content = product.getContent();
+
+        content = content.replaceAll("<img[^>]*>", ""); // <img> 태그 제거
+        content = content.replaceAll("<p>", ""); // <p> 태그 시작 부분 제거
+        content = content.replaceAll("</p>", ""); // <p> 태그 종료 부분 제거
+
+        // base64로 디코딩 하지 않고 단순히 <img> <p> 태그 replace 후 저장
+        product.setContent(content);
+
         if (imageFileList != null && !imageFileList.isEmpty()) {
-            try {
-                for (MultipartFile multipartFile : imageFileList) {
-                    log.info("requestFileUploadWithText() - filename: " + multipartFile.getOriginalFilename());
+            for (MultipartFile file : imageFileList) {
+                String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+                String filepath = fixedStringPath + "/" + filename;
 
-                    String fullPath = fixedStringPath + multipartFile.getOriginalFilename();
-
-                    FileOutputStream writer = new FileOutputStream(
-                            fixedStringPath + multipartFile.getOriginalFilename()
-                    );
-
-                    writer.write(multipartFile.getBytes());
-                    writer.close();
-
-                    ImageResource imageResource = new ImageResource(multipartFile.getOriginalFilename());
-                    imageResourceList.add(imageResource);
-                    product.setImageResource(imageResource);
+                try {
+                    file.transferTo(new File(filepath));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+
+                ImageResource imageResource = new ImageResource();
+                imageResource.setProduct(product);
+                imageResource.setFilePath(filepath);
+
+                imageResourceList.add(imageResource);
             }
         }
 
         productRepository.save(product);
 
-        /*
-        for (ImageResource imageResource: imageResourceList) {
-            imageResourceRepository.save(imageResource);
-        } */
-        imageResourceRepository.saveAll(imageResourceList);
+        if (!imageResourceList.isEmpty()) {
+            imageResourceRepository.saveAll(imageResourceList);
+        }
     }
+
 
     @Override
     public List<ProductListResponse> list() {
@@ -126,8 +117,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void remove(Long productId) {
-        productRepository.deleteById(productId);
+        try {
+            productRepository.deleteById(productId);
+        } catch (Exception e) {
+            log.error("Error deleting product with ID " + productId, e);
+            throw new RuntimeException("Failed to delete product with ID " + productId, e);
+        }
     }
+
 
     @Override
     public Product modify(Long productId, ProductRequest productRequest) {

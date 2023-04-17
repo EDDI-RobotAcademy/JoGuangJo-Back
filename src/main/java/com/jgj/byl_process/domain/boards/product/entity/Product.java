@@ -33,8 +33,9 @@ public class Product {
     private String content;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ImageResource> imageResourceList = new ArrayList<>();
+
 
     private Integer price;
 
@@ -44,16 +45,17 @@ public class Product {
     @UpdateTimestamp
     private Date updDate;
 
-    public void setImageResource (ImageResource imageResource) {
-        imageResourceList.add(imageResource);
+    public void setImageResource(ImageResource imageResource) {
         imageResource.setProduct(this);
+        this.imageResourceList.add(imageResource);
     }
 
-    public void setImageResourceList (List<ImageResource> imageResourceList) {
-        imageResourceList.addAll(imageResourceList);
-
-        for (int i = 0; i < imageResourceList.size(); i++) {
-            imageResourceList.get(i).setProduct(this);
+    public void setImageResourceList(List<ImageResource> imageResourceList) {
+        for (ImageResource imageResource : imageResourceList) {
+            imageResource.setProduct(this);
         }
+        this.imageResourceList.clear();
+        this.imageResourceList.addAll(imageResourceList);
     }
+
 }

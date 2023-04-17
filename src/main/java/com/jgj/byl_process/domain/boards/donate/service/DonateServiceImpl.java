@@ -25,7 +25,7 @@ public class DonateServiceImpl implements DonateService {
     final private DonateRepository donateRepository;
 
 
-    // 방문수거 페이지에서 방문수거 기부신청하는 메서드
+    // 책 기부 페이지에서 기부 신청하는 메서드
     @Override
     public Boolean register(DonateRegisterRequest donateRegisterRequest) {
 

@@ -11,7 +11,7 @@ import java.util.List;
 public interface DonateService {
 
 
-    // 방문수거 페이지에서 방문수거 신청하는 메서드
+    // 책 기부 페이지에서 기부 신청하는 메서드
     @Transactional
     Boolean register(DonateRegisterRequest donateRegisterRequest);
 

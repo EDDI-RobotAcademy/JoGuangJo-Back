@@ -22,8 +22,8 @@ public class Donate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "donateVisitId")
-    private Long donateVisitId;
+    @Column(name = "donateId")
+    private Long donateId;
 
     @Getter
     @Column(name = "donorName", length = 64)
@@ -58,7 +58,7 @@ public class Donate {
     private String zipcode;
 
     @Getter
-    @Column(name = "city",length = 128)
+    @Column(name = "city", length = 128)
     private String city;
 
     @Getter
@@ -69,14 +69,17 @@ public class Donate {
     @Column(name = "addressDetail", length = 128)
     private String addressDetail;
 
+    @Getter
     @CreationTimestamp
     private Date regDate;
 
+    @Getter
     @UpdateTimestamp
     private Date updDate;
 
-
-    public Donate(Member member, String name, String email, String phone, String quantity, String quality, String visitDate, String visitTime, String zipcode, String city, String street, String addressDetail) {
+    public Donate(Member member, String name, String email, String phone, String quantity,
+                  String quality, String visitDate, String visitTime, String zipcode,
+                  String city, String street, String addressDetail) {
         this.member = member;
         this.name = name;
         this.email = email;
@@ -91,21 +94,17 @@ public class Donate {
         this.addressDetail = addressDetail;
     }
 
+
+
+    public Donate(Member member, Long donateId, String name, String email, String phone, String quantity, String quality, String visitDate, String visitTime, String zipcode, String city, String street, String addressDetail) {
+    }
+
     public Long getMemberId() {
-        return this.member.getMemberId();
+        return member.getMemberId();
     }
 
-    public Long getDonateVisitId() {
-        return this.donateVisitId;
+    public Long getDonateId() {
+        return donateId;
     }
-
-    public Date getRegDate() {
-        return this.regDate;
-    }
-
-    public Date getUpdDate() {
-        return this.updDate;
-    }
-
 }
 

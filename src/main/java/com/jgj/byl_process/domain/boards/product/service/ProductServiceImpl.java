@@ -44,6 +44,7 @@ public class ProductServiceImpl implements ProductService {
         product.setWriter(productRequest.getWriter());
         product.setContent(productRequest.getContent());
         product.setPrice(productRequest.getPrice());
+        product.setQuantity(productRequest.getQuantity());
 
         String content = product.getContent();
 

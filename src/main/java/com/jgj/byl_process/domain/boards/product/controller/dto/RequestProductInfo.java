@@ -12,4 +12,5 @@ public class RequestProductInfo {
     final private String writer;
     final private String content;
     final private Integer price;
+    final private Integer quantity;
 }

@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
 @Getter
 @NoArgsConstructor
 public class ProductRequest {
@@ -12,4 +14,5 @@ public class ProductRequest {
     private String writer;
     private String content;
     private Integer price;
+    private Integer quantity;
 }

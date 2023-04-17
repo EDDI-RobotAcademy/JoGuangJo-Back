@@ -27,7 +27,7 @@ public class DonateController {
         return donateService.register(donateRegisterRequest);
     }
 
-    // 마이페이지에서 자기 방문수거 기부내역 목록조회하는 메서드
+    // 마이페이지에서 자기 기부내역 목록조회하는 메서드
     @GetMapping("/list")
     public List<DonateListResponse> donateList(@RequestParam("memberId") Long memberId) {
         log.info("donateList() 동작: " + memberId);

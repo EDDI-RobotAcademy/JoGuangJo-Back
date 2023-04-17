@@ -16,7 +16,7 @@ public interface DonateService {
     Boolean register(DonateRegisterRequest donateRegisterRequest);
 
 
-    // 마이페이지에서 자기 방문수거 기부내역 목록조회하는 메서드
+    // 마이페이지에서 자기 기부내역 목록조회하는 메서드
     List<DonateListResponse> list(Long memberId);
 
 

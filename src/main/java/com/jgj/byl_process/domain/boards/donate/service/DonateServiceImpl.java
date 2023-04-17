@@ -65,7 +65,7 @@ public class DonateServiceImpl implements DonateService {
     }
 
 
-    // 마이페이지에서 자기 방문수거 기부내역 상세조회하는 메서드
+    // 마이페이지에서 자기 기부내역 상세조회하는 메서드
     @Override
     public DonateReadResponse read(Long donateId) {
         Optional<Donate> maybeDonate = donateRepository.findById(donateId);

@@ -20,7 +20,7 @@ public interface DonateService {
     List<DonateListResponse> list(Long memberId);
 
 
-    // 마이페이지에서 자기 방문수거 기부내역 상세조회하는 메서드
+    // 마이페이지에서 자기 기부내역 상세조회하는 메서드
     DonateReadResponse read(Long donateId);
 
 

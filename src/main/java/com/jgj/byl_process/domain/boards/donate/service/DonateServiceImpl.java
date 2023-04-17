@@ -83,18 +83,29 @@ public class DonateServiceImpl implements DonateService {
         }
     }
 
+
     // 마이페이지에서 자기 방문수거 기부내역 수정하는 메서드
     @Override
     public Boolean modify(DonateModifyRequest donateModifyRequest) {
-        Optional<Member> maybeMember = donateRepository.findMemberByDonateId(donateModifyRequest.getDonateId());
 
-        if(maybeMember.isEmpty()) {
+        Optional<Donate> maybeDonate = donateRepository.findById(donateModifyRequest.getDonateId());
+
+        System.out.println(
+            "modifyRequest 의 donateId, name : " + donateModifyRequest.getDonateId() + donateModifyRequest.getName()
+        );
+
+            if (maybeDonate.isEmpty()) {
             System.out.println("donateId: " + donateModifyRequest.getDonateId() + "에 해당하는 donate 데이터가 존재하지 않습니다.");
             return false;
+
         } else {
-            Donate donate = donateModifyRequest.toDonate(maybeMember.get());
-            System.out.println("donate: " + donate.getName()+ donate.getDonateId());
+            Donate donate = maybeDonate.get();
+
+            donate.updateFromRequest(donateModifyRequest);
+
             donateRepository.save(donate);
+
+            System.out.println("해당 donateId 의 데이터를 수정했습니다" + donate);
             return true;
         }
     }

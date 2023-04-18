@@ -1,8 +1,8 @@
-package com.jgj.byl_process.domain.board.controller;
+package com.jgj.byl_process.domain.boards.notice.controller;
 
-import com.jgj.byl_process.domain.board.controller.request.NoticeBoardRequest;
-import com.jgj.byl_process.domain.board.entity.NoticeBoard;
-import com.jgj.byl_process.domain.board.service.NoticeBoardService;
+import com.jgj.byl_process.domain.boards.notice.service.request.NoticeBoardRequest;
+import com.jgj.byl_process.domain.boards.notice.entity.NoticeBoard;
+import com.jgj.byl_process.domain.boards.notice.service.NoticeBoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

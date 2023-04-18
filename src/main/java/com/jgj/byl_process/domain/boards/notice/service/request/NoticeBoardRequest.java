@@ -1,4 +1,4 @@
-package com.jgj.byl_process.domain.board.controller.request;
+package com.jgj.byl_process.domain.boards.notice.service.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

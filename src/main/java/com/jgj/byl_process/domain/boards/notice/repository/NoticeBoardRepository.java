@@ -1,6 +1,6 @@
-package com.jgj.byl_process.domain.board.repository;
+package com.jgj.byl_process.domain.boards.notice.repository;
 
-import com.jgj.byl_process.domain.board.entity.NoticeBoard;
+import com.jgj.byl_process.domain.boards.notice.entity.NoticeBoard;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

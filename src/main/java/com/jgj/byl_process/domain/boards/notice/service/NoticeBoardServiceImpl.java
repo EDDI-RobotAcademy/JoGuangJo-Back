@@ -1,8 +1,8 @@
-package com.jgj.byl_process.domain.board.service;
+package com.jgj.byl_process.domain.boards.notice.service;
 
-import com.jgj.byl_process.domain.board.controller.request.NoticeBoardRequest;
-import com.jgj.byl_process.domain.board.entity.NoticeBoard;
-import com.jgj.byl_process.domain.board.repository.NoticeBoardRepository;
+import com.jgj.byl_process.domain.boards.notice.service.request.NoticeBoardRequest;
+import com.jgj.byl_process.domain.boards.notice.entity.NoticeBoard;
+import com.jgj.byl_process.domain.boards.notice.repository.NoticeBoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;

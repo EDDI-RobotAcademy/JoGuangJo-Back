@@ -1,6 +1,8 @@
 package com.jgj.byl_process.domain.board.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -10,11 +12,13 @@ import java.util.Date;
 
 @Data
 @Entity
-public class Board {
+@Setter
+@Getter
+public class NoticeBoard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long boardId;
+    private Long noticeBoardId;
 
     @Column(length = 128, nullable = false)
     private String title;
@@ -30,4 +34,5 @@ public class Board {
 
     @UpdateTimestamp
     private Date updDate;
+
 }

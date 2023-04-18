@@ -12,13 +12,13 @@ public interface NoticeBoardService {
 
     List<NoticeBoard> list();
 
-    NoticeBoard read(Long boardId);
+    NoticeBoard read(Long noticeBoardId);
 
-    void remove(Long boardId);
+    void delete(Long noticeBoardId);
 
-    NoticeBoard modify(Long boardId, NoticeBoardRequest noticeBoardRequest);
+    NoticeBoard modify(Long noticeBoardId, NoticeBoardRequest noticeBoardRequest);
 
-    List<NoticeBoard> bigMisstake(Long boardId, NoticeBoardRequest noticeBoardRequest);
+    List<NoticeBoard> bigMisstake(Long noticeBoardId, NoticeBoardRequest noticeBoardRequest);
 
     Long getCount();
 

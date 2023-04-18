@@ -19,37 +19,38 @@ public class NoticeBoardController {
 
     @PostMapping("/register")
     public void noticeBoardRegister (@RequestBody NoticeBoardRequest noticeBoardRequest) {
-        log.info("noticeBoardRegister()");
+        log.info("noticeBoardRegister() 동작: " + noticeBoardRequest);
         noticeBoardService.register(noticeBoardRequest);
     }
 
     @GetMapping("/list")
     public List<NoticeBoard> noticeBoardList () {
-        log.info("noticeBoardList()");
+        log.info("noticeBoardList() 동작: ");
 
         return noticeBoardService.list();
     }
 
     @GetMapping("/{noticeBoardId}")
     public NoticeBoard noticeBoardRead(@PathVariable("noticeBoardId") Long noticeBoardId) {
-        log.info("noticeBoardRead()");
+        log.info("noticeBoardRead() 동작: " + noticeBoardId);
 
         return noticeBoardService.read(noticeBoardId);
     }
 
-    @DeleteMapping("/{noticeBoardId}")
-    public void noticeBoardRemove(@PathVariable("noticeBoardId") Long noticeBoardId) {
-        log.info("noticeBoardRemove()");
-
-        noticeBoardService.remove(noticeBoardId);
-    }
-
     @PutMapping("/{noticeBoardId}")
-    public NoticeBoard boardModify(@PathVariable("noticeBoardId") Long noticeBoardId,
-                                   @RequestBody NoticeBoardRequest noticeBoardRequest) {
+    public NoticeBoard noticeBoardModify(@PathVariable("noticeBoardId") Long noticeBoardId,
+                                        @RequestBody NoticeBoardRequest noticeBoardRequest) {
 
-        log.info("noticeBoardModify(): " + noticeBoardRequest + "id: " + noticeBoardId);
+        log.info("noticeBoardModify() 동작: " + noticeBoardRequest + "noticeBoardId: " + noticeBoardId);
 
         return noticeBoardService.modify(noticeBoardId, noticeBoardRequest);
     }
+
+    @DeleteMapping("/{noticeBoardId}")
+    public void noticeBoardDelete(@PathVariable("noticeBoardId") Long noticeBoardId) {
+        log.info("noticeBoardDelete() 동작: " + noticeBoardId);
+
+        noticeBoardService.delete(noticeBoardId);
+    }
+
 }

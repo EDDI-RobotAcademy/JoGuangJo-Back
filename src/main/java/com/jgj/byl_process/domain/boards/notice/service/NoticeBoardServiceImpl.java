@@ -41,16 +41,18 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
 
     @Override
     public List<NoticeBoard> list() {
+        System.out.println(
+        "noticeBoardRepository.findAll" + noticeBoardRepository.findAll(Sort.by(Sort.Direction.DESC, "noticeBoardId"))
+        );
         return noticeBoardRepository.findAll(Sort.by(Sort.Direction.DESC, "noticeBoardId"));
     }
 
     @Override
     public NoticeBoard read(Long noticeBoardId) {
-        // 일 수도 있고 아닐 수도 있고
         Optional<NoticeBoard> maybeBoard = noticeBoardRepository.findById(noticeBoardId);
 
         if (maybeBoard.isEmpty()) {
-            log.info("읽을 수가 없드아!");
+            log.info("해당 noticeBoardId로 noticeBoard 데이터를 찾지 못했습니다: " + noticeBoardId);
             return null;
         }
 
@@ -58,16 +60,11 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
     }
 
     @Override
-    public void remove(Long noticeBoardId) {
-        noticeBoardRepository.deleteById(noticeBoardId);
-    }
-
-    @Override
     public NoticeBoard modify(Long noticeBoardId, NoticeBoardRequest noticeBoardRequest) {
         Optional<NoticeBoard> maybeBoard = noticeBoardRepository.findById(noticeBoardId);
 
         if (maybeBoard.isEmpty()) {
-            System.out.println("Board 정보를 찾지 못했습니다: " + noticeBoardId);
+            log.info("해당 noticeBoardId로 noticeBoard 데이터를 찾지 못했습니다: " + noticeBoardId);
             return null;
         }
 
@@ -79,6 +76,13 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
 
         return noticeBoard;
     }
+
+    @Override
+    public void delete(Long noticeBoardId) {
+        noticeBoardRepository.deleteById(noticeBoardId);
+    }
+
+
 
     @Override
     public List<NoticeBoard> bigMisstake(Long noticeBoardId, NoticeBoardRequest noticeBoardRequest) {

@@ -77,7 +77,7 @@ public class MemberController {
 
     @PostMapping("/resign")
     public void resign(@RequestBody String token) {
-        token = token.substring(0, token.length() - 1);
+        token = token.substring(3, token.length() - 4);
         log.info("resign(): " + token);
 
         memberService.resign(token);

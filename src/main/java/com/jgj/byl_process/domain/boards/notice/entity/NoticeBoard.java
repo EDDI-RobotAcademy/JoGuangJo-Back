@@ -1,4 +1,4 @@
-package com.jgj.byl_process.domain.board.entity;
+package com.jgj.byl_process.domain.boards.notice.entity;
 
 import lombok.Data;
 import lombok.Getter;

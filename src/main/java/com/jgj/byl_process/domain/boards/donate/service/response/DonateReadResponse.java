@@ -25,8 +25,7 @@ public class DonateReadResponse {
     private String city;
     private String street;
     private String addressDetail;
-    private Date regDate;
-    private Date updDate;
+
 
     public static DonateReadResponse fromDonate(Donate donate) {
         return new DonateReadResponse(
@@ -34,8 +33,7 @@ public class DonateReadResponse {
                 donate.getName(), donate.getEmail(), donate.getPhone(),
                 donate.getQuantity(), donate.getQuality(),
                 donate.getVisitDate(), donate.getVisitTime(),
-                donate.getZipcode(), donate.getCity(), donate.getStreet(), donate.getAddressDetail(),
-                donate.getRegDate(), donate.getUpdDate()
+                donate.getZipcode(), donate.getCity(), donate.getStreet(), donate.getAddressDetail()
         );
     }
 }

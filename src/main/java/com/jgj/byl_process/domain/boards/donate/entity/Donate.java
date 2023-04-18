@@ -1,9 +1,11 @@
 package com.jgj.byl_process.domain.boards.donate.entity;
 
+import com.jgj.byl_process.domain.boards.donate.service.request.DonateModifyRequest;
 import com.jgj.byl_process.domain.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
@@ -16,6 +18,7 @@ public class Donate {
 
     /* Member 테이블과 Donate 테이블 간의 관계 설정
     한 member 는 여러번의 donate 를 할 수 있다. member 가 탈퇴하면 그 member 의 모든 donate 내역이 사라진다. */
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId")
     private Member member;
@@ -77,6 +80,7 @@ public class Donate {
     @UpdateTimestamp
     private Date updDate;
 
+
     public Donate(Member member, String name, String email, String phone, String quantity,
                   String quality, String visitDate, String visitTime, String zipcode,
                   String city, String street, String addressDetail) {
@@ -94,10 +98,20 @@ public class Donate {
         this.addressDetail = addressDetail;
     }
 
-
-
-    public Donate(Member member, Long donateId, String name, String email, String phone, String quantity, String quality, String visitDate, String visitTime, String zipcode, String city, String street, String addressDetail) {
+    public void updateFromRequest(DonateModifyRequest request) {
+        this.name = request.getName();
+        this.email = request.getEmail();
+        this.phone = request.getPhone();
+        this.quantity = request.getQuantity();
+        this.quality = request.getQuality();
+        this.visitDate = request.getVisitDate();
+        this.visitTime = request.getVisitTime();
+        this.zipcode = request.getZipcode();
+        this.city = request.getCity();
+        this.street = request.getStreet();
+        this.addressDetail = request.getAddressDetail();
     }
+
 
     public Long getMemberId() {
         return member.getMemberId();
@@ -106,5 +120,7 @@ public class Donate {
     public Long getDonateId() {
         return donateId;
     }
+
+
 }
 

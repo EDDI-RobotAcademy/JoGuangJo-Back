@@ -13,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class DonateModifyRequest {
 
-    private Long memberId;
+//    private Long memberId;
     private Long donateId;
     private String name;
     private String email;
@@ -30,7 +30,7 @@ public class DonateModifyRequest {
 
     public Donate toDonate(Member member) {
         return new Donate(
-                member, this.getDonateId(), this.getName(), this.getEmail(), this.getPhone(),
+                member, this.getName(), this.getEmail(), this.getPhone(),
                 this.getQuantity(), this.getQuality(), this.getVisitDate(), this.getVisitTime(),
                 this.getZipcode(), this.getCity(), this.getStreet(), this.getAddressDetail()
         );

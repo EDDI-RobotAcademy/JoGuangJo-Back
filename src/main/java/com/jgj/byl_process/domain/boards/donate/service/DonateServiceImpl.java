@@ -25,7 +25,7 @@ public class DonateServiceImpl implements DonateService {
     final private DonateRepository donateRepository;
 
 
-    // 방문수거 페이지에서 방문수거 기부신청하는 메서드
+    // 책 기부 페이지에서 기부 신청하는 메서드
     @Override
     public Boolean register(DonateRegisterRequest donateRegisterRequest) {
 
@@ -45,7 +45,7 @@ public class DonateServiceImpl implements DonateService {
     }
     
 
-    // 마이페이지에서 자기 방문수거 기부내역 목록조회하는 메서드
+    // 마이페이지에서 자기 기부내역 목록조회하는 메서드
     @Override
     public List<DonateListResponse> list(Long memberId) {
 
@@ -65,7 +65,7 @@ public class DonateServiceImpl implements DonateService {
     }
 
 
-    // 마이페이지에서 자기 방문수거 기부내역 상세조회하는 메서드
+    // 마이페이지에서 자기 기부내역 상세조회하는 메서드
     @Override
     public DonateReadResponse read(Long donateId) {
         Optional<Donate> maybeDonate = donateRepository.findById(donateId);
@@ -83,31 +83,46 @@ public class DonateServiceImpl implements DonateService {
         }
     }
 
+
     // 마이페이지에서 자기 방문수거 기부내역 수정하는 메서드
     @Override
     public Boolean modify(DonateModifyRequest donateModifyRequest) {
-        Optional<Member> maybeMember = donateRepository.findMemberByDonateId(donateModifyRequest.getDonateId());
 
-        if(maybeMember.isEmpty()) {
+        Optional<Donate> maybeDonate = donateRepository.findById(donateModifyRequest.getDonateId());
+
+        System.out.println(
+            "modifyRequest 의 donateId, name : " + donateModifyRequest.getDonateId() + donateModifyRequest.getName()
+        );
+
+            if (maybeDonate.isEmpty()) {
             System.out.println("donateId: " + donateModifyRequest.getDonateId() + "에 해당하는 donate 데이터가 존재하지 않습니다.");
             return false;
+
         } else {
-            Donate donate = donateModifyRequest.toDonate(maybeMember.get());
-            System.out.println("donate: " + donate.getName()+ donate.getDonateId());
+            Donate donate = maybeDonate.get();
+
+            donate.updateFromRequest(donateModifyRequest);
+
             donateRepository.save(donate);
+
+            System.out.println("해당 donateId 의 데이터를 수정했습니다" + donate);
             return true;
         }
     }
 
+
+
+
     // 마이페이지에서 자기 방문수거 기부내역 삭제하는 메서드
     @Override
     public Boolean delete(Long donateId) {
+
         Optional<Donate> maybeDonate = donateRepository.findById(donateId);
 
         if (maybeDonate.isEmpty()) {
-            System.out.println(
-                    "해당 donateId의 데이터가 존재하지 않습니다. donate 테이블 조회에 쓰인 donateId: " + donateId);
+            System.out.println("해당 donateId의 데이터가 존재하지 않습니다. donate 테이블 조회에 쓰인 donateId: " + donateId);
             return false;
+
         } else {
             donateRepository.delete(maybeDonate.get());
             return true;

@@ -94,9 +94,12 @@ public class MemberServiceImpl implements MemberService {
             redisService.deleteByKey(userToken.toString());
             redisService.setKeyAndValue(userToken.toString(), member.getMemberId());
 
+            /* (지영) 로그인하면 사용자의 token, memberId, nickname + 여기에 memberType 까지 알려주도록 수정 */
             MemberLoginResponse memberLoginResponse;
-            memberLoginResponse = new MemberLoginResponse(userToken.toString(), member.getMemberId(), member.getNickName());
-//
+            memberLoginResponse = new MemberLoginResponse(
+            userToken.toString(), member.getMemberId(), member.getNickName(), member.getRole().getMemberType()
+            );
+
             return memberLoginResponse;
         }
 

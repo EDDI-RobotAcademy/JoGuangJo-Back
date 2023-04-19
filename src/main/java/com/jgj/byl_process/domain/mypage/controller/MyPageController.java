@@ -57,8 +57,8 @@ public class MyPageController {
         log.info("타입(): " + memberTypeRequestDataForm.getMemberType());
         log.info("메시지(): " + memberTypeRequestDataForm.getMessage());
 
-        myPageService.registerMemberTypeRequest(memberTypeRequestDataForm);
-        return false;
+
+        return myPageService.registerMemberTypeRequest(memberTypeRequestDataForm);
     }
 
     @GetMapping("/memberTypeRequestList")

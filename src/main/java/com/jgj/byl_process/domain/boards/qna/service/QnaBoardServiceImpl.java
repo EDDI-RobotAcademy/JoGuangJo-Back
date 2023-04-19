@@ -76,19 +76,19 @@ public void register(List<MultipartFile> imageFileList, QnaBoardRequest qnaBoard
     qnaBoardImgRepository.saveAll(qnaBoardImgResourcesList);
 }
 
-    @Override
-    public List<QnaBoardImgResponse> findQnaBoardImage(Long qnaBoardId) {
-        List<QnaBoardImgResource> qnaBoardImgResources = qnaBoardImgRepository.findImagePathByQnaBoardId(qnaBoardId);
-        List<QnaBoardImgResponse> qnaBoardImgResponses = new ArrayList<>();
-
-        for (QnaBoardImgResource qnaBoardImgResource: qnaBoardImgResources) {
-
-            qnaBoardImgResponses.add(new QnaBoardImgResponse(
-                    qnaBoardImgResource.getImageResourcePath()));
-        }
-
-        return qnaBoardImgResponses;
-    }
+//    @Override
+//    public List<QnaBoardImgResponse> findQnaBoardImage(Long qnaBoardId) {
+//        List<QnaBoardImgResource> qnaBoardImgResources = qnaBoardImgRepository.findImagePathByQnaBoardId(qnaBoardId);
+//        List<QnaBoardImgResponse> qnaBoardImgResponses = new ArrayList<>();
+//
+//        for (QnaBoardImgResource qnaBoardImgResource: qnaBoardImgResources) {
+//
+//            qnaBoardImgResponses.add(new QnaBoardImgResponse(
+//                    qnaBoardImgResource.getImageResourcePath()));
+//        }
+//
+//        return qnaBoardImgResponses;
+//    }
     @Override
     public List<QnaBoardListResponse> list() {
         List<QnaBoard> QnaBoardList = qnaBoardRepository.findAll();
@@ -107,22 +107,24 @@ public void register(List<MultipartFile> imageFileList, QnaBoardRequest qnaBoard
     @Override
     public QnaBoardReadResponse read(Long qnaBoardId) {
         Optional<QnaBoard> maybeQnaBoard = qnaBoardRepository.findById(qnaBoardId);
-        Optional<List<QnaBoardImgResource>> maybeQnaBoardImgList = qnaBoardImgRepository.findByQnaBoard_QnaBoardId(qnaBoardId);
-
-        if (maybeQnaBoard.isEmpty()) {
-            log.info("읽을 수가 없습니다.");
-            return null;
-        }
+        List<String> maybeQnaBoardImgList = qnaBoardImgRepository.findImagePathByQnaBoardId(qnaBoardId);
 
         QnaBoard qnaBoard = maybeQnaBoard.get();
-        List<QnaBoardImgResource> qnaBoardImgResourcesList = maybeQnaBoardImgList.orElse(new ArrayList<>());
+        List<String> imgPaths = new ArrayList<>();
+        
+        for (String imgPath : maybeQnaBoardImgList) {
+            String fileName = imgPath.substring(imgPath.lastIndexOf("/") + 1);
+            imgPaths.add(fileName);
+        }
 
-        QnaBoardReadResponse qnaBoardReadResponse = new QnaBoardReadResponse(
-                qnaBoard.getQnaBoardId(), qnaBoard.getTitle(), qnaBoard.getWriter(),
-                qnaBoard.getContent(), qnaBoardImgResourcesList.isEmpty() ? null : qnaBoardImgResourcesList.get(0).getImageResourcePath(), qnaBoard.getRegDate()
+        return new QnaBoardReadResponse(
+                qnaBoard.getQnaBoardId(),
+                qnaBoard.getTitle(),
+                qnaBoard.getWriter(),
+                qnaBoard.getContent(),
+                imgPaths,
+                qnaBoard.getRegDate()
         );
-
-        return qnaBoardReadResponse;
     }
 
     @Override

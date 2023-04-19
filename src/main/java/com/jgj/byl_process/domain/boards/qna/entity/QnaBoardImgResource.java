@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Entity
@@ -22,9 +21,6 @@ public class QnaBoardImgResource {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "qna_board_id")
     private QnaBoard qnaBoard;
-
-    public QnaBoardImgResource(String originalFilename, String s, String base64Encoded) {
-    }
 
     public void setFilePath(String imageResourcePath) {
         this.imageResourcePath = imageResourcePath;

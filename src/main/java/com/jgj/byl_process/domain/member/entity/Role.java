@@ -1,5 +1,6 @@
 package com.jgj.byl_process.domain.member.entity;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
@@ -14,6 +15,7 @@ public class Role {
     private Long rollId;
 
     @Setter
+    @Getter
     @Column(nullable = false)
     private String memberType;
 
@@ -25,4 +27,5 @@ public class Role {
         this.member = member;
         this.memberType = memberType;
     }
+
 }

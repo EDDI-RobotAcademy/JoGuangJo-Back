@@ -23,5 +23,5 @@ public interface QnaBoardService {
 
     Long getLastEntityId();
 
-    List<QnaBoardImgResponse> findQnaBoardImage(Long qnaBoardId);
+//    List<QnaBoardImgResponse> findQnaBoardImage(Long qnaBoardId);
 }

@@ -17,7 +17,7 @@ public interface ProductService {
 
     Product modify(Long productId, ProductRequest productRequest);
 
-    List<ImageResourceResponse> findProductImage(Long productId);
+   // List<ImageResourceResponse> findProductImage(Long productId);
 
     List<AllProductResponse> all();
 }

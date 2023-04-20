@@ -5,6 +5,8 @@ import com.jgj.byl_process.domain.boards.product.entity.ImageResource;
 import com.jgj.byl_process.domain.boards.product.entity.Product;
 import com.jgj.byl_process.domain.boards.product.repository.ImageResourceRepository;
 import com.jgj.byl_process.domain.boards.product.repository.ProductRepository;
+import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaBoardReadResponse;
+import com.jgj.byl_process.domain.boards.qna.entity.QnaBoard;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<ImageResource> imageResourceList = new ArrayList<>();
 
-        final String fixedStringPath = "/Users/majin-u/Desktop/JoGuangJo/frontend/JoGuangJo-Front/public/product";
+        final String fixedStringPath = "/Users/majin-u/Desktop/JoGuangJo/frontend/JoGuangJo-Front/src/assets/productImgs";
 
         Product product = new Product();
 
@@ -87,33 +89,42 @@ public class ProductServiceImpl implements ProductService {
         List<Product> productList = productRepository.findAll();
         List<ProductListResponse> productResponseList = new ArrayList<>();
 
+
         for (Product product : productList) {
+            List<String> imgPaths = imageResourceRepository.findImagePathByProductId(product.getProductId());
             productResponseList.add(new ProductListResponse(
                     product.getProductId(), product.getProductName(),
-                    product.getWriter(),/* product.getRegDate(),*/ product.getPrice()
+                    product.getWriter(), product.getPrice(), imgPaths
             ));
         }
 
         return productResponseList;
     }
 
+
     @Override
     public ProductReadResponse read(Long productId) {
         Optional<Product> maybeProduct = productRepository.findById(productId);
+        List<String> maybeProductImgList = imageResourceRepository.findImagePathByProductId(productId);
 
-        if (maybeProduct.isEmpty()) {
-            log.info("읽을 수가 없드아!");
-            return null;
-        }
 
         Product product = maybeProduct.get();
+        List<String> imgPaths = new ArrayList<>();
 
-        ProductReadResponse productReadResponse = new ProductReadResponse(
-                product.getProductId(), product.getProductName(), product.getWriter(),
-                product.getContent(), product.getPrice(), product.getRegDate()
+        for (String imgPath : maybeProductImgList) {
+            String fileName = imgPath.substring(imgPath.lastIndexOf("/") + 1);
+            imgPaths.add(fileName);
+        }
+
+        return new ProductReadResponse(
+                product.getProductId(),
+                product.getProductName(),
+                product.getWriter(),
+                product.getContent(),
+                imgPaths,
+                product.getPrice(),
+                product.getRegDate()
         );
-
-        return productReadResponse;
     }
 
     @Override
@@ -146,34 +157,25 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
-    @Override
-    public List<ImageResourceResponse> findProductImage(Long productId) {
-        List<ImageResource> imageResourceList = imageResourceRepository.findImagePathByProductId(productId);
-        List<ImageResourceResponse> imageResourceResponseList = new ArrayList<>();
-
-        for (ImageResource imageResource : imageResourceList) {
-            System.out.println("imageResource path: " + imageResource.getImageResourcePath());
-
-            imageResourceResponseList.add(new ImageResourceResponse(
-                    imageResource.getImageResourcePath()));
-        }
-
-        return imageResourceResponseList;
-    }
+//    @Override
+//    public List<ImageResourceResponse> findProductImage(Long productId) {
+//        List<ImageResource> imageResourceList = imageResourceRepository.findImagePathByProductId(productId);
+//        List<ImageResourceResponse> imageResourceResponseList = new ArrayList<>();
+//
+//        for (ImageResource imageResource : imageResourceList) {
+//            System.out.println("imageResource path: " + imageResource.getImageResourcePath());
+//
+//            imageResourceResponseList.add(new ImageResourceResponse(
+//                    imageResource.getImageResourcePath()));
+//        }
+//
+//        return imageResourceResponseList;
+//    }
 
     @Override
     public List<AllProductResponse> all() {
         List<Product> productList = productRepository.findAll();
         List<AllProductResponse> allProductList = new ArrayList<>();
-
-        for (Product product : productList) {
-            List<ImageResource> imageResourceList = imageResourceRepository.findImagePathByProductId(product.getProductId());
-
-            allProductList.add(new AllProductResponse(
-                    product.getProductId(), product.getProductName(),
-                    product.getWriter(), product.getRegDate(),
-                    imageResourceList));
-        }
 
         return allProductList;
     }

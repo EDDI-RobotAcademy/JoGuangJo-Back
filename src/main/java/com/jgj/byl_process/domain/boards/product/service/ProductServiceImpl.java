@@ -89,17 +89,35 @@ public class ProductServiceImpl implements ProductService {
         List<Product> productList = productRepository.findAll();
         List<ProductListResponse> productResponseList = new ArrayList<>();
 
-
         for (Product product : productList) {
             List<String> imgPaths = imageResourceRepository.findImagePathByProductId(product.getProductId());
+
+            // realThumbnail을 for문 안에서 초기화합니다.
+            List<String> realThumbnail = new ArrayList<>();
+
+            for (String thumbnail : imgPaths) {
+                String fileName = thumbnail.substring(thumbnail.lastIndexOf("/") + 1);
+                realThumbnail.add(fileName);
+
+                System.out.println(fileName);
+            }
+
+            if (imgPaths == null || imgPaths.isEmpty()) {
+                System.out.println("이미지 경로를 찾을 수 없습니다: " + product.getProductId());
+            } else {
+                System.out.println("product ID 의 이미지 경로 " + product.getProductId() + ": " + imgPaths);
+            }
+
             productResponseList.add(new ProductListResponse(
                     product.getProductId(), product.getProductName(),
-                    product.getWriter(), product.getPrice(), imgPaths
+                    product.getWriter(), product.getPrice(), realThumbnail
             ));
         }
 
         return productResponseList;
     }
+
+
 
 
     @Override

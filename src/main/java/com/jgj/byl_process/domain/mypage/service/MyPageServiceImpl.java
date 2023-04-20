@@ -7,7 +7,7 @@ import com.jgj.byl_process.domain.member.repository.MemberRepository;
 import com.jgj.byl_process.domain.member.repository.RoleRepository;
 import com.jgj.byl_process.domain.mypage.MemberToMyPageResponseConverter;
 import com.jgj.byl_process.domain.mypage.controller.form.*;
-import com.jgj.byl_process.domain.mypage.entity.MemberRoll;
+import com.jgj.byl_process.domain.mypage.entity.RollRequestBoard;
 import com.jgj.byl_process.domain.mypage.repository.MemberRollRepository;
 import com.jgj.byl_process.domain.mypage.service.response.MemberRollListResponse;
 import com.jgj.byl_process.domain.mypage.service.response.MemberRollReadResponse;
@@ -131,9 +131,9 @@ public class MyPageServiceImpl implements MyPageService {
             final String nickname = member.getNickName();
             final String memberType = memberTypeRequestDataForm.getMemberType();
             final String message = memberTypeRequestDataForm.getMessage();
-            final MemberRoll memberRoll = new MemberRoll(member, nickname, memberType, message);
+            final RollRequestBoard rollRequestBoard = new RollRequestBoard(member, nickname, memberType, message);
 
-            memberRollRepository.save(memberRoll);
+            memberRollRepository.save(rollRequestBoard);
         }
         // 새로운 엔티티를 만들어서 저장
         // 그 엔티티의 역할은 뭐냐
@@ -142,18 +142,18 @@ public class MyPageServiceImpl implements MyPageService {
 
     @Override
     public List<MemberRollListResponse> requestlist() {
-        List<MemberRoll> memberRollList = memberRollRepository.findAll();
+        List<RollRequestBoard> rollRequestBoardList = memberRollRepository.findAll();
         List<MemberRollListResponse> memberRollListResponseList = new ArrayList<>();
 
-        for (MemberRoll memberRoll: memberRollList) {
+        for (RollRequestBoard rollRequestBoard : rollRequestBoardList) {
             memberRollListResponseList.add(new MemberRollListResponse(
-                    memberRoll.getMemberRollId(),
-                    memberRoll.getNickname(),
-                    memberRoll.getMemberType(),
-                    memberRoll.getRegDate().toString()
+                    rollRequestBoard.getRollrequestId(),
+                    rollRequestBoard.getNickname(),
+                    rollRequestBoard.getMemberType(),
+                    rollRequestBoard.getRegDate().toString()
                     )
             );
-            System.out.println(memberRoll.getRegDate().toString());
+            System.out.println(rollRequestBoard.getRegDate().toString());
         }
 
         return memberRollListResponseList;
@@ -162,17 +162,17 @@ public class MyPageServiceImpl implements MyPageService {
     @Override
     public MemberRollReadResponse readRequest(Long id) {
         // 들어온 id 가 유효한 id 인지 검색
-        Optional<MemberRoll> maybeMemberRoll = memberRollRepository.findById(id);
+        Optional<RollRequestBoard> maybeMemberRoll = memberRollRepository.findById(id);
 
         if(maybeMemberRoll.isPresent()) {
             // 존재할경우 작업 진행
             // 찾아온 거 가져오기
-            MemberRoll memberRoll = maybeMemberRoll.get();
+            RollRequestBoard rollRequestBoard = maybeMemberRoll.get();
             // 가져온거 매핑하기
             MemberRollReadResponse memberRollReadResponse = new MemberRollReadResponse(
-                    memberRoll.getMemberRollId(), memberRoll.getMember().getMemberId(),
-                    memberRoll.getNickname(), memberRoll.getMemberType(),
-                    memberRoll.getMessage(), memberRoll.getRegDate().toString()
+                    rollRequestBoard.getRollrequestId(), rollRequestBoard.getMember().getMemberId(),
+                    rollRequestBoard.getNickname(), rollRequestBoard.getMemberType(),
+                    rollRequestBoard.getMessage(), rollRequestBoard.getRegDate().toString()
             );
             return memberRollReadResponse;
         } else {
@@ -183,7 +183,7 @@ public class MyPageServiceImpl implements MyPageService {
 
     @Override
     public void rollRequestAccept(MemberTypeRequestCheckForm memberTypeRequestCheckForm) {
-        Optional<MemberRoll> isMemberRoll = memberRollRepository.findById(memberTypeRequestCheckForm.getRequestId());
+        Optional<RollRequestBoard> isMemberRoll = memberRollRepository.findById(memberTypeRequestCheckForm.getRequestId());
         Optional<Role> isRoll = rollRepository.findByMemberId(memberTypeRequestCheckForm.getMemberId());
 
         if(isMemberRoll.isPresent() && isRoll.isPresent()) {
@@ -201,7 +201,7 @@ public class MyPageServiceImpl implements MyPageService {
 
     @Override
     public void rollRequestReject (RollRequestRejectForm rollRequestRejectForm) {
-        Optional<MemberRoll> isMemberRoll = memberRollRepository.findById(rollRequestRejectForm.getRequestId());
+        Optional<RollRequestBoard> isMemberRoll = memberRollRepository.findById(rollRequestRejectForm.getRequestId());
 
         if(isMemberRoll.isPresent()) {
             memberRollRepository.deleteById(rollRequestRejectForm.getRequestId());

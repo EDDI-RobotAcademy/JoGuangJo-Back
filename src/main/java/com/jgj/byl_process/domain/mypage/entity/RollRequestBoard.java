@@ -13,12 +13,12 @@ import java.util.Date;
 @Setter
 @Entity
 @NoArgsConstructor
-public class MemberRoll {
+public class RollRequestBoard {
 
     @Id
-    @Column(name = "membertyperequest_id")
+    @Column(name = "roll_request_Id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberRollId;
+    private Long rollrequestId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -39,7 +39,7 @@ public class MemberRoll {
     @CreationTimestamp
     private Date regDate;
 
-    public MemberRoll(Member member, String nickname, String memberType, String message) {
+    public RollRequestBoard(Member member, String nickname, String memberType, String message) {
         this.member = member;
         this.nickname = nickname;
         this.memberType = memberType;

@@ -12,7 +12,7 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long rollId;
+    private Long roleId;
 
     @Setter
     @Getter

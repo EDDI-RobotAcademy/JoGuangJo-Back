@@ -59,14 +59,14 @@ public class ProductController {
         return productService.modify(productId, productRequest);
     }
 
-    @GetMapping("/imageList/{productId}")
-    public List<ImageResourceResponse> readProductImageResource(
-            @PathVariable("productId") Long productId) {
-
-        log.info("readProductImageResource(): " + productId);
-
-        return productService.findProductImage(productId);
-    }
+//    @GetMapping("/imageList/{productId}")
+//    public List<ImageResourceResponse> readProductImageResource(
+//            @PathVariable("productId") Long productId) {
+//
+//        log.info("readProductImageResource(): " + productId);
+//
+//        return productService.findProductImage(productId);
+//    }
 
     @GetMapping("/all")
     public List<AllProductResponse> allProductList () {

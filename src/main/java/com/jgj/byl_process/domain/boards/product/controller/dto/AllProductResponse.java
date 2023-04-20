@@ -12,15 +12,15 @@ public class AllProductResponse {
     final private String productName;
     final private String writer;
     final private Date regDate;
-    final private List<ImageResource> imageResourceList;
+
 
     public AllProductResponse(Long productId, String productName, String writer,
-                              Date regDate, List<ImageResource> imageResourceList) {
+                              Date regDate) {
 
         this.productId = productId;
         this.productName = productName;
         this.writer = writer;
         this.regDate = regDate;
-        this.imageResourceList = imageResourceList;
+
     }
 }

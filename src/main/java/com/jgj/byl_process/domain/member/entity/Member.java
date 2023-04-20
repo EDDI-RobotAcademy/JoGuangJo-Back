@@ -2,7 +2,7 @@ package com.jgj.byl_process.domain.member.entity;
 
 import com.jgj.byl_process.domain.boards.donate.entity.Donate;
 import com.jgj.byl_process.domain.cart.entity.Cart;
-import com.jgj.byl_process.domain.mypage.entity.MemberRoll;
+import com.jgj.byl_process.domain.mypage.entity.RollRequestBoard;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -38,6 +38,20 @@ public class Member {
     @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
     private Cart cart;
 
+    /* (박지영) Member 테이블과 Donate 테이블 간의 관계 설정
+       한 member 는 여러번의 donate 를 할 수 있다
+       member 가 탈퇴하면 그 member 의 모든 donate 내역이 사라진다
+     */
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<Donate> donates;
+
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private RollRequestBoard rollRequestBoard;
+
+    @Getter
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Role role;
+
     public Member(String email, String nickName, MemberProfile memberProfile) {
         this.email = email;
         this.nickName = nickName;
@@ -49,21 +63,7 @@ public class Member {
         this.email = email;
         this.nickName = nickName;
     }
-
-    /* (박지영) Member 테이블과 Donate 테이블 간의 관계 설정
-    한 member 는 여러번의 donate 를 할 수 있다
-    member 가 탈퇴하면 그 member 의 모든 donate 내역이 사라진다
-     */
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
-    private List<Donate> donates;
-
-    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private MemberRoll memberRoll;
-
-    @Getter
-    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Role role;
-
+    
     public boolean isRightPassword(String plainToCheck) {
         final Optional<Authentication> maybeBasicAuth = findBasicAuthentication();
 

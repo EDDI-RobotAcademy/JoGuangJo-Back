@@ -32,7 +32,7 @@ public class QnaBoard {
     private String content;
     @ToString.Exclude
     @JsonManagedReference
-    @OneToMany(mappedBy = "qnaBoard", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "qnaBoard", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<QnaBoardImgResource> qnaBoardImgResourcesList = new ArrayList<>();
 
     @ToString.Exclude

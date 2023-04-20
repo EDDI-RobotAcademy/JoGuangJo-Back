@@ -91,4 +91,13 @@ public class MyPageController {
 
         myPageService.rollRequestReject(rollRequestRejectForm);
     }
+
+    /**
+     * Q&A 게시판에서 멤버가 작성한 글 가져오기
+     */
+    @PostMapping("/findmypost")
+    public void findmypost() {
+        System.out.println("findmypost() : 왜봐");
+        log.info("findmypost() : ");
+    }
 }

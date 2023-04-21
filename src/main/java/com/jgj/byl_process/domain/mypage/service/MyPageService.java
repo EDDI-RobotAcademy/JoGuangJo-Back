@@ -1,5 +1,6 @@
 package com.jgj.byl_process.domain.mypage.service;
 
+import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaBoardListResponse;
 import com.jgj.byl_process.domain.mypage.controller.form.*;
 import com.jgj.byl_process.domain.mypage.service.response.MemberRollReadResponse;
 import com.jgj.byl_process.domain.mypage.service.response.MemberRollListResponse;
@@ -25,4 +26,5 @@ public interface MyPageService {
 
     void rollRequestAccept(MemberTypeRequestCheckForm memberTypeRequestCheckForm);
     void rollRequestReject (RollRequestRejectForm rollRequestRejectForm);
+    List<QnaBoardListResponse> findmypost (MemberIdForm memberIdForm);
 }

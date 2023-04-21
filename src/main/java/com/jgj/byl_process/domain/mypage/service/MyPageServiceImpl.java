@@ -1,5 +1,8 @@
 package com.jgj.byl_process.domain.mypage.service;
 
+import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaBoardListResponse;
+import com.jgj.byl_process.domain.boards.qna.entity.QnaBoard;
+import com.jgj.byl_process.domain.boards.qna.repository.QnaBoardRepository;
 import com.jgj.byl_process.domain.member.entity.*;
 import com.jgj.byl_process.domain.member.repository.AuthenticationRepository;
 import com.jgj.byl_process.domain.member.repository.MemberProfileRepository;
@@ -17,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +37,7 @@ public class MyPageServiceImpl implements MyPageService {
     final AuthenticationRepository authenticationRepository;
     final RoleRequestBoardRepository roleRequestBoardRepository;
     final RoleRepository rollRepository;
+    final QnaBoardRepository qnaBoardRepository;
 
     @Autowired
     private MemberToMyPageResponseConverter memberToMyPageResponseConverter;
@@ -212,4 +217,46 @@ public class MyPageServiceImpl implements MyPageService {
     public MyPageResponse getMyPageResponse(Member member) {
         return memberToMyPageResponseConverter.convert(member);
     }
+    @Override
+    public List<QnaBoardListResponse> findmypost(MemberIdForm memberIdForm) {
+        System.out.println("숫자" + memberIdForm.getMemberId());
+
+        Long memberId;//선언
+        memberId = memberIdForm.getMemberId();
+
+        Optional<Member> isMember;
+        isMember = memberRepository.findById(memberId);
+
+        List<QnaBoardListResponse> QnaBoardResponseList;
+        QnaBoardResponseList = new ArrayList<>();
+
+        // 찾는건데 없는거 계속 찾으면 오류나니까 optional로 //옵셔널은 이즈프레젠트사용가능
+        // memberid를 찾아라? 멤버 리포지터리안에 아이디를 찾아라
+        // <> 옵셔널에 얘가 있냐없냐 리스트형식의 타입이라고 생각
+        if(isMember.isPresent()) {
+            Member member;
+            member = isMember.get(); //선언
+
+            String nickname;
+            nickname = member.getNickName(); //선언
+
+            System.out.println("닉네임(Writer) : " + nickname);
+
+            List<QnaBoard> Qnaboards;
+            Qnaboards = qnaBoardRepository.findByWriter(nickname);
+            // QnaboardList = 리포지터리에서 찾은 닉네임 리스트?
+
+            for (QnaBoard qnaBoard : Qnaboards)/* */{
+                QnaBoardResponseList.add(new QnaBoardListResponse(
+                        qnaBoard.getQnaBoardId(), qnaBoard.getTitle(),
+                        qnaBoard.getWriter(), qnaBoard.getRegDate()
+                ));
+            }
+        } else {
+            System.out.println("오류남");
+        }
+
+        return QnaBoardResponseList;
+    };
 }
+// for (int i = 0; i < 10; i++)

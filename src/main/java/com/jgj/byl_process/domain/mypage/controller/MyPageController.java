@@ -1,5 +1,6 @@
 package com.jgj.byl_process.domain.mypage.controller;
 
+import com.jgj.byl_process.domain.boards.qna.controller.dto.response.QnaBoardListResponse;
 import com.jgj.byl_process.domain.mypage.controller.form.*;
 import com.jgj.byl_process.domain.mypage.service.MyPageService;
 import com.jgj.byl_process.domain.mypage.service.response.MemberRollListResponse;
@@ -96,8 +97,11 @@ public class MyPageController {
      * Q&A 게시판에서 멤버가 작성한 글 가져오기
      */
     @PostMapping("/findmypost")
-    public void findmypost() {
+    public List<QnaBoardListResponse> findmypost(@RequestBody MemberIdForm memberIdForm) /*@RequestBody = Json으로 변환한걸 받는*/ {
         System.out.println("findmypost() : 왜봐");
         log.info("findmypost() : ");
+
+        System.out.println("Received data: " + memberIdForm.getMemberId());
+        return myPageService.findmypost(memberIdForm);
     }
 }

@@ -2,7 +2,7 @@ package com.jgj.byl_process.domain.member.entity;
 
 import com.jgj.byl_process.domain.boards.donate.entity.Donate;
 import com.jgj.byl_process.domain.cart.entity.Cart;
-import com.jgj.byl_process.domain.mypage.entity.RollRequestBoard;
+import com.jgj.byl_process.domain.mypage.entity.RoleRequestBoard;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -46,7 +46,7 @@ public class Member {
     private List<Donate> donates;
 
     @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private RollRequestBoard rollRequestBoard;
+    private RoleRequestBoard rollRequestBoard;
 
     @Getter
     @OneToOne(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -63,7 +63,7 @@ public class Member {
         this.email = email;
         this.nickName = nickName;
     }
-    
+
     public boolean isRightPassword(String plainToCheck) {
         final Optional<Authentication> maybeBasicAuth = findBasicAuthentication();
 

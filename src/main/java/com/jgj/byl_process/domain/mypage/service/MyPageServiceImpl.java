@@ -127,8 +127,9 @@ public class MyPageServiceImpl implements MyPageService {
     public Boolean registerMemberTypeRequest(MemberTypeRequestDataForm memberTypeRequestDataForm) {
         Long memberId = memberTypeRequestDataForm.getMemberId();
         Optional<Member> maybeMember = memberRepository.findById(memberId);
+        Optional<RoleRequestBoard> duplicateRoleRequest = roleRequestBoardRepository.findByMemberId(memberId);
         // 유효한 아이디인지 확인
-        if(maybeMember.isEmpty()) {
+        if(maybeMember.isEmpty() || duplicateRoleRequest.isPresent()) {
             return false;
         } else {
         // 유효한 아이디 이므로 엔티티에 저장 실행
@@ -140,8 +141,6 @@ public class MyPageServiceImpl implements MyPageService {
 
             roleRequestBoardRepository.save(rollRequestBoard);
         }
-        // 새로운 엔티티를 만들어서 저장
-        // 그 엔티티의 역할은 뭐냐
         return true;
     }
 
@@ -168,7 +167,6 @@ public class MyPageServiceImpl implements MyPageService {
     public MemberRollReadResponse readRequest(Long id) {
         // 들어온 id 가 유효한 id 인지 검색
         Optional<RoleRequestBoard> maybeMemberRoll = roleRequestBoardRepository.findById(id);
-
         if(maybeMemberRoll.isPresent()) {
             // 존재할경우 작업 진행
             // 찾아온 거 가져오기

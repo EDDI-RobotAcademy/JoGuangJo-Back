@@ -30,14 +30,14 @@ public class NoticeBoardController {
         return noticeBoardService.list();
     }
 
-    @GetMapping("/{noticeBoardId}")
+    @GetMapping("/read/{noticeBoardId}")
     public NoticeBoard noticeBoardRead(@PathVariable("noticeBoardId") Long noticeBoardId) {
         log.info("noticeBoardRead() 동작: " + noticeBoardId);
 
         return noticeBoardService.read(noticeBoardId);
     }
 
-    @PutMapping("/{noticeBoardId}")
+    @PutMapping("/modify/{noticeBoardId}")
     public NoticeBoard noticeBoardModify(@PathVariable("noticeBoardId") Long noticeBoardId,
                                         @RequestBody NoticeBoardRequest noticeBoardRequest) {
 
@@ -46,7 +46,7 @@ public class NoticeBoardController {
         return noticeBoardService.modify(noticeBoardId, noticeBoardRequest);
     }
 
-    @DeleteMapping("/{noticeBoardId}")
+    @DeleteMapping("/delete/{noticeBoardId}")
     public void noticeBoardDelete(@PathVariable("noticeBoardId") Long noticeBoardId) {
         log.info("noticeBoardDelete() 동작: " + noticeBoardId);
 
